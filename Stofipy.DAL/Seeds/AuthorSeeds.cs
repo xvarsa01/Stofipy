@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Sotify.DAL.Entities;
+using Stofipy.DAL.Entities;
 
-namespace Sotify.DAL.Seeds;
+namespace Stofipy.DAL.Seeds;
 
 public static class AuthorSeeds
 {

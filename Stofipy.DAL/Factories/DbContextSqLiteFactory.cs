@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Sotify.DAL.Factories;
+namespace Stofipy.DAL.Factories;
 
 public class DbContextSqLiteFactory : IDbContextFactory<StofipyDbContext>
 {

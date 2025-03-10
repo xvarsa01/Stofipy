@@ -1,4 +1,4 @@
-namespace Sotify.DAL.Entities;
+namespace Stofipy.DAL.Entities;
 
 public record PlaylistEntity : IEntity
 {

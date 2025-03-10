@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sotify.DAL.Entities;
+using Stofipy.DAL.Entities;
 
-namespace Sotify.DAL.Repositories;
+namespace Stofipy.DAL.Repositories;
 
 public class RepositoryBase<TEntity>(StofipyDbContext dbContext) : IRepository<TEntity> 
     where TEntity : class, IEntity

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Sotify.DAL.Entities;
+using Stofipy.DAL.Entities;
 
-namespace Sotify.DAL;
+namespace Stofipy.DAL;
 
 public class StofipyDbContext(DbContextOptions contextOptions, bool seedData) : DbContext(contextOptions)
 {

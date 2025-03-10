@@ -1,6 +1,6 @@
-﻿using Sotify.DAL.Entities;
+﻿using Stofipy.DAL.Entities;
 
-namespace Sotify.DAL.Repositories;
+namespace Stofipy.DAL.Repositories;
 
 public interface IRepository<TEntity>
     where TEntity : class, IEntity
