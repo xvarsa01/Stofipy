@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 #custom
-Simt.Api.DAL/Migrations/
+Stofipy.DAL/Migrations/
 *seeds.Designer.cs
 *.db
 *.db-shm
