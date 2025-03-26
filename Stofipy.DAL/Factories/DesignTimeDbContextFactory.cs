@@ -7,7 +7,7 @@ namespace Stofipy.DAL.Factories;
 /// </summary>
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StofipyDbContext>
 {
-    private readonly DbContextSqLiteFactory _dbContextSqLiteFactory = new("simt.db", true);
+    private readonly DbContextSqLiteFactory _dbContextSqLiteFactory = new("stofipy.db", true);
 
     public StofipyDbContext CreateDbContext(string[] args)
     {
