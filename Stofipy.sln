@@ -4,6 +4,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stofipy.DAL", "Stofipy.DAL\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stofipy.DAL.Tests", "Stofipy.DAL.Tests\Stofipy.DAL.Tests.csproj", "{D162AB47-4C9A-45E2-BDF8-D171DC70D750}"
 EndProject
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{F89E0E2B-7EE8-40CA-8815-90D59C50128F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig.txt = .editorconfig.txt
+		README.md = README.md
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +26,9 @@ Global
 		{D162AB47-4C9A-45E2-BDF8-D171DC70D750}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D162AB47-4C9A-45E2-BDF8-D171DC70D750}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D162AB47-4C9A-45E2-BDF8-D171DC70D750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E4C223-5F1E-4751-8714-57411877143C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E4C223-5F1E-4751-8714-57411877143C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E4C223-5F1E-4751-8714-57411877143C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E4C223-5F1E-4751-8714-57411877143C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
