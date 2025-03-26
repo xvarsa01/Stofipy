@@ -9,7 +9,7 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData) : 
     public DbSet<AuthorEntity> Authors { get; set; }
     public DbSet<FileEntity> Files { get; set; }
     public DbSet<FilesInAlbumEntity> FilesInAlbums { get; set; }
-    public DbSet<FilesInPlaylists> FilesInPlaylists { get; set; }
+    public DbSet<FilesInPlaylistEntity> FilesInPlaylists { get; set; }
     public DbSet<PlaylistEntity> Playlists { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

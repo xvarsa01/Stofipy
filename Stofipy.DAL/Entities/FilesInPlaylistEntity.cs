@@ -1,6 +1,6 @@
 namespace Stofipy.DAL.Entities;
 
-public record FilesInPlaylists : IEntity
+public record FilesInPlaylistEntity : IEntity
 {
     public required Guid Id { get; set; }
     public required Guid PlaylistId { get; set; } 

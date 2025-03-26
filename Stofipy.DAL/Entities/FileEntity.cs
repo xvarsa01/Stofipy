@@ -15,7 +15,7 @@ public record FileEntity : IEntity
     
     public required Guid AuthorId { get; set; }
     public required AuthorEntity Author { get; set; }
-    public ICollection<FilesInPlaylists> FilesInPlaylists { get; set; } = [];
+    public ICollection<FilesInPlaylistEntity> FilesInPlaylists { get; set; } = [];
     public ICollection<FilesInAlbumEntity> FilesInAlbums { get; set; } = [];
     public Guid? DefaultAlbumId { get; set; }
     public AlbumEntity DefaultAlbum { get; set; }

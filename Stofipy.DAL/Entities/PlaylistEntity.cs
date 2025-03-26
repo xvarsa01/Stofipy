@@ -4,6 +4,8 @@ public record PlaylistEntity : IEntity
 {
     public required Guid Id { get; set; }
     public required string PlaylistName { get; set; }
+    public required string Description { get; set; }
+    public string? Picture { get; set; }
 
-    public ICollection<FilesInPlaylists> FilesInPlaylists { get; set; } = [];
+    public ICollection<FilesInPlaylistEntity> FilesInPlaylists { get; set; } = [];
 }
