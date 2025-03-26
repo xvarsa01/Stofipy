@@ -7,6 +7,7 @@ public record FileEntity : IEntity
     public required Guid Id { get; set; }
     public required string FileName { get; set; }
     public required string Description { get; set; }
+    public string? Picture { get; set; }
     public string? Lyrics { get; set; }
     public required double Size { get; set; }
     public required int Length { get; set; }
@@ -16,4 +17,6 @@ public record FileEntity : IEntity
     public required AuthorEntity Author { get; set; }
     public ICollection<FilesInPlaylists> FilesInPlaylists { get; set; } = [];
     public ICollection<FilesInAlbumEntity> FilesInAlbums { get; set; } = [];
+    public Guid? DefaultAlbumId { get; set; }
+    public AlbumEntity DefaultAlbum { get; set; }
 }
