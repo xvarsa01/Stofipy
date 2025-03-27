@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Stofipy.Common.Tests;
 using Stofipy.DAL.Factories;
 using Stofipy.DAL.Tests.Seeds;
 using Xunit.Abstractions;
 
-namespace Stofipy.DAL.Tests.Common;
+namespace Stofipy.DAL.Tests;
 
 public class DbContextTestsBase : IAsyncLifetime
 {

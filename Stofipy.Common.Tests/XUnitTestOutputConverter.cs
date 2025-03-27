@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Xunit.Abstractions;
 
-namespace Stofipy.DAL.Tests.Common;
+namespace Stofipy.Common.Tests;
 
 public class XUnitTestOutputConverter(ITestOutputHelper output) : TextWriter
 {

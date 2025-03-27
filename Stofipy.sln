@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stofipy.Common.Tests", "Stofipy.Common.Tests\Stofipy.Common.Tests.csproj", "{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EE7CEC12-989F-4CBD-B95A-672613309907}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +35,18 @@ Global
 		{06E4C223-5F1E-4751-8714-57411877143C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06E4C223-5F1E-4751-8714-57411877143C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06E4C223-5F1E-4751-8714-57411877143C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55258AFB-395C-4885-A8AA-8F01E80BF801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55258AFB-395C-4885-A8AA-8F01E80BF801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55258AFB-395C-4885-A8AA-8F01E80BF801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55258AFB-395C-4885-A8AA-8F01E80BF801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{55258AFB-395C-4885-A8AA-8F01E80BF801} = {EE7CEC12-989F-4CBD-B95A-672613309907}
+		{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8} = {EE7CEC12-989F-4CBD-B95A-672613309907}
+		{D162AB47-4C9A-45E2-BDF8-D171DC70D750} = {EE7CEC12-989F-4CBD-B95A-672613309907}
 	EndGlobalSection
 EndGlobal

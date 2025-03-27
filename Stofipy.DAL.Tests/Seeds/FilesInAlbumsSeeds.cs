@@ -12,6 +12,7 @@ public static class FilesInAlbumsSeeds
         FileId = FileTestSeeds.FileInAlbum.Id,
         Album = AlbumTestSeeds.BasicAlbum,
         File = FileTestSeeds.FileInAlbum,
+        Index = 0,
     };
     
     public static DbContext SeedTestFilesInAlbums(this DbContext dbx)

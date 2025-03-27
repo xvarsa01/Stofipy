@@ -1,7 +1,7 @@
 ﻿using KellermanSoftware.CompareNetObjects;
 using Xunit.Sdk;
 
-namespace Stofipy.DAL.Tests.Common;
+namespace Stofipy.Common.Tests;
 
 public static class DeepAssert
 {
