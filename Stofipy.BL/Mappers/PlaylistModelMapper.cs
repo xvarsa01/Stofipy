@@ -4,7 +4,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.BL.Mappers;
 
-public class PlaylistMapper(FilesInPlaylistModelMapper filesInPlaylistModelMapper) : ModelMapperBase<PlaylistEntity, PlaylistListModel, PlaylistDetailModel>
+public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModelMapper) : ModelMapperBase<PlaylistEntity, PlaylistListModel, PlaylistDetailModel>
 {
     public override PlaylistListModel MapToListModel(PlaylistEntity? entity)
     {

@@ -18,7 +18,8 @@ public class FilesInPlaylistModelMapper : ModelMapperBase<FilesInPlaylistEntity,
             Id = entity.Id,
             FileId = entity.FileId,
             FileName = entity.File.FileName,
-            Index = entity.Index,
+            IndexActual = entity.IndexActual,
+            IndexCustom = entity.IndexCustom,
         };
     }
 
@@ -41,7 +42,8 @@ public class FilesInPlaylistModelMapper : ModelMapperBase<FilesInPlaylistEntity,
             FileId = model.FileId,
             Playlist = null!,
             File = null!,
-            Index = model.Index,
+            IndexActual = model.IndexActual,
+            IndexCustom = model.IndexCustom,
         };
     }
 }
