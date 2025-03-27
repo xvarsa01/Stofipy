@@ -4,7 +4,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.BL.Mappers;
 
-public class FilesInAlumModelMapper : ModelMapperBase<FilesInAlbumEntity, FilesInAlbumModel, FilesInAlbumModel>
+public class FilesInAlbumModelMapper : ModelMapperBase<FilesInAlbumEntity, FilesInAlbumModel, FilesInAlbumModel>
 {
     public override FilesInAlbumModel MapToListModel(FilesInAlbumEntity? entity)
     {

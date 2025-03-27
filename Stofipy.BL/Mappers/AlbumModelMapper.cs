@@ -4,7 +4,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.BL.Mappers;
 
-public class AlbumModelMapper(FilesInAlumModelMapper filesInAlumModelMapper) : ModelMapperBase<AlbumEntity, AlbumListModel, AlbumDetailModel>
+public class AlbumModelMapper(FilesInAlbumModelMapper filesInAlbumModelMapper) : ModelMapperBase<AlbumEntity, AlbumListModel, AlbumDetailModel>
 {
     public override AlbumListModel MapToListModel(AlbumEntity? entity)
     {
@@ -40,7 +40,7 @@ public class AlbumModelMapper(FilesInAlumModelMapper filesInAlumModelMapper) : M
             Length = entity.FilesInAlbums?.Sum(file => file.File.Length) ?? 0,
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
-            FilesInAlbums = filesInAlumModelMapper.MapToListModel(entity.FilesInAlbums),
+            FilesInAlbums = filesInAlbumModelMapper.MapToListModel(entity.FilesInAlbums),
         };
     }
 
