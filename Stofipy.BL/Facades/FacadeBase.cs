@@ -31,6 +31,14 @@ public class FacadeBase<TRepository, TEntity, TListModel, TDetailModel> : IFacad
         return models;
     }
     
+    public virtual async Task<List<TListModel>> GetAllAsync(int pageNumber, int pageSize)
+    {
+        List<TEntity> entities = await Repository.GetAllAsync(pageNumber, pageSize);
+        
+        var models =  ModelMapper.MapToListModel(entities);
+        return models;
+    }
+    
     public virtual async Task<TDetailModel?> GetByIdAsync(Guid id)
     {
         TEntity? entity = await Repository.GetByIdAsync(id);

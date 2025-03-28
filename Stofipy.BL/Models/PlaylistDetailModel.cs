@@ -8,8 +8,6 @@ public record PlaylistDetailModel() : ModelBase
     public required string Description { get; set; }
     public string? Picture { get; set; }
     public required int Length { get; set; }
-
-    public ICollection<FilesInPlaylistModel> FilesInPlaylists { get; set; } = [];
     
     public static PlaylistDetailModel Empty = new()
     {

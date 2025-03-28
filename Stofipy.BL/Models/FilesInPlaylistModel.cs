@@ -6,6 +6,7 @@ public record FilesInPlaylistModel() : ModelBase
 {
     public required Guid FileId { get; set; }
     public required string FileName { get; set; }
+    public string? DefaultAlbumName { get; set; }
     public required int IndexActual { get; set; }
     public required int IndexCustom { get; set; }
     
@@ -13,6 +14,7 @@ public record FilesInPlaylistModel() : ModelBase
     {
         Id = Guid.Empty,
         FileName = string.Empty,
+        DefaultAlbumName = string.Empty,
         FileId = Guid.Empty,
         IndexActual = 0,
         IndexCustom = 0,

@@ -40,7 +40,6 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             Description = entity.Description,
             Picture = entity.Picture,
             Length = entity.FilesInPlaylists?.Sum(file => file.File.Length) ?? 0,
-            FilesInPlaylists = filesInPlaylistModelMapper.MapToListModel(entity.FilesInPlaylists),
         };
     }
 
