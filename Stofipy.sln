@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stofipy.BL.Tests", "Stofipy.BL.Tests\Stofipy.BL.Tests.csproj", "{55258AFB-395C-4885-A8AA-8F01E80BF801}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stofipy.Common.Tests", "Stofipy.Common.Tests\Stofipy.Common.Tests.csproj", "{3AC8BE41-F68A-419A-B1ED-5AF5BA061EC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EE7CEC12-989F-4CBD-B95A-672613309907}"
