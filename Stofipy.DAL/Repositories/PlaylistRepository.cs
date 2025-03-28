@@ -15,4 +15,11 @@ public class PlaylistRepository(StofipyDbContext dbContext) : RepositoryBase<Pla
             .ThenInclude(e => e.File)
             .SingleOrDefaultAsync(entity => entity.Id == id);
     }
+    
+    public async Task<List<PlaylistEntity>> SearchInPlaylistsAsync(string searchTerm)
+    {
+        return await _dbSet
+            .Where(e => e.PlaylistName.ToLower().Contains(searchTerm.ToLower()))
+            .ToListAsync();
+    }
 }
