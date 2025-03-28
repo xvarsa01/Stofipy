@@ -14,7 +14,7 @@ public class RepositoryBase<TEntity>(StofipyDbContext dbContext) : IRepository<T
         return await _dbSet.ToListAsync();
     }
 
-    public virtual async Task<IList<TEntity>> GetAllAsync(int pageNumber, int pageSize)
+    public virtual async Task<List<TEntity>> GetAllAsync(int pageNumber, int pageSize)
     {
         return await _dbSet
             .Skip(pageSize * (pageNumber - 1))

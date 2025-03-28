@@ -7,7 +7,7 @@ public interface IRepository<TEntity>
 {
 
     Task<List<TEntity>> GetAllAsync();
-    Task<IList<TEntity>> GetAllAsync(int pageNumber, int pageSize);
+    Task<List<TEntity>> GetAllAsync(int pageNumber, int pageSize);
     Task<TEntity?> GetByIdAsync(Guid id);
     Task DeleteAsync(Guid entityId);
     Task<Guid> InsertAsync(TEntity entity);

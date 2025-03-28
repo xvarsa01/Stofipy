@@ -7,4 +7,12 @@ public class PlaylistRepository(StofipyDbContext dbContext) : RepositoryBase<Pla
 {
     private readonly DbSet<PlaylistEntity> _dbSet = dbContext.Set<PlaylistEntity>();
 
+    public override async Task<PlaylistEntity?> GetByIdAsync(Guid id)
+    {
+        // includes are necessary for total length 
+        return await _dbSet
+            .Include(e => e.FilesInPlaylists)
+            .ThenInclude(e => e.File)
+            .SingleOrDefaultAsync(entity => entity.Id == id);
+    }
 }
