@@ -35,10 +35,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
     {
         var playlist = PlaylistTestSeeds.Playlist2;
         
-        var files = await _filesInPlaylistFacade.GetAllAsync(1, 10, playlist.Id);
+        var files = await _filesInPlaylistFacade.GetAllAsync(playlist.Id, 1, 10);
         Assert.True(files.Count == 10);
         
-        var filesRemaining = await _filesInPlaylistFacade.GetAllAsync(2, 10, playlist.Id);
+        var filesRemaining = await _filesInPlaylistFacade.GetAllAsync(playlist.Id, 2, 10);
         Assert.True(filesRemaining.Count == 1);
     }
 

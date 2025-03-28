@@ -14,7 +14,7 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
             .ThenInclude(e => e.DefaultAlbum)
             .ToListAsync();
     }
-    public async Task<List<FilesInPlaylistEntity>> GetAllAsync(int pageNumber, int pageSize, Guid playlistId)
+    public async Task<List<FilesInPlaylistEntity>> GetAllAsync(Guid playlistId, int pageNumber, int pageSize)
     {
         return await _dbSet
             .Where(fileInPlaylist => fileInPlaylist.PlaylistId == playlistId )
@@ -26,7 +26,7 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
             .ToListAsync();
     }
     
-    public async Task<List<FilesInPlaylistEntity>> SearchInPlaylistAsync(Guid playlistId,string searchTerm)
+    public async Task<List<FilesInPlaylistEntity>> SearchInPlaylistAsync(Guid playlistId, string searchTerm)
     {
         return await _dbSet
             .Where(fileInPlaylist => fileInPlaylist.PlaylistId == playlistId )
@@ -41,8 +41,8 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
         var files = _dbSet
             .Where(fileInPlaylist => fileInPlaylist.PlaylistId == playlistId)
             .Include(e => e.File)
-            .OrderBy(e => e.IndexActual)
-            .ThenBy(fileInPlaylist => fileInPlaylist.File.Length)
+            .OrderBy(fileInPlaylist => fileInPlaylist.File.Length)
+            .ThenBy(e => e.IndexActual)
             .ToList();
         
         var index = 1;
@@ -59,8 +59,8 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
         var files = _dbSet
             .Where(fileInPlaylist => fileInPlaylist.PlaylistId == playlistId)
             .Include(e => e.File)
-            .OrderBy(e => e.IndexActual)
-            .ThenBy(fileInPlaylist => fileInPlaylist.File.FileName)
+            .OrderBy(fileInPlaylist => fileInPlaylist.File.FileName)
+            .ThenBy(e => e.IndexActual)
             .ToList();
         
         var index = 1;
@@ -78,8 +78,8 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
             .Where(fileInPlaylist => fileInPlaylist.PlaylistId == playlistId)
             .Include(e => e.File)
             .ThenInclude(e => e.Author)
-            .OrderBy(e => e.IndexActual)
-            .ThenBy(fileInPlaylist => fileInPlaylist.File.Author.AuthorName)
+            .OrderBy(fileInPlaylist => fileInPlaylist.File.Author.AuthorName)
+            .ThenBy(e => e.IndexActual)
             .ToList();
         
         var index = 1;

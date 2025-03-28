@@ -16,9 +16,17 @@ public class FilesInPlaylistFacade : FacadeBase<FilesInPlaylistRepository, Files
         _repository = repository;
     }
 
-    public async Task<List<FilesInPlaylistModel>> GetAllAsync(int pageNumber, int pageSize, Guid playlistId)
+    public async Task<List<FilesInPlaylistModel>> GetAllAsync(Guid playlistId, int pageNumber, int pageSize)
     {
-        List<FilesInPlaylistEntity> entities = await Repository.GetAllAsync(pageNumber, pageSize, playlistId);
+        List<FilesInPlaylistEntity> entities = await Repository.GetAllAsync(playlistId, pageNumber, pageSize);
+        
+        var models =  _modelMapper.MapToListModel(entities);
+        return models;
+    }
+    
+    public async Task<List<FilesInPlaylistModel>> SearchInPlaylistAsync(Guid playlistId,string searchTerm)
+    {
+        List<FilesInPlaylistEntity> entities = await Repository.SearchInPlaylistAsync(playlistId, searchTerm);
         
         var models =  _modelMapper.MapToListModel(entities);
         return models;
