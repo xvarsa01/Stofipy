@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.Common.Tests;
+using Stofipy.Common.Tests.Seeds;
 using Stofipy.DAL.Factories;
-using Stofipy.DAL.Tests.Seeds;
 using Xunit.Abstractions;
 
 namespace Stofipy.DAL.Tests;
@@ -29,8 +29,10 @@ public class DbContextTestsBase : IAsyncLifetime
         dbx
             .SeedTestAuthors()
             .SeedTestAlbums()
+            .SeedTestPlaylists()
             .SeedTestFiles()
             .SeedTestFilesInAlbums()
+            .SeedTestFilesInPlaylists()
             ;
         await dbx.SaveChangesAsync();
     }

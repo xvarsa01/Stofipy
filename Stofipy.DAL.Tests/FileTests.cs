@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Stofipy.Common.Tests;
+using Stofipy.Common.Tests.Seeds;
 using Stofipy.DAL.Entities;
 using Stofipy.DAL.Enums;
-using Stofipy.DAL.Tests.Seeds;
 using Xunit.Abstractions;
 
 namespace Stofipy.DAL.Tests;

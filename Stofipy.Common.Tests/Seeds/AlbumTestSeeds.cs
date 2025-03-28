@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
-using Stofipy.DAL.Seeds;
 
-namespace Stofipy.DAL.Tests.Seeds;
+namespace Stofipy.Common.Tests.Seeds;
 
 public static class AlbumTestSeeds
 {
@@ -42,10 +41,47 @@ public static class AlbumTestSeeds
         Author = AuthorTestSeeds.AuthorForAlbumUpdateAndDelete,
     };
 
+    
+    public static AlbumEntity AlbumM = new()
+    {
+        Id = Guid.Parse("5CF3F55E-86E2-408B-AE7C-829A28337C39"),
+        AlbumName = "Album M",
+        Description = "",
+        AuthorId = AuthorTestSeeds.AuthorU.Id,
+        Author = AuthorTestSeeds.AuthorU,
+    };
+    public static AlbumEntity AlbumN = new()
+    {
+        Id = Guid.Parse("D995E480-4F14-4D52-AFC0-328FC07CFBEB"),
+        AlbumName = "Album N",
+        Description = "",
+        AuthorId = AuthorTestSeeds.AuthorV.Id,
+        Author = AuthorTestSeeds.AuthorV,
+    };
+    public static AlbumEntity AlbumO = new()
+    {
+        Id = Guid.Parse("35800BC6-4214-4C46-841C-E6FDC28EB1BA"),
+        AlbumName = "Album O",
+        Description = "",
+        AuthorId = AuthorTestSeeds.AuthorX.Id,
+        Author = AuthorTestSeeds.AuthorX,
+    };
+    public static AlbumEntity AlbumP = new()
+    {
+        Id = Guid.Parse("1C8B19CA-B4DB-4F81-AEA8-6281568AEF6F"),
+        AlbumName = "Album P",
+        Description = "",
+        AuthorId = AuthorTestSeeds.AuthorY.Id,
+        Author = AuthorTestSeeds.AuthorY,
+    };
     static AlbumTestSeeds()
     {
         BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
-    }
+        
+        AlbumM.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
+        AlbumN.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
+        AlbumO.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
+        AlbumP.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);    }
 
     public static DbContext SeedTestAlbums(this DbContext dbx)
     {
@@ -53,7 +89,12 @@ public static class AlbumTestSeeds
             BasicAlbum with{FilesInAlbums = [], Author = null!},
             EmptyAlbum with{FilesInAlbums = [], Author = null!},
             AlbumForUpdate with{FilesInAlbums = [], Author = null!},
-            AlbumForDelete with{FilesInAlbums = [], Author = null!}
+            AlbumForDelete with{FilesInAlbums = [], Author = null!},
+            
+            AlbumM with{FilesInAlbums = [], Author = null!},
+            AlbumN with{FilesInAlbums = [], Author = null!},
+            AlbumO with{FilesInAlbums = [], Author = null!},
+            AlbumP with{FilesInAlbums = [], Author = null!}
         );
         return dbx;
     }

@@ -18,5 +18,5 @@ public record FileEntity : IEntity
     public ICollection<FilesInPlaylistEntity> FilesInPlaylists { get; set; } = [];
     public ICollection<FilesInAlbumEntity> FilesInAlbums { get; set; } = [];
     public Guid? DefaultAlbumId { get; set; }
-    public AlbumEntity DefaultAlbum { get; set; }
+    public AlbumEntity? DefaultAlbum { get; set; }
 }
