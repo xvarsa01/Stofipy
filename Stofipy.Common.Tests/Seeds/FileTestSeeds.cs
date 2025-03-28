@@ -78,7 +78,7 @@ public static class FileTestSeeds
     public static readonly FileEntity File01 = new()
     {
         Id = Guid.Parse("58DD50D8-29C3-4999-A39C-CF97F6D9A1B7"),
-        FileName = "File 01",
+        FileName = "File01",
         Description = "",
         Lyrics = null,
         Size = 2.5,

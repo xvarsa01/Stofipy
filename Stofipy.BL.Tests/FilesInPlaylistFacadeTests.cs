@@ -42,6 +42,21 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         Assert.True(filesRemaining.Count == 1);
     }
 
+    [Fact]
+    public async Task SearchInPlaylistAsync()
+    {
+        //Arrange
+        var playlist = PlaylistTestSeeds.Playlist2;
+        string searchTerm = "File0";
+        string searchTerm2 = "ile1";
+        
+        //Act
+        var files = await _filesInPlaylistFacade.SearchInPlaylistAsync(playlist.Id, searchTerm);
+        var files2 = await _filesInPlaylistFacade.SearchInPlaylistAsync(playlist.Id, searchTerm2);
+        //Assert
+        Assert.True(files.Count == 9);
+        Assert.True(files2.Count == 2);
+    }
     
     [Fact]
     public async Task SortPlaylistsByDuration()
