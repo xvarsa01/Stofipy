@@ -18,7 +18,10 @@ public class FilesInPlaylistModelMapper : ModelMapperBase<FilesInPlaylistEntity,
             Id = entity.Id,
             FileId = entity.FileId,
             FileName = entity.File.FileName,
-            DefaultAlbumName = entity.File.DefaultAlbum != null ? entity.File.DefaultAlbum.AlbumName : string.Empty,
+            AuthorName = entity.File.Author.AuthorName,
+            DefaultAlbumName = entity.File.DefaultAlbum != null
+                ? entity.File.DefaultAlbum.AlbumName
+                : string.Empty,
             IndexActual = entity.IndexActual,
             IndexCustom = entity.IndexCustom,
         };

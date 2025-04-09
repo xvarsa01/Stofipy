@@ -12,6 +12,10 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
         return await _dbSet
             .Include(e => e.File)
             .ThenInclude(e => e.DefaultAlbum)
+            
+            .Include(e => e.File)
+            .ThenInclude(e => e.Author)
+            
             .ToListAsync();
     }
     public async Task<List<FilesInPlaylistEntity>> GetAllAsync(Guid playlistId, int pageNumber, int pageSize)
@@ -21,6 +25,8 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
             .OrderBy(e => e.IndexActual)
             .Include(e => e.File)
             .ThenInclude(e => e.DefaultAlbum)
+            .Include(e => e.File)
+            .ThenInclude(e => e.Author)
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
@@ -33,6 +39,8 @@ public class FilesInPlaylistRepository (StofipyDbContext dbContext): RepositoryB
             .Where(fileInPlaylist => fileInPlaylist.File.FileName.ToLower().Contains(searchTerm.ToLower()))
             .Include(e => e.File)
             .ThenInclude(e => e.DefaultAlbum)
+            .Include(e => e.File)
+            .ThenInclude(e => e.Author)
             .ToListAsync();
     }
     
