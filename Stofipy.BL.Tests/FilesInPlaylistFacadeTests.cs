@@ -13,14 +13,13 @@ namespace Stofipy.BL.Tests;
 public class FilesInPlaylistFacadeTests : FacadeTestsBase
 {
     private readonly IFilesInPlaylistFacade _filesInPlaylistFacade;
-    private readonly FilesInPlaylistRepository _filesInPlaylistRepository;
     private readonly StofipyDbContext _stofipyDbContext;
     
     public FilesInPlaylistFacadeTests(ITestOutputHelper output) : base(output)
     {
         _stofipyDbContext = DbContextFactory.CreateDbContext();
-        _filesInPlaylistRepository = new FilesInPlaylistRepository(_stofipyDbContext);
-        _filesInPlaylistFacade = new FilesInPlaylistFacade(_filesInPlaylistRepository, FilesInPlaylistModelMapper);
+        var filesInPlaylistRepository = new FilesInPlaylistRepository(_stofipyDbContext);
+        _filesInPlaylistFacade = new FilesInPlaylistFacade(filesInPlaylistRepository, FilesInPlaylistModelMapper);
     }
 
     [Fact]
@@ -64,10 +63,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var playlist = PlaylistTestSeeds.Playlist1;
         Assert.True(playlist.FilesInPlaylists.Count == 4);
         
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual, 2);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual, 4);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual, 3);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual, 1);
+        Assert.Equal(2, FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual);
+        Assert.Equal(4, FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual);
+        Assert.Equal(3, FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual);
+        Assert.Equal(1, FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual);
         
         await _filesInPlaylistFacade.SortByDurationAsync(playlist.Id);
         
@@ -83,10 +82,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var fileD = await _stofipyDbContext.FilesInPlaylists
             .SingleAsync(i => i.Id == FilesInPlaylistsSeeds.FipFileDInPlaylist1.Id);
         
-        Assert.Equal(fileA.IndexActual, 1);
-        Assert.Equal(fileB.IndexActual, 2);
-        Assert.Equal(fileC.IndexActual, 3);
-        Assert.Equal(fileD.IndexActual, 4);
+        Assert.Equal(1, fileA.IndexActual);
+        Assert.Equal(2, fileB.IndexActual);
+        Assert.Equal(3, fileC.IndexActual);
+        Assert.Equal(4, fileD.IndexActual);
     }
 
     [Fact]
@@ -94,10 +93,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
     {
         var playlist = PlaylistTestSeeds.Playlist1;
         
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual, 2);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual, 4);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual, 3);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual, 1);
+        Assert.Equal(2, FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual);
+        Assert.Equal(4, FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual);
+        Assert.Equal(3, FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual);
+        Assert.Equal(1, FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual);
         
         await _filesInPlaylistFacade.SortByTitleAsync(playlist.Id);
         
@@ -113,10 +112,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var fileD = await _stofipyDbContext.FilesInPlaylists
             .SingleAsync(i => i.Id == FilesInPlaylistsSeeds.FipFileDInPlaylist1.Id);
         
-        Assert.Equal(fileA.IndexActual, 1);
-        Assert.Equal(fileB.IndexActual, 2);
-        Assert.Equal(fileC.IndexActual, 3);
-        Assert.Equal(fileD.IndexActual, 4);
+        Assert.Equal(1, fileA.IndexActual);
+        Assert.Equal(2, fileB.IndexActual);
+        Assert.Equal(3, fileC.IndexActual);
+        Assert.Equal(4, fileD.IndexActual);
     }
     
     [Fact]
@@ -124,10 +123,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
     {
         var playlist = PlaylistTestSeeds.Playlist1;
         
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual, 2);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual, 4);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual, 3);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual, 1);
+        Assert.Equal(2, FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual);
+        Assert.Equal(4, FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual);
+        Assert.Equal(3, FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual);
+        Assert.Equal(1, FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual);
         
         await _filesInPlaylistFacade.SortByArtistAsync(playlist.Id);
         
@@ -143,10 +142,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var fileD = await _stofipyDbContext.FilesInPlaylists
             .SingleAsync(i => i.Id == FilesInPlaylistsSeeds.FipFileDInPlaylist1.Id);
         
-        Assert.Equal(fileA.IndexActual, 1);
-        Assert.Equal(fileB.IndexActual, 2);
-        Assert.Equal(fileC.IndexActual, 3);
-        Assert.Equal(fileD.IndexActual, 4);
+        Assert.Equal(1, fileA.IndexActual);
+        Assert.Equal(2, fileB.IndexActual);
+        Assert.Equal(3, fileC.IndexActual);
+        Assert.Equal(4, fileD.IndexActual);
     }
     
     [Fact]
@@ -154,10 +153,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
     {
         var playlist = PlaylistTestSeeds.Playlist1;
         
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual, 2);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual, 4);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual, 3);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual, 1);
+        Assert.Equal(2, FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual);
+        Assert.Equal(4, FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual);
+        Assert.Equal(3, FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual);
+        Assert.Equal(1, FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual);
         
         await _filesInPlaylistFacade.SortByAlbumAsync(playlist.Id);
         
@@ -173,10 +172,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var fileD = await _stofipyDbContext.FilesInPlaylists
             .SingleAsync(i => i.Id == FilesInPlaylistsSeeds.FipFileDInPlaylist1.Id);
         
-        Assert.Equal(fileA.IndexActual, 1);
-        Assert.Equal(fileB.IndexActual, 2);
-        Assert.Equal(fileC.IndexActual, 3);
-        Assert.Equal(fileD.IndexActual, 4);
+        Assert.Equal(1, fileA.IndexActual);
+        Assert.Equal(2, fileB.IndexActual);
+        Assert.Equal(3, fileC.IndexActual);
+        Assert.Equal(4, fileD.IndexActual);
     }
     
     [Fact]
@@ -184,10 +183,10 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
     {
         var playlist = PlaylistTestSeeds.Playlist1;
         
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual, 2);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual, 4);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual, 3);
-        Assert.Equal(FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual, 1);
+        Assert.Equal(2, FilesInPlaylistsSeeds.FipFileAInPlaylist1.IndexActual);
+        Assert.Equal(4, FilesInPlaylistsSeeds.FipFileBInPlaylist1.IndexActual);
+        Assert.Equal(3, FilesInPlaylistsSeeds.FipFileCInPlaylist1.IndexActual);
+        Assert.Equal(1, FilesInPlaylistsSeeds.FipFileDInPlaylist1.IndexActual);
         
         await _filesInPlaylistFacade.SortByCustomOrderAsync(playlist.Id);
         
@@ -203,9 +202,9 @@ public class FilesInPlaylistFacadeTests : FacadeTestsBase
         var fileD = await _stofipyDbContext.FilesInPlaylists
             .SingleAsync(i => i.Id == FilesInPlaylistsSeeds.FipFileDInPlaylist1.Id);
         
-        Assert.Equal(fileA.IndexActual, 1);
-        Assert.Equal(fileB.IndexActual, 2);
-        Assert.Equal(fileC.IndexActual, 3);
-        Assert.Equal(fileD.IndexActual, 4);
+        Assert.Equal(1, fileA.IndexActual);
+        Assert.Equal(2, fileB.IndexActual);
+        Assert.Equal(3, fileC.IndexActual);
+        Assert.Equal(4, fileD.IndexActual);
     }
 }
