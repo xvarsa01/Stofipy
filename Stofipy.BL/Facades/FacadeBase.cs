@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Mappers.InterfaceBase;
 using Stofipy.DAL.Entities;
@@ -68,7 +69,14 @@ public class FacadeBase<TRepository, TEntity, TListModel, TDetailModel> : IFacad
     
     public virtual async Task DeleteAsync(Guid id)
     {
-        await Repository.DeleteAsync(id);
+        try
+        {
+            await Repository.DeleteAsync(id);
+        }
+        catch (DbUpdateException e)
+        {
+            throw new InvalidOperationException("Entity deletion failed.", e);
+        }
     }
     
     public static void GuardCollectionsAreNotSet(TDetailModel model)

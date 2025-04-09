@@ -9,6 +9,7 @@ public interface IFacade<TEntity, TListModel, TDetailModel>
     Task DeleteAsync(Guid id);
     Task<TDetailModel?> GetByIdAsync(Guid id);
     Task<List<TListModel>> GetAllAsync();
+    Task<List<TListModel>> GetAllAsync(int pageNumber, int pageSize);
     Task<Guid> CreateAsync(TDetailModel model);
     Task<Guid?> UpdateAsync(TDetailModel model);
 }
