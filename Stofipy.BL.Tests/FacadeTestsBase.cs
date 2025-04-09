@@ -18,6 +18,7 @@ public class FacadeTestsBase : IAsyncLifetime
 
         FilesInAlbumModelMapper = new FilesInAlbumModelMapper();
         FilesInPlaylistModelMapper = new FilesInPlaylistModelMapper();
+        FilesInQueueModelMapper = new FilesInQueueModelMapper();
         FileModelMapper = new FileModelMapper();
         AlbumModelMapper = new AlbumModelMapper(FilesInAlbumModelMapper);
         PlaylistModelMapper = new PlaylistModelMapper(FilesInPlaylistModelMapper);
@@ -34,6 +35,7 @@ public class FacadeTestsBase : IAsyncLifetime
     protected PlaylistModelMapper PlaylistModelMapper { get; }
     protected FilesInAlbumModelMapper FilesInAlbumModelMapper { get; }
     protected FilesInPlaylistModelMapper FilesInPlaylistModelMapper { get; }
+    protected FilesInQueueModelMapper FilesInQueueModelMapper { get; }
     
 
     public async Task InitializeAsync()
@@ -48,6 +50,7 @@ public class FacadeTestsBase : IAsyncLifetime
             .SeedTestFiles()
             .SeedTestFilesInAlbums()
             .SeedTestFilesInPlaylists()
+            .SeedTestFilesInQueue()
             ;
         await dbx.SaveChangesAsync();
     }
