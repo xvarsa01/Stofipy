@@ -8,7 +8,11 @@ public class RepositoryBase<TEntity>(StofipyDbContext dbContext) : IRepository<T
 {
     private readonly DbSet<TEntity> _dbSet = dbContext.Set<TEntity>();
 
-
+    public IQueryable<TEntity> Query()
+    {
+        return _dbSet.AsQueryable();
+    }
+    
     public virtual async Task<List<TEntity>> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
@@ -35,7 +39,7 @@ public class RepositoryBase<TEntity>(StofipyDbContext dbContext) : IRepository<T
     public async Task<Guid> InsertAsync(TEntity entity)
     {
         var createdEntity = (await _dbSet.AddAsync(entity)).Entity;
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(); 
         return createdEntity.Id;
     }
 
