@@ -44,7 +44,7 @@ public class FileModelMapper : ModelMapperBase<FileEntity, FileListModel, FileDe
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
             DefaultAlbumId = entity.DefaultAlbumId,
-            DefaultAlbumName = entity.DefaultAlbum.AlbumName,
+            DefaultAlbumName = entity.DefaultAlbum?.AlbumName,
         };
     }
 
