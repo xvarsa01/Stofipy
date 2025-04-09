@@ -37,7 +37,7 @@ public class GlobalFacade
         List<AuthorEntity> authorEntities = await _authorRepository.SearchInAuthorsAsync(searchTerm);
         List<AuthorListModel> authors = _authorModelMapper.MapToListModel(authorEntities);
         
-        List<AlbumEntity> albumEntities = await _albumRepository.SearchInalbumsAsync(searchTerm);
+        List<AlbumEntity> albumEntities = await _albumRepository.SearchInAlbumsAsync(searchTerm);
         List<AlbumListModel> albums = _albumModelMapper.MapToListModel(albumEntities);
         
         List<PlaylistEntity> playlistEntities = await _playlistRepository.SearchInPlaylistsAsync(searchTerm);
