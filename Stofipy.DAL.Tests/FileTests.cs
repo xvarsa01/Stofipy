@@ -119,12 +119,12 @@ public class FileTests (ITestOutputHelper output): DbContextTestsBase(output)
             .Include(e => e.Author)
             .Include(e => e.FilesInAlbums)
             .ThenInclude(e => e.Album)
-            .SingleAsync(i => i.Id == FileTestSeeds.FileInAlbum.Id);
+            .SingleAsync(i => i.Id == FileTestSeeds.FileInAlbum1.Id);
     
-        var expected = FileTestSeeds.FileInAlbum;
+        var expected = FileTestSeeds.FileInAlbum1;
 
         //Assert
-        DeepAssert.Equal(expected with { Author = null!, FilesInAlbums = [], FilesInPlaylists = []}, FileTestSeeds.FileInAlbum with { Author = null!, FilesInAlbums = [], FilesInPlaylists = []});
+        DeepAssert.Equal(expected with { Author = null!, FilesInAlbums = [], FilesInPlaylists = []}, FileTestSeeds.FileInAlbum1 with { Author = null!, FilesInAlbums = [], FilesInPlaylists = []});
         Assert.Equal(expected.Author.Id, actualEntity.Author.Id);
         Assert.Equal(actualEntity.FilesInAlbums.Single().Album.Id, AlbumTestSeeds.BasicAlbum.Id);
     }

@@ -76,12 +76,17 @@ public static class AlbumTestSeeds
     };
     static AlbumTestSeeds()
     {
-        BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
+        BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);
+        BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum2InBasicAlbum);
+        BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum3InBasicAlbum);
+        BasicAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum4InBasicAlbum);
         
-        AlbumM.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
-        AlbumN.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
-        AlbumO.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
-        AlbumP.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);    }
+        AlbumForDelete.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumForDelete);
+        
+        AlbumM.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);
+        AlbumN.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);
+        AlbumO.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);
+        AlbumP.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);    }
 
     public static DbContext SeedTestAlbums(this DbContext dbx)
     {

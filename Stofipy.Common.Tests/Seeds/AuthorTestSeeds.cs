@@ -71,7 +71,7 @@ public static class AuthorTestSeeds
         AuthorY.Albums.Add(AlbumTestSeeds.AlbumP);
         
         AuthorForFileBasic.Files.Add(FileTestSeeds.FileBasic);
-        AuthorForFileBasic.Files.Add(FileTestSeeds.FileInAlbum);
+        AuthorForFileBasic.Files.Add(FileTestSeeds.FileInAlbum1);
         AuthorForFileBasic.Files.Add(FileTestSeeds.FileForUpdate);
         AuthorForFileBasic.Files.Add(FileTestSeeds.FileForDelete);
         AuthorU.Files.Add(FileTestSeeds.FileAInPlaylist1);

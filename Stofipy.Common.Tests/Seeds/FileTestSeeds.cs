@@ -34,9 +34,13 @@ public static class FileTestSeeds
         AuthorId = AuthorTestSeeds.AuthorAbc.Id
     };
 
-    public static readonly FileEntity FileInAlbum = FileBasic with { Id = Guid.Parse("10BDAF90-C5A7-4CA0-87B0-9E72C3DCF13E"),FilesInAlbums = [], FilesInPlaylists = []};
+    public static readonly FileEntity FileInAlbum1 = FileBasic with { Id = Guid.Parse("10BDAF90-C5A7-4CA0-87B0-9E72C3DCF13E"),FilesInAlbums = [], FilesInPlaylists = []};
+    public static readonly FileEntity FileInAlbum2 = FileBasic with { Id = Guid.Parse("D5002144-FCDC-48C3-85EB-683602599919"),FilesInAlbums = [], FilesInPlaylists = []};
+    public static readonly FileEntity FileInAlbum3 = FileBasic with { Id = Guid.Parse("F23F2B20-5745-4B5C-91E9-321CCA72C8C9"),FilesInAlbums = [], FilesInPlaylists = []};
+    public static readonly FileEntity FileInAlbum4 = FileBasic with { Id = Guid.Parse("A32EEBCF-A382-48B8-94C1-6805BC2AC7AA"),FilesInAlbums = [], FilesInPlaylists = []};
     public static readonly FileEntity FileForUpdate = FileBasic with { Id = Guid.Parse("9602D4B3-37EA-476C-811A-49E1B2FAEA87"),FilesInAlbums = [], FilesInPlaylists = [] };
     public static readonly FileEntity FileForDelete = FileBasic with { Id = Guid.Parse("B0DFD184-B2B8-4904-96F7-72FF94F36797"),FilesInAlbums = [], FilesInPlaylists = [] };
+    public static readonly FileEntity FileForDeletedAlbum = FileBasic with { Id = Guid.Parse("EECF6DC6-4284-4E3E-BD4A-21F250A934FE"),FilesInAlbums = [], FilesInPlaylists = [] };
 
     public static readonly FileEntity FileDInPlaylist1 = new()
     {
@@ -103,15 +107,20 @@ public static class FileTestSeeds
 
     static FileTestSeeds()
     {
-        FileInAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumInBasicAlbum);
+        FileInAlbum1.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbum1InBasicAlbum);
+        FileForDeletedAlbum.FilesInAlbums.Add(FilesInAlbumsSeeds.FileInAlbumForDelete);
     }
     public static DbContext SeedTestFiles(this DbContext dbx)
     {
         dbx.Set<FileEntity>().AddRange(
             FileBasic with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
-            FileInAlbum with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileInAlbum1 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileInAlbum2 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileInAlbum3 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileInAlbum4 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
             FileForUpdate with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
             FileForDelete with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileForDeletedAlbum with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
             FileAInPlaylist1 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = [], DefaultAlbum = null!},
             FileBInPlaylist1 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = [], DefaultAlbum = null!},
             FileCInPlaylist1 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = [], DefaultAlbum = null!},

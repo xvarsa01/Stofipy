@@ -86,7 +86,7 @@ public class AlbumTests (ITestOutputHelper output): DbContextTestsBase(output)
         //Assert
         DeepAssert.Equal(expected with { Author = null!, FilesInAlbums = []}, AlbumTestSeeds.BasicAlbum with { Author = null!, FilesInAlbums = []});
         Assert.Equal(expected.Author.Id, actualEntity.Author.Id);
-        Assert.Equal(actualEntity.FilesInAlbums.Single().File.Id, FileTestSeeds.FileInAlbum.Id);
+        Assert.Equal(actualEntity.FilesInAlbums.Single().File.Id, FileTestSeeds.FileInAlbum1.Id);
     }
     
     [Fact]

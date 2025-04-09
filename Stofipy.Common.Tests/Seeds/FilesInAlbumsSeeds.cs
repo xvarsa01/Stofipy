@@ -5,14 +5,41 @@ namespace Stofipy.Common.Tests.Seeds;
 
 public static class FilesInAlbumsSeeds
 {
-    public static FilesInAlbumEntity FileInAlbumInBasicAlbum = new()
+    public static FilesInAlbumEntity FileInAlbum1InBasicAlbum = new()
     {
         Id = Guid.Parse("A9CFF879-C068-4EFA-A8E7-F4F552C4A3A5"),
         AlbumId = AlbumTestSeeds.BasicAlbum.Id,
-        FileId = FileTestSeeds.FileInAlbum.Id,
+        FileId = FileTestSeeds.FileInAlbum1.Id,
         Album = AlbumTestSeeds.BasicAlbum,
-        File = FileTestSeeds.FileInAlbum,
+        File = FileTestSeeds.FileInAlbum1,
         Index = 1,
+    };
+    public static FilesInAlbumEntity FileInAlbum2InBasicAlbum = new()
+    {
+        Id = Guid.Parse("E73ECB87-204B-4734-AE5E-6F8010CA9F70"),
+        AlbumId = AlbumTestSeeds.BasicAlbum.Id,
+        FileId = FileTestSeeds.FileInAlbum2.Id,
+        Album = AlbumTestSeeds.BasicAlbum,
+        File = FileTestSeeds.FileInAlbum2,
+        Index = 2,
+    };
+    public static FilesInAlbumEntity FileInAlbum3InBasicAlbum = new()
+    {
+        Id = Guid.Parse("2F069120-7D9A-4335-8D25-DC6E2F84A7A9"),
+        AlbumId = AlbumTestSeeds.BasicAlbum.Id,
+        FileId = FileTestSeeds.FileInAlbum3.Id,
+        Album = AlbumTestSeeds.BasicAlbum,
+        File = FileTestSeeds.FileInAlbum3,
+        Index = 3,
+    };
+    public static FilesInAlbumEntity FileInAlbum4InBasicAlbum = new()
+    {
+        Id = Guid.Parse("F437CF1C-0595-455B-A3FD-FC4717F8808A"),
+        AlbumId = AlbumTestSeeds.BasicAlbum.Id,
+        FileId = FileTestSeeds.FileInAlbum4.Id,
+        Album = AlbumTestSeeds.BasicAlbum,
+        File = FileTestSeeds.FileInAlbum4,
+        Index = 4,
     };
     
     public static readonly FilesInAlbumEntity FileAInAlbumM = new()
@@ -51,16 +78,31 @@ public static class FilesInAlbumsSeeds
         File = FileTestSeeds.FileDInPlaylist1,
         Index = 1,
     };
-    
+
+    public static readonly FilesInAlbumEntity FileInAlbumForDelete = new()
+    {
+        Id = Guid.Parse("BD924A55-4C8F-4077-8D0A-101854277B04"),
+        AlbumId = AlbumTestSeeds.AlbumForDelete.Id,
+        FileId = FileTestSeeds.FileForDeletedAlbum.Id,
+        Album = AlbumTestSeeds.AlbumForDelete,
+        File = FileTestSeeds.FileForDeletedAlbum,
+        Index = 0
+    };
+
     public static DbContext SeedTestFilesInAlbums(this DbContext dbx)
     {
         dbx.Set<FilesInAlbumEntity>().AddRange(
-            FileInAlbumInBasicAlbum with{Album = null!, File = null!},
+            FileInAlbum1InBasicAlbum with{Album = null!, File = null!},
+            FileInAlbum2InBasicAlbum with{Album = null!, File = null!},
+            FileInAlbum3InBasicAlbum with{Album = null!, File = null!},
+            FileInAlbum4InBasicAlbum with{Album = null!, File = null!},
             
             FileAInAlbumM with{Album = null!, File = null!},
             FileBInAlbumN with{Album = null!, File = null!},
             FileCInAlbumO with{Album = null!, File = null!},
-            FileDInAlbumP with{Album = null!, File = null!}
+            FileDInAlbumP with{Album = null!, File = null!},
+            
+            FileInAlbumForDelete with{Album = null!, File = null!}
         );
         return dbx;
     }
