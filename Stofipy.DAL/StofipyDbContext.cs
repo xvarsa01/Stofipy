@@ -10,6 +10,7 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData) : 
     public DbSet<FileEntity> Files { get; set; }
     public DbSet<FilesInAlbumEntity> FilesInAlbums { get; set; }
     public DbSet<FilesInPlaylistEntity> FilesInPlaylists { get; set; }
+    public DbSet<FilesInQueueEntity> FilesInQueue { get; set; }
     public DbSet<PlaylistEntity> Playlists { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,12 +31,22 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData) : 
         modelBuilder.Entity<AlbumEntity>()
             .HasMany(e => e.FilesInAlbums)
             .WithOne(e => e.Album)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<AlbumEntity>()
+            .HasMany(typeof(FileEntity))
+            .WithOne(nameof(FileEntity.DefaultAlbum))
             .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<FileEntity>()
             .HasMany(e => e.FilesInAlbums)
             .WithOne(e => e.File)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<FileEntity>()
+            .HasMany(e => e.FilesInPlaylists)
+            .WithOne(e => e.File)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

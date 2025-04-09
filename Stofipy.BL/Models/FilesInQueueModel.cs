@@ -11,7 +11,7 @@ public record FilesInQueueModel() : ModelBase
     
     public static FilesInQueueModel Empty = new()
     {
-        Id = Guid.Empty,
+        Id = Guid.NewGuid(),
         FileName = string.Empty,
         AuthorName = string.Empty,
         FileId = Guid.Empty,

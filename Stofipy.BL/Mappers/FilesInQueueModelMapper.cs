@@ -30,11 +30,6 @@ public class FilesInQueueModelMapper : ModelMapperBase<FilesInQueueEntity, Files
 
     public override FilesInQueueEntity MapToEntity(FilesInQueueModel model)
     {
-        throw new System.NotImplementedException("This method is unsupported. Use the other overload.");
-    }
-
-    public FilesInQueueEntity MapToEntity(FilesInQueueModel model, Guid albumId)
-    {
         return new FilesInQueueEntity
         {
             Id = model.Id,
@@ -43,4 +38,5 @@ public class FilesInQueueModelMapper : ModelMapperBase<FilesInQueueEntity, Files
             Index = model.Index,
         };
     }
+
 }

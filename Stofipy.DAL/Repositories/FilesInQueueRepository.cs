@@ -15,4 +15,11 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
             .OrderBy(e => e.Index)
             .ToListAsync();
     }
+
+    public int GetMaxIndex()
+    {
+        return _dbSet
+            .Select(x => (int?)x.Index)
+            .Max() ?? 0;
+    }
 }
