@@ -74,8 +74,8 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         var filesFromDbBefore = await dbxAssertBefore.FilesInQueue.ToListAsync();
 
         //Act
-        var id1 = await _filesInQueueFacade.AddToQueue(file1.Id, file1.FileName, file1.Author.AuthorName);
-        var id2 = await _filesInQueueFacade.AddToQueue(file2.Id, file2.FileName, file2.Author.AuthorName);
+        var id1 = await _filesInQueueFacade.AddFileToQueue(file1.Id, file1.FileName, file1.Author.AuthorName);
+        var id2 = await _filesInQueueFacade.AddFileToQueue(file2.Id, file2.FileName, file2.Author.AuthorName);
 
         //Assert
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
@@ -98,7 +98,7 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
     public async Task RemoveFileFromQueueAsync_ShouldRemoveFileFromQueueAndUpdateIndexes()
     {
         //Arrange
-        var fileForDelete = FilesInQueueTestSeeds.QueueItem2;
+        var fileForDelete = FilesInQueueTestSeeds.QueueItemP2;
         
         await using var dbxAssertBefore = await DbContextFactory.CreateDbContextAsync();
         var filesFromDbBefore = await dbxAssertBefore.FilesInQueue.ToListAsync();
@@ -116,65 +116,103 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         Assert.False(await dbxAssert.FilesInQueue.AnyAsync(i => i.Id == fileForDelete.Id));
         Assert.Equal(filesFromDbBefore.Count -1, filesFromDb.Count);
         
-        var expectedIndexes = new[] { 1, 2, 3 };
+        var expectedIndexes = new[] {1, 2, 3, 1, 2, 3};
         var actualIndexes = filesFromDb
-            .OrderBy(f => f.Index)
+            .OrderBy(f => f.PriorityQueue)
+            .ThenBy(f => f.Index)
             .Select(f => f.Index)
             .ToArray();
 
         Assert.Equal(expectedIndexes, actualIndexes);
+    }
+
+    [Fact]
+    public async Task RemoveAllFromPriorityQueueAsync_ShouldRemoveAllFromPriorityQueue()
+    {
+        await CheckQueueBeforeReorder();
+        
+        //Act
+        await _filesInQueueFacade.RemoveAllFromQueue(true);
+        
+        //Assert
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        Assert.Equal(3, queueFromDb.Count);
+        Assert.Empty(priorityFromDb);
     }
 
     [Fact]
     public async Task AddPlaylistToQueue_RemovedOtherItemsFromQueue()
     {
+        await CheckQueueBeforeReorder();
+        
         var playlist = PlaylistTestSeeds.Playlist1;
+        Assert.Equal(4, playlist.FilesInPlaylists.Count);
+        
+        //Act
         await _filesInQueueFacade.AddPlaylistToQueue(playlist.Id, false);
         
         //Assert
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
-        var filesFromDb = await dbxAssert.FilesInQueue
+        var queueFromDb = await dbxAssert.FilesInQueue
             .Include(e => e.File)
             .ThenInclude(e => e.Author)
             .ToListAsync();
         
-        var expectedIndexes = new[] { 1, 2, 3, 4 };
-        var actualIndexes = filesFromDb
-            .OrderBy(f => f.Index)
+        var expectedIndexes = new[] {1, 2, 3, 4, 1, 2, 3, 4};
+        var actualIndexes = queueFromDb
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
             .Select(f => f.Index)
             .ToArray();
 
         Assert.Equal(expectedIndexes, actualIndexes);
-        Assert.Equal(4, playlist.FilesInPlaylists.Count);
-        Assert.Equal(1, filesFromDb[0].Index);
-        Assert.Equal(2, filesFromDb[1].Index);
-        Assert.Equal(3, filesFromDb[2].Index);
-        Assert.Equal(4, filesFromDb[3].Index);
+        
+        Assert.True(queueFromDb[0].PriorityQueue);
+        Assert.True(queueFromDb[1].PriorityQueue);
+        Assert.True(queueFromDb[2].PriorityQueue);
+        Assert.True(queueFromDb[3].PriorityQueue);
+        
+        Assert.False(queueFromDb[4].PriorityQueue);
+        Assert.False(queueFromDb[5].PriorityQueue);
+        Assert.False(queueFromDb[6].PriorityQueue);
+        Assert.False(queueFromDb[7].PriorityQueue);
     }
     [Fact]
     public async Task AddPlaylistToQueue_DontShuffle()
     {
+        await CheckQueueBeforeReorder();
         var playlist = PlaylistTestSeeds.Playlist2;
         
-        var backgroundTask = await _filesInQueueFacade.AddPlaylistToQueue(playlist.Id, false);
-        await backgroundTask;
+        await await _filesInQueueFacade.AddPlaylistToQueue(playlist.Id, false);
         
         //Assert
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
         var filesFromDb = await dbxAssert.FilesInQueue
             .Include(e => e.File)
             .ThenInclude(e => e.Author)
-            .OrderBy(e => e.Index)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
             .ToListAsync();
         
-        Assert.Equal(11, filesFromDb.Count);
-        Assert.Equal(FileTestSeeds.File01.FileName, filesFromDb[0].File.FileName);
-        Assert.Equal(FileTestSeeds.File02.FileName, filesFromDb[1].File.FileName);
-        Assert.Equal(FileTestSeeds.File03.FileName, filesFromDb[2].File.FileName);
-        Assert.Equal(FileTestSeeds.File04.FileName, filesFromDb[3].File.FileName);
-        Assert.Equal(FileTestSeeds.File05.FileName, filesFromDb[4].File.FileName);
-        Assert.Equal(FileTestSeeds.File10.FileName, filesFromDb[9].File.FileName);
-        Assert.Equal(FileTestSeeds.File11.FileName, filesFromDb[10].File.FileName);
+        Assert.Equal(playlist.FilesInPlaylists.Count + 4, filesFromDb.Count);
+        Assert.Equal(FileTestSeeds.File05.FileName, filesFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, filesFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, filesFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, filesFromDb[3].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File01.FileName, filesFromDb[4].File.FileName);
+        Assert.Equal(FileTestSeeds.File02.FileName, filesFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, filesFromDb[6].File.FileName);
+        // ...
+        Assert.Equal(FileTestSeeds.File10.FileName, filesFromDb[13].File.FileName);
+        Assert.Equal(FileTestSeeds.File11.FileName, filesFromDb[14].File.FileName);
     }
     
     [Fact]
@@ -200,6 +238,223 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         Assert.Equal(order1.Count, order2.Count);
         Assert.NotEqual(order1, order2);
     }
+
+    [Fact]
+    public async Task ReorderMoveToBackInPriority()
+    {
+        await CheckQueueBeforeReorder();
+
+        //Act
+        await _filesInQueueFacade.ReorderQueue(2,4, true, true);
+        
+        await using var newDbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var newQueueFromDb = await newDbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, newQueueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, newQueueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, newQueueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, newQueueFromDb[3].File.FileName);
+    }
+
+    [Fact]
+    public async Task ReorderMoveToFrontInPriority()
+    {
+        await CheckQueueBeforeReorder();
+
+        //Act
+        await _filesInQueueFacade.ReorderQueue(4,2, true, true);
+        
+        await using var newDbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var newQueueFromDb = await newDbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, newQueueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, newQueueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, newQueueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, newQueueFromDb[3].File.FileName);
+    }
     
+    [Fact]
+    public async Task ReorderMoveFromPriorityToNonPriority()
+    {
+        await CheckQueueBeforeReorder();
+
+        //Act
+        await _filesInQueueFacade.ReorderQueue(4,1, true, false);
+        
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        var nonPriorityFromDb = queueFromDb.Where(e => !e.PriorityQueue).ToList();
+        Assert.Equal(7, queueFromDb.Count);
+        Assert.Equal(3, priorityFromDb.Count);
+        Assert.Equal(4, nonPriorityFromDb.Count);
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, queueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, queueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, queueFromDb[2].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File08.FileName, queueFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File01.FileName, queueFromDb[4].File.FileName);
+        Assert.Equal(FileTestSeeds.File02.FileName, queueFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, queueFromDb[6].File.FileName);
+    }
+    [Fact]
+    public async Task ReorderMoveFromPriorityToNonPriority2()
+    {
+        await CheckQueueBeforeReorder();
+
+        //Act
+        await _filesInQueueFacade.ReorderQueue(2,2, true, false);
+        
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        var nonPriorityFromDb = queueFromDb.Where(e => !e.PriorityQueue).ToList();
+        Assert.Equal(7, queueFromDb.Count);
+        Assert.Equal(3, priorityFromDb.Count);
+        Assert.Equal(4, nonPriorityFromDb.Count);
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, queueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, queueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, queueFromDb[2].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File01.FileName, queueFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, queueFromDb[4].File.FileName);
+        Assert.Equal(FileTestSeeds.File02.FileName, queueFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, queueFromDb[6].File.FileName);
+    }
     
+    [Fact]
+    public async Task ReorderMoveFromNonPriorityToPriority()
+    {
+        await CheckQueueBeforeReorder();
+
+        // P P P P N N N
+        // 1 2 3 4 x 2 3
+        
+        // P P P P P N N
+        // 1 2 3 4 x 2 3
+        
+        //Act
+        await _filesInQueueFacade.ReorderQueue(1,5, false, true);
+        
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        var nonPriorityFromDb = queueFromDb.Where(e => !e.PriorityQueue).ToList();
+        Assert.Equal(7, queueFromDb.Count);
+        Assert.Equal(5, priorityFromDb.Count);
+        Assert.Equal(2, nonPriorityFromDb.Count);
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, queueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, queueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, queueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, queueFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File01.FileName, queueFromDb[4].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File02.FileName, queueFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, queueFromDb[6].File.FileName);
+        
+        Assert.True(queueFromDb[0].PriorityQueue);
+        Assert.True(queueFromDb[1].PriorityQueue);
+        Assert.True(queueFromDb[2].PriorityQueue);
+        Assert.True(queueFromDb[3].PriorityQueue);
+        Assert.True(queueFromDb[4].PriorityQueue);
+        
+        Assert.False(queueFromDb[5].PriorityQueue);
+        Assert.False(queueFromDb[6].PriorityQueue);
+    }
+
+    [Fact]
+    public async Task ReorderMoveFromNonPriorityToPriority2()
+    {
+        await CheckQueueBeforeReorder();
+
+        // before: P P P P N N N
+        //         1 2 3 4 1 x 3
+        
+        // after:  P P P P P N N
+        //         1 x 2 3 4 1 3
+        
+        //Act
+        await _filesInQueueFacade.ReorderQueue(2,2, false, true);
+        
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        var nonPriorityFromDb = queueFromDb.Where(e => !e.PriorityQueue).ToList();
+        Assert.Equal(7, queueFromDb.Count);
+        Assert.Equal(5, priorityFromDb.Count);
+        Assert.Equal(2, nonPriorityFromDb.Count);
+        
+        Assert.Equal(FileTestSeeds.File05.FileName, queueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File02.FileName, queueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, queueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, queueFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, queueFromDb[4].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File01.FileName, queueFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, queueFromDb[6].File.FileName);
+        
+        Assert.True(queueFromDb[0].PriorityQueue);
+        Assert.True(queueFromDb[1].PriorityQueue);
+        Assert.True(queueFromDb[2].PriorityQueue);
+        Assert.True(queueFromDb[3].PriorityQueue);
+        Assert.True(queueFromDb[4].PriorityQueue);
+        
+        Assert.False(queueFromDb[5].PriorityQueue);
+        Assert.False(queueFromDb[6].PriorityQueue);
+    }
+
+    private async Task CheckQueueBeforeReorder()
+    {
+        await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
+        var queueFromDb = await dbxAssert.FilesInQueue
+            .Include(e => e.File)
+            .OrderByDescending(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
+            .ToListAsync();
+        
+        var priorityFromDb = queueFromDb.Where(e => e.PriorityQueue).ToList();
+        var nonPriorityFromDb = queueFromDb.Where(e => !e.PriorityQueue).ToList();
+        Assert.Equal(7, queueFromDb.Count);
+        Assert.Equal(4, priorityFromDb.Count);
+        Assert.Equal(3, nonPriorityFromDb.Count);
+        Assert.Equal(FileTestSeeds.File05.FileName, queueFromDb[0].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, queueFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, queueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, queueFromDb[3].File.FileName);
+        
+        Assert.Equal(FileTestSeeds.File01.FileName, queueFromDb[4].File.FileName);
+        Assert.Equal(FileTestSeeds.File02.FileName, queueFromDb[5].File.FileName);
+        Assert.Equal(FileTestSeeds.File03.FileName, queueFromDb[6].File.FileName);
+    }
 }

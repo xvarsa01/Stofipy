@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Mappers;
 using Stofipy.BL.Models;
@@ -22,15 +23,16 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         _filesInPlaylistFacade = filesInPlaylistFacade;
     }
 
-    public async Task<Guid> AddToQueue(Guid fileId, string fileName, string authorName)
+    public async Task<Guid> AddFileToQueue(Guid fileId, string fileName, string authorName)
     {
-        var newFile = new FilesInQueueModel()
+        var newFile = new FilesInQueueModel
         {
             Id = Guid.NewGuid(),
             FileId = fileId,
             FileName = fileName,
             AuthorName = authorName,
-            Index = GetMaxIndex() + 1
+            Index = GetMaxPriorityIndex() + 1,
+            PriorityQueue = true
         };
         
         FilesInQueueEntity entity = _modelMapper.MapToEntity(newFile);
@@ -38,7 +40,22 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         Guid createdEntityId = await _repository.InsertAsync(entity);
         return createdEntityId;
     }
-
+    private async Task AddFileToNonPriorityQueue(Guid fileId, string fileName, string authorName)
+    {
+        var newFile = new FilesInQueueModel
+        {
+            Id = Guid.NewGuid(),
+            FileId = fileId,
+            FileName = fileName,
+            AuthorName = authorName,
+            Index = GetMaxNonPriorityIndex() + 1,
+            PriorityQueue = false
+        };
+        
+        FilesInQueueEntity entity = _modelMapper.MapToEntity(newFile);
+        
+        await _repository.InsertAsync(entity);
+    }
     public override Task DeleteAsync(Guid id)
     {
         throw new NotImplementedException("Use overload with index");
@@ -48,18 +65,12 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
     {
         try
         {
+            var entityForDelete = await _repository.GetByIdAsync(id);
             await _repository.DeleteAsync(id);
+
+            Debug.Assert(entityForDelete != null, nameof(entityForDelete) + " != null");
             
-            var filesInQueueEntity = await _repository.GetAllAsync();
-            var itemsToUpdate = filesInQueueEntity
-                .Where(f => f.Index > deletedIndex)
-                .ToList();
-            
-            foreach (var item in itemsToUpdate)
-            {
-                item.Index--;
-                await _repository.UpdateAsync(item);
-            }
+            await DecrementIndexes(deletedIndex + 1, null, entityForDelete.PriorityQueue);
         }
         catch (DbUpdateException e)
         {
@@ -75,7 +86,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             throw new InvalidDataException("Playlist not found");
         }
         
-        await RemoveAllFromQueue();
+        await RemoveAllFromQueue(false);
 
         const int pageSize = 10;
 
@@ -88,7 +99,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
         foreach (var item in firstPage)
         {
-            await AddToQueue(item.FileId, item.FileName, item.AuthorName);
+            await AddFileToNonPriorityQueue(item.FileId, item.FileName, item.AuthorName);
         }
         
         var backgroundTask = Task.Run(async () =>
@@ -112,23 +123,115 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             }
             foreach (var item in remainingItems)
             {
-                await AddToQueue(item.FileId, item.FileName, item.AuthorName);
+                await AddFileToNonPriorityQueue(item.FileId, item.FileName, item.AuthorName);
             }
         });
         return backgroundTask;
     }
 
-    private async Task RemoveAllFromQueue()
+    public async Task RemoveAllFromQueue(bool priority)
     {
-        var queue = await _repository.GetAllAsync();
+        var queue = priority
+            ? await _repository.GetAllPriorityAsync()
+            : await _repository.GetAllNonPriorityAsync();
 
         foreach (var item in queue)
         {
             await _repository.DeleteAsync(item.Id);
         }
     }
-    private int GetMaxIndex()
+    
+    public async Task ReorderQueue(int oldIndex, int newIndex, bool oldPriority, bool newPriority)
     {
-        return _repository.GetMaxIndex();
+        if (oldIndex == newIndex && oldPriority == newPriority) return;
+
+        var item = await _repository.GetByIndexAsync(oldIndex, oldPriority);
+        if (item == null)
+        {
+            throw new IndexOutOfRangeException("oldIndex is out of range");
+        }
+        
+        if (oldPriority == newPriority)
+        {
+            if (oldIndex < newIndex)
+            {
+                await DecrementIndexes(oldIndex + 1, newIndex, oldPriority);
+            }
+            else
+            {
+                await IncrementIndexes(newIndex, oldIndex -1, oldPriority);
+            }
+            item.Index = newIndex;
+            await _repository.UpdateAsync(item);
+        }
+        else if (oldPriority && !newPriority)
+        {
+            await DecrementIndexes(oldIndex + 1, null, true);
+            await IncrementIndexes(newIndex, null, false);
+            item.PriorityQueue = false;
+        }
+        else
+        {
+            await IncrementIndexes(newIndex, null, true);
+            await DecrementIndexes(oldIndex + 1, null, false);
+            item.PriorityQueue = true;
+        }
+        
+        item.Index = newIndex;
+        await _repository.UpdateAsync(item);
+    }
+    
+    private int GetMaxNonPriorityIndex()
+    {
+        return _repository.GetMaxNonPriorityIndex();
+    }
+
+    private int GetMaxPriorityIndex()
+    {
+        return _repository.GetMaxPriorityIndex();
+    }
+
+    private async Task DecrementIndexes(int startIndex, int? endIndex, bool priority)
+    {
+        var filesInQueueEntity = await _repository.GetAllAsync();
+        var itemsToUpdate = filesInQueueEntity
+            .Where(f => f.Index >= startIndex);
+
+        itemsToUpdate = priority
+            ? itemsToUpdate.Where(e => e.PriorityQueue)
+            : itemsToUpdate.Where(e => e.PriorityQueue == false);
+        
+        if (endIndex.HasValue)
+        {
+            itemsToUpdate = itemsToUpdate.Where(f => f.Index <= endIndex.Value);
+        }
+            
+        foreach (var item in itemsToUpdate.ToList())
+        {
+            item.Index--;
+            await _repository.UpdateAsync(item);
+        }
+    }
+    
+    private async Task IncrementIndexes(int startIndex, int? endIndex, bool priority)
+    {
+        var filesInQueueEntity = await _repository.GetAllAsync();
+        var itemsToUpdate = filesInQueueEntity
+            .Where(f => f.Index >= startIndex);
+
+        itemsToUpdate = priority
+            ? itemsToUpdate.Where(e => e.PriorityQueue)
+            : itemsToUpdate.Where(e => e.PriorityQueue == false);
+        
+        if (endIndex.HasValue)
+        {
+            itemsToUpdate = itemsToUpdate.Where(f => f.Index <= endIndex.Value);
+        }
+            
+        foreach (var item in itemsToUpdate.ToList())
+        {
+            item.Index++;
+            await _repository.UpdateAsync(item);
+        }
     }
 }

@@ -19,6 +19,7 @@ public class FilesInQueueModelMapper : ModelMapperBase<FilesInQueueEntity, Files
             FileName = entity.File.FileName,
             AuthorName = entity.File.Author.AuthorName,
             Index = entity.Index,
+            PriorityQueue = entity.PriorityQueue,
             FileId = entity.FileId,
         };
     }
@@ -36,6 +37,7 @@ public class FilesInQueueModelMapper : ModelMapperBase<FilesInQueueEntity, Files
             FileId = model.FileId,
             File = null!,
             Index = model.Index,
+            PriorityQueue = model.PriorityQueue,
         };
     }
 

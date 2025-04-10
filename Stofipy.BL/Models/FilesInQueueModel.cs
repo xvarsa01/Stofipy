@@ -8,6 +8,7 @@ public record FilesInQueueModel() : ModelBase
     public required string AuthorName { get; set; }
     public required int Index { get; set; }
     public required Guid FileId { get; set; }
+    public required bool PriorityQueue { get; set; }
     
     public static FilesInQueueModel Empty = new()
     {
@@ -16,6 +17,7 @@ public record FilesInQueueModel() : ModelBase
         AuthorName = string.Empty,
         FileId = Guid.Empty,
         Index = 0,
+        PriorityQueue = false,
     };
     
 }
