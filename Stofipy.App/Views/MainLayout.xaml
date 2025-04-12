@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm ="using:Stofipy.App.ViewModels"
+             x:Class="Stofipy.App.Views.MainLayout">
+    <ContentPage.BindingContext>
+        <vm:ListOfPlaylistsViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="auto, *, auto">
+        
+        <!-- Top bar with searchbar and profile icon -->
+        <ContentView x:Name="TopContent" Grid.Row="0"/>
+
+        <!-- Main screen -->
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*, 2*, *">
+
+            <!-- Your library Left -->
+            <ContentView x:Name="LeftContent" Grid.Column="0"/>
+            
+            <!-- Main screen -->
+            <ContentView x:Name="CenterContent" Grid.Column="1"/>
+            
+            <!-- Right -->
+            <ContentView x:Name="RightContent" Grid.Column="2"/>
+        </Grid>
+        
+        <!-- Bottom bar with currently played file -->
+        <ContentView x:Name="BottomContent" Grid.Row="2" />
+    </Grid>
+</ContentPage>

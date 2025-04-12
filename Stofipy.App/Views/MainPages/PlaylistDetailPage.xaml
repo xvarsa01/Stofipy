@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
+             xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
+             x:Class="Stofipy.App.Views.MainPages.PlaylistDetailPage">
+    
+    <ContentView.BindingContext>
+        <viewModels:PlaylistDetailVM />
+    </ContentView.BindingContext>
+    
+    <VerticalStackLayout
+        Margin="20"
+        Spacing="20">
+        <Grid
+            ColumnDefinitions="100, *"
+            ColumnSpacing="20">
+            <Image 
+                Grid.Column="0" 
+                Source="{Binding Playlist.Picture }" 
+                Aspect="AspectFill"
+                HeightRequest="100"
+                WidthRequest="100"/>
+            <VerticalStackLayout
+                Grid.Column="1">
+                <Label Text="Public Playlist" />
+                <Label Text="{Binding Playlist.PlaylistName}" FontSize="50"/>
+                <Label Text="Shared with" FontSize="15"/>
+            </VerticalStackLayout>
+        </Grid>
+        <Grid
+            ColumnDefinitions="auto, auto, auto, *, auto"
+            ColumnSpacing="10">
+            
+            <Button Grid.Column="0" Text="Play" />
+            <Button Grid.Column="1" Text="Shuffle" />
+            <Button Grid.Column="2" Text="Download" />
+            <SearchBar Grid.Column="3" Text="Search"/>
+            <Button Grid.Column="4" Text="Sort" />
+        </Grid>
+        <CollectionView ItemsSource="{Binding Files}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:FilesInPlaylistModel">
+                    <Grid
+                        ColumnDefinitions="auto, auto, *, *, auto"
+                        ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="{Binding IndexActual}" VerticalTextAlignment="Center"></Label>
+                        <Image 
+                            Grid.Column="1" 
+                            Source="{Binding Picture}" 
+                            Aspect="AspectFill"
+                            HeightRequest="40"
+                            WidthRequest="40"/>
+                        <Label Grid.Column="2" Text="{Binding FileName}" VerticalTextAlignment="Center"></Label>
+                        <Label Grid.Column="3" Text="{Binding AuthorName}" VerticalTextAlignment="Center"></Label>
+                        <Label Grid.Column="4" Text="{Binding  LengthFormatted}" VerticalTextAlignment="Center"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </VerticalStackLayout>
+</ContentView>

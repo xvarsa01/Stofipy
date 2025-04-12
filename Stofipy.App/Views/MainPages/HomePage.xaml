@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
+             x:Class="Stofipy.App.Views.MainPages.HomePage">
+    
+    <ContentView.BindingContext>
+        <viewModels:ListOfPlaylistsViewModel />
+    </ContentView.BindingContext>
+    
+    <!-- Main Middle -->
+    <Grid
+        RowDefinitions="auto, auto"
+        BackgroundColor="DarkGray">
+        <HorizontalStackLayout
+            Grid.Row="0">
+            <Button Text="All" />
+            <Button Text="Music" />
+            <Button Text="Podcasts" />
+        </HorizontalStackLayout>
+
+        <FlexLayout 
+            Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Playlists}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="2"
+                        VerticalItemSpacing="5"
+                        HorizontalItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="50, auto"
+                              BackgroundColor="Red"
+                              ColumnSpacing="10">
+                            <Image 
+                                Grid.Column="0" 
+                                Source="{Binding Picture}" 
+                                Aspect="AspectFill"
+                                HeightRequest="50"
+                                WidthRequest="50"/>
+                            <Label Grid.Column="1"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start"
+                                   Text="{Binding PlaylistName}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </FlexLayout>
+    </Grid>
+        
+</ContentView>

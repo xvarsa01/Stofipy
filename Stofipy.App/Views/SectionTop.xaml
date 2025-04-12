@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Stofipy.App.Views.SectionTop">
+    <!-- Top bar with searchbar and profile icon -->
+    <Grid 
+        ColumnDefinitions="auto, *, auto">
+        <Button
+            Grid.Column="0"
+            Text="navigation">
+                
+        </Button>
+        <SearchBar 
+            Grid.Column="1" Text="search all"
+            HorizontalOptions="Center">
+                
+        </SearchBar>
+        <Button 
+            Grid.Column="2"
+            Text="profile picture">
+                
+        </Button>
+    </Grid>
+</ContentView>
