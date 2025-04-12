@@ -22,6 +22,8 @@ public class FilesInPlaylistModelMapper : ModelMapperBase<FilesInPlaylistEntity,
             DefaultAlbumName = entity.File.DefaultAlbum != null
                 ? entity.File.DefaultAlbum.AlbumName
                 : string.Empty,
+            Picture = entity.File.Picture,
+            Length = entity.File.Length,
             IndexActual = entity.IndexActual,
             IndexCustom = entity.IndexCustom,
         };
