@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Stofipy.DAL.Factories;
+using System.Reflection;
+using Stofipy.DAL.Repositories;
 
 namespace Stofipy.DAL;
 
@@ -25,7 +27,19 @@ public static class DALInstaller
             throw new InvalidOperationException($"{nameof(options.DatabaseName)} is not set");
         }
 
-        services.AddSingleton<IDbContextFactory<StofipyDbContext>>(_ => new DbContextSqLiteFactory(options.DatabaseFilePath));
+        services.AddSingleton<IDbContextFactory<StofipyDbContext>>(_ =>
+            new DbContextSqLiteFactory($"Data Source={options.DatabaseFilePath}", options.SeedDemoData));
+        services.AddDbContext<StofipyDbContext>(contextOptions =>
+            contextOptions.UseSqlite($"Data Source={options.DatabaseFilePath}"));
+        
+        services.Scan(scan => scan
+            .FromAssemblyOf<StofipyDbContext>()
+            .AddClasses(c => c.AssignableTo(typeof(IRepository<>))
+                .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+            .AsSelf()                 // Register concrete type
+            .AsImplementedInterfaces() // Register as IRepository<T>
+            .WithSingletonLifetime());
+
         // services.AddSingleton<IDbMigrator, DbMigrator>();
         // services.AddSingleton<IDbSeeder, DbSeeder>();
 

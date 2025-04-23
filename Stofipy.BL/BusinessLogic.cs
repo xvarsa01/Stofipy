@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("CookBook.BL.Tests")]
+[assembly: InternalsVisibleTo("Stofipy.BL.Tests")]
 
 namespace Stofipy.BL;
 

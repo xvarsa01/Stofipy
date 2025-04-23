@@ -3,7 +3,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.DAL;
 
-public class StofipyDbContext(DbContextOptions contextOptions, bool seedData) : DbContext(contextOptions)
+public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = false) : DbContext(contextOptions)
 {
     public DbSet<AlbumEntity> Albums { get; set; }
     public DbSet<AuthorEntity> Authors { get; set; }
