@@ -12,7 +12,8 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
         return await _dbSet
             .Include(e => e.File)
             .ThenInclude(e => e.Author)
-            .OrderBy(e => e.Index)
+            .OrderBy(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
             .ToListAsync();
     }
     public async Task<List<FilesInQueueEntity>> GetAllPriorityAsync()
