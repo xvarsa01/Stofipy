@@ -6,6 +6,7 @@ public record FilesInQueueModel() : ModelBase
 {
     public required string FileName { get; set; }
     public required string AuthorName { get; set; }
+    public string? Picture { get; set; }
     public required int Index { get; set; }
     public required Guid FileId { get; set; }
     public required bool PriorityQueue { get; set; }

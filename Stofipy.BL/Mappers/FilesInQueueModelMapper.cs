@@ -18,6 +18,7 @@ public class FilesInQueueModelMapper : ModelMapperBase<FilesInQueueEntity, Files
             Id = entity.Id,
             FileName = entity.File.FileName,
             AuthorName = entity.File.Author.AuthorName,
+            Picture = entity.File.Picture,
             Index = entity.Index,
             PriorityQueue = entity.PriorityQueue,
             FileId = entity.FileId,
