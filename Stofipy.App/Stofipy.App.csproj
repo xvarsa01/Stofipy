@@ -82,10 +82,7 @@
 	  <MauiXaml Update="Views\MainPages\HomePage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MainPages\PlaylistDetailPage.xaml">
-	    <SubType>Designer</SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MainPages\PlaylistDetailWrapperPage.xaml">
+	  <MauiXaml Update="Views\ContentViewBase.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
 	</ItemGroup>
@@ -95,12 +92,8 @@
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
-	  <Compile Update="Views\MainPages\PlaylistDetailPage.xaml.cs">
-	    <DependentUpon>PlaylistDetailPage.xaml</DependentUpon>
-	    <SubType>Code</SubType>
-	  </Compile>
-	  <Compile Update="Views\MainPages\PlaylistDetailWrapperPage.xaml.cs">
-	    <DependentUpon>PlaylistDetailWrapperPage.xaml</DependentUpon>
+	  <Compile Update="Views\ContentViewBase.xaml.cs">
+	    <DependentUpon>ContentViewBase.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

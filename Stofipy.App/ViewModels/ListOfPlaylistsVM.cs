@@ -1,12 +1,11 @@
-﻿using Stofipy.BL.Facades;
-using Stofipy.BL.Facades.Interfaces;
+﻿using System.Collections.ObjectModel;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-internal class ListOfPlaylistsViewModel()
+public class ListOfPlaylistsViewModel() : ViewModelBase
 {
-    public List<PlaylistListModel> Playlists { get; set; } = new()
+    public ObservableCollection<PlaylistListModel> Playlists { get; set; } = new()
     {
         new PlaylistListModel
         {
@@ -22,8 +21,8 @@ internal class ListOfPlaylistsViewModel()
         },
     };
     
-    // protected async Task LoadDataAsync()
+    // protected override async Task LoadDataAsync()
     // {
-    //     Playlists = await playlistFacade.GetAllAsync(1, 10);
+    //     Playlists = (await facade.GetAllAsync(1, 10)).ToObservableCollection();
     // }
 }

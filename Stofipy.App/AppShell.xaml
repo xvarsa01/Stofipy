@@ -12,11 +12,7 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:MainLayout}"
-        Route="MainPage" />
+        Route="home" />
     
-    <ShellContent
-        Title="Playlist"
-        ContentTemplate="{DataTemplate mainPages:PlaylistDetailWrapperPage}"
-        Route="playlist" />
 
 </Shell>

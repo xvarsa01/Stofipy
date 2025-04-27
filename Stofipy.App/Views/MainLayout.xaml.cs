@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stofipy.App.ViewModels;
 using Stofipy.App.Views.MainPages;
 
 namespace Stofipy.App.Views;
 
 public partial class MainLayout : ContentPage
 {
-    public MainLayout()
+    public MainLayout( FilesInQueueVM filesInQueueVM )
     {
         InitializeComponent();
         
         LoadSectionTop(new SectionTop());
         LoadSectionBottom(new SectionBottom());
         LoadSectionLeft(new SectionLeft());
-        LoadSectionRight(new SectionLeft());
+        LoadSectionRight(new SectionRight(filesInQueueVM));
         
         LoadSectionMiddle(new HomePage());
     }

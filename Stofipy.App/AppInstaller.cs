@@ -16,7 +16,7 @@ public static class AppInstaller
 
         services.Scan(selector => selector
             .FromAssemblyOf<App>()
-            .AddClasses(filter => filter.AssignableTo<ContentPageBase>())
+            .AddClasses(filter => filter.AssignableTo<ContentViewBase>())
             .AsSelf()
             .WithTransientLifetime());
 
