@@ -54,7 +54,8 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
 
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
         var queueFromDb = await dbxAssert.FilesInQueue
-            .OrderBy(e => e.Index)
+            .OrderBy(e => e.PriorityQueue)
+            .ThenBy(e => e.Index)
             .Include(e => e.File)
             .ThenInclude(e => e.Author)
             .ToListAsync();
