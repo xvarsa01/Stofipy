@@ -1,12 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Stofipy.App.Views.SectionLeft">
+<views:ContentViewBase
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Stofipy.App.Components"
+    xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
+    xmlns:views="clr-namespace:Stofipy.App.Views"
+    xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
+    x:Class="Stofipy.App.Views.SectionLeft"
+    x:DataType="viewModels:ListOfPlaylistsViewModel"
+>
     
     <!-- Your library Left -->
     <VerticalStackLayout
-        BackgroundColor="Gray"
+        Padding="20"
+        Spacing="10"
+        BackgroundColor="#121212"
         >
         <Grid ColumnDefinitions="auto, *">
             <Label
@@ -35,16 +44,18 @@
                 Text="Recents"
                 HorizontalOptions="End">
             </Button>
-        </Grid>                
-        <VerticalStackLayout>
-            <Label Text="playlist1" />
-            <Label Text="playlist1" />
-            <Label Text="playlist1" />
-            <Label Text="playlist1" />
-            <Label Text="playlist1" />
-            <Label Text="playlist1" />
-        </VerticalStackLayout>
+        </Grid>
         
+        <CollectionView ItemsSource="{Binding Playlists}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PlaylistListModel">
+                    <components:FileWithPictureAnd2Texts
+                        Picture="{Binding Picture}"
+                        TopText="{Binding PlaylistName}"
+                        BottomText="Playlist" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
     
-</ContentView>
+</views:ContentViewBase>

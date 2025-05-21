@@ -10,13 +10,13 @@ namespace Stofipy.App.Views;
 
 public partial class MainLayout : ContentPage
 {
-    public MainLayout( FilesInQueueVM filesInQueueVM )
+    public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsViewModel listOfPlaylistsVM )
     {
         InitializeComponent();
         
         LoadSectionTop(new SectionTop());
         LoadSectionBottom(new SectionBottom());
-        LoadSectionLeft(new SectionLeft());
+        LoadSectionLeft(new SectionLeft(listOfPlaylistsVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
         LoadSectionMiddle(new HomePage());

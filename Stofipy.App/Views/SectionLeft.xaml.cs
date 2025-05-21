@@ -1,8 +1,10 @@
-﻿namespace Stofipy.App.Views;
+﻿using Stofipy.App.ViewModels;
 
-public partial class SectionLeft : ContentView
+namespace Stofipy.App.Views;
+
+public partial class SectionLeft
 {
-    public SectionLeft()
+    public SectionLeft(ListOfPlaylistsViewModel viewModel) : base(viewModel)
     {
         InitializeComponent();
     }
