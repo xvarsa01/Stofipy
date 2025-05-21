@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentViewBase
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
+    xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
+    xmlns:views="clr-namespace:Stofipy.App.Views"
+    xmlns:components="clr-namespace:Stofipy.App.Components"
+    xmlns:converters="clr-namespace:Stofipy.App.Converters"
+    x:Class="Stofipy.App.Views.MainPages.PlaylistDetailPage"
+    x:Name="PlaylistDetailViewRoot"
+    x:DataType="viewModels:PlaylistDetailVM"
+    >
+    
+    <ContentView.Resources>
+        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
+    </ContentView.Resources>
+
+
+    <!-- Main Middle -->
+    <Grid BackgroundColor="#121212">
+        
+        <!-- Background Layer (fixed height gradient) -->
+        <Grid HeightRequest="600" VerticalOptions="Start">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0, 1">
+                    <GradientStop Color="#0e70ac" Offset="0.0"/>
+                    <GradientStop Color="#062e46" Offset="0.3"/>
+                    <GradientStop Color="#121212" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+
+        <Grid
+            RowDefinitions="auto, auto, auto, auto"
+            Padding="20"
+            >
+
+            <!-- playlist details -->
+            <Grid
+                Grid.Row="0"
+                ColumnDefinitions="auto, auto"
+                Padding="20,0"
+                >
+                <Image 
+                    Grid.Column="0" 
+                    Source="{Binding Playlist.Picture}"
+                    Aspect="AspectFill"
+                    HeightRequest="150"
+                    WidthRequest="150"/>
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="5"
+                    VerticalOptions="End"
+                    Padding="10,0,0,20">
+                    <Label
+                        HorizontalOptions="Start"
+                        Text="{Binding Playlist.PublicStatus}"
+                        TextColor="White"
+                        FontSize="15"/>
+                    <Label
+                        HorizontalOptions="Start"
+                        Text="{Binding Playlist.PlaylistName}"
+                        TextColor="White"
+                        FontSize="50"
+                        FontFamily="FuturaBold"
+                        FontAttributes="Bold"
+                        />
+                    <Label
+                        HorizontalOptions="Start"
+                        Text="{Binding Playlist.LengthFormatted}"
+                        TextColor="White"
+                        FontSize="15"/>
+                </VerticalStackLayout>
+                
+            </Grid>
+        
+            <!-- buttons -->
+            <Grid Grid.Row="1"
+                ColumnDefinitions="auto, auto, auto, *, auto"
+                ColumnSpacing="10">
+            
+                <Button Grid.Column="0" Text="Play" />
+                <Button Grid.Column="1" Text="Shuffle" />
+                <Button Grid.Column="2" Text="Download" />
+                <SearchBar Grid.Column="3" Text="Search"/>
+                <Button Grid.Column="4" Text="Sort" />
+            </Grid>
+        
+            <!-- table header -->
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="50, *, *, auto"
+                  Padding="20,5"
+                  >
+                <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
+                <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
+                <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Album" />
+                <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="⏱" />
+            </Grid>
+        
+            <!-- songs in playlist -->
+            <CollectionView Grid.Row="3" 
+                            ItemsSource="{Binding Files}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FilesInPlaylistModel">
+                        <Border 
+                                Padding="20,5"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                >
+                            <Border.BackgroundColor>
+                                <MultiBinding Converter="{StaticResource FileBgColorConverter}">
+                                    <Binding Path="IsSelected"/>
+                                    <Binding Path="IsHovered"/>
+                                </MultiBinding>
+                            </Border.BackgroundColor>
+                        
+                            <Border.GestureRecognizers>
+                                <PointerGestureRecognizer
+                                    PointerEntered="OnPointerEntered"
+                                    PointerExited="OnPointerExited"/>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={x:Reference PlaylistDetailViewRoot}, Path=BindingContext.SelectRowCommand}"
+                                    CommandParameter="{Binding .}"
+                                    />
+                            </Border.GestureRecognizers>
+
+                            <Grid
+                                ColumnDefinitions="50, *, *, auto">
+                                <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding IndexActual}"></Label>
+                            
+                                <components:FileWithPictureAnd2Texts 
+                                    Picture="{Binding Picture}" 
+                                    TopText="{Binding FileName}" 
+                                    BottomText="{Binding AuthorName}"
+                                    IsInteractive="False"
+                                    Grid.Column="1"/>
+                            
+                                <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding DefaultAlbumName}"></Label>
+                                <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding LengthFormatted}"></Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        
+        </Grid>
+    </Grid>
+
+</views:ContentViewBase>

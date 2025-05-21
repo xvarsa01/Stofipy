@@ -13,7 +13,10 @@ public record FilesInPlaylistModel() : ModelBase
     public string LengthFormatted => $"{Length / 60}:{Length % 60:D2}";
     public required int IndexActual { get; set; }
     public required int IndexCustom { get; set; }
-    
+
+    public bool IsHovered { get; set; }
+    public bool IsSelected { get; set; }
+
     public static FilesInPlaylistModel Empty = new()
     {
         Id = Guid.Empty,

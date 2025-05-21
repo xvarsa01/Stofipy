@@ -9,6 +9,28 @@ public partial class FileWithPictureAnd2Texts : ContentView
         InitializeComponent();
     }
 
+    public static readonly BindableProperty IsInteractiveProperty =
+        BindableProperty.Create(
+            nameof(IsInteractive),
+            typeof(bool),
+            typeof(FileWithPictureAnd2Texts),
+            true, // default: interactive
+            propertyChanged: OnIsInteractiveChanged);
+
+    public bool IsInteractive
+    {
+        get => (bool)GetValue(IsInteractiveProperty);
+        set => SetValue(IsInteractiveProperty, value);
+    }
+
+    private static void OnIsInteractiveChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is FileWithPictureAnd2Texts control && newValue is bool isInteractive)
+        {
+            control.InputTransparent = !isInteractive;
+        }
+    }
+    
     public static readonly BindableProperty TapCommandProperty =
         BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(FileWithPictureAnd2Texts));
     public ICommand TapCommand
