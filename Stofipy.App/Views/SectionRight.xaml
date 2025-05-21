@@ -3,12 +3,11 @@
 <views:ContentViewBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:views="clr-namespace:Stofipy.App.Views"
+        xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
         x:Class="Stofipy.App.Views.SectionRight"
+        x:DataType="viewModels:FilesInQueueVM"
 >
-        <!-- x:DataType="viewModels:FilesInQueueVM" -->
-        <!-- IMPORTANT !! Adding this will bind it at compile time. PropertyChanged notification yet doesnt work, so it wont work -->
-                       
     
     <VerticalStackLayout
         Padding="20"
@@ -68,7 +67,7 @@
         <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
         <CollectionView HeightRequest="300" ItemsSource="{Binding Queue}">
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="models:FilesInQueueModel">
                     <Grid ColumnDefinitions="50, auto"
                           ColumnSpacing="10"
                           Padding="5">
