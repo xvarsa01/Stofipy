@@ -25,7 +25,6 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
     {
         await base.LoadDataAsync();
         Queue = (await facade.GetAllAsync()).ToObservableCollection();
-        OnPropertyChanged(nameof(Queue));
     }
 
 
