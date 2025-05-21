@@ -5,6 +5,7 @@
         xmlns:views="clr-namespace:Stofipy.App.Views"
         xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
+        xmlns:components="clr-namespace:Stofipy.App.Components"
         x:Class="Stofipy.App.Views.SectionRight"
         x:DataType="viewModels:FilesInQueueVM"
 >
@@ -68,34 +69,10 @@
         <CollectionView HeightRequest="300" ItemsSource="{Binding Queue}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:FilesInQueueModel">
-                    <Grid ColumnDefinitions="50, auto"
-                          ColumnSpacing="10"
-                          Padding="5">
-                        <Image 
-                            Grid.Column="0" 
-                            Source="{Binding Picture}"
-                            Aspect="AspectFill"
-                            HeightRequest="50"
-                            WidthRequest="50"/>
-                        <Grid
-                            Grid.Column="1"
-                            RowDefinitions="*, *">
-                            <Label
-                                Grid.Row="0"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Start"
-                                Text="{Binding FileName}"
-                                TextColor="White"
-                                FontSize="15"/>
-                            <Label
-                                Grid.Row="1"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Start"
-                                Text="{Binding AuthorName}"
-                                TextColor="White"
-                                FontSize="13"/>
-                        </Grid>
-                    </Grid>
+                    <components:FileWithPictureAnd2Texts 
+                        Picture="{Binding Picture}" 
+                        TopText="{Binding FileName}" 
+                        BottomText="{Binding AuthorName}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
