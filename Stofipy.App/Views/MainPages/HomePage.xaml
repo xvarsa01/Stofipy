@@ -7,7 +7,7 @@
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
-    x:DataType="viewModels:ListOfPlaylistsViewModel">
+    x:DataType="viewModels:ListOfPlaylistsVM">
     
     <!-- Main Middle -->
     <Grid

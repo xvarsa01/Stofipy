@@ -4,7 +4,7 @@ namespace Stofipy.App.Views;
 
 public partial class SectionLeft
 {
-    public SectionLeft(ListOfPlaylistsViewModel viewModel) : base(viewModel)
+    public SectionLeft(ListOfPlaylistsVM viewModel) : base(viewModel)
     {
         InitializeComponent();
     }

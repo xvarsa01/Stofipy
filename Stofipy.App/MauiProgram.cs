@@ -35,7 +35,7 @@ public static class MauiProgram
         
         builder.Services.AddSingleton<MainLayout>();
         builder.Services.AddTransient<FilesInQueueVM>();
-        builder.Services.AddTransient<ListOfPlaylistsViewModel>();
+        builder.Services.AddTransient<ListOfPlaylistsVM>();
             
         builder.Services.AddSingleton<AppShell>();
             
