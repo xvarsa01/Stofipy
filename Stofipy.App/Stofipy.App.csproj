@@ -85,6 +85,9 @@
 	  <MauiXaml Update="Views\ContentViewBase.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Components\FileWithPictureAnd2Texts.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -94,6 +97,10 @@
 	  </Compile>
 	  <Compile Update="Views\ContentViewBase.xaml.cs">
 	    <DependentUpon>ContentViewBase.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\FileWithPictureAnd2Texts.xaml.cs">
+	    <DependentUpon>FileWithPictureAnd2Texts.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
