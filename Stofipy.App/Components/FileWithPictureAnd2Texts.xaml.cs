@@ -1,12 +1,31 @@
-﻿namespace Stofipy.App.Components;
+﻿using System.Windows.Input;
+
+namespace Stofipy.App.Components;
 
 public partial class FileWithPictureAnd2Texts : ContentView
 {
     public FileWithPictureAnd2Texts()
     {
         InitializeComponent();
-        BindingContext = this;
     }
+
+    public static readonly BindableProperty TapCommandProperty =
+        BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(FileWithPictureAnd2Texts));
+    public ICommand TapCommand
+    {
+        get => (ICommand)GetValue(TapCommandProperty);
+        set => SetValue(TapCommandProperty, value);
+    }
+
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(FileWithPictureAnd2Texts));
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+    
     
     public static readonly BindableProperty PictureProperty =
         BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(FileWithPictureAnd2Texts));

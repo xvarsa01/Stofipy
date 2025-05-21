@@ -5,32 +5,44 @@
              xmlns:local="clr-namespace:Stofipy.App.Components"
              x:Class="Stofipy.App.Components.FileWithPictureAnd2Texts">
     
-    <Grid ColumnDefinitions="50, auto"
-          ColumnSpacing="10"
-          Padding="5">
-        <Image 
-            Grid.Column="0" 
-            Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-            Aspect="AspectFill"
-            HeightRequest="50"
-            WidthRequest="50"/>
-        <Grid
-            Grid.Column="1"
-            RowDefinitions="*, *">
-            <Label
-                Grid.Row="0"
-                VerticalOptions="Center"
-                HorizontalOptions="Start"
-                Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                TextColor="White"
-                FontSize="15"/>
-            <Label
-                Grid.Row="1"
-                VerticalOptions="Center"
-                HorizontalOptions="Start"
-                Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                TextColor="White"
-                FontSize="13"/>
+    <Border
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0"
+        BackgroundColor="Transparent"
+        Padding="0">
+                    
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}" />
+        </Border.GestureRecognizers>
+        
+        <Grid ColumnDefinitions="50, auto"
+              ColumnSpacing="10"
+              Padding="5">
+            <Image 
+                Grid.Column="0" 
+                Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                Aspect="AspectFill"
+                HeightRequest="50"
+                WidthRequest="50"/>
+            <Grid
+                Grid.Column="1"
+                RowDefinitions="*, *">
+                <Label
+                    Grid.Row="0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    TextColor="White"
+                    FontSize="15"/>
+                <Label
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    TextColor="White"
+                    FontSize="13"/>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </ContentView>

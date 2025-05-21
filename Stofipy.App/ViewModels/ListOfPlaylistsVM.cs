@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.Input;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
@@ -29,4 +30,12 @@ public partial class ListOfPlaylistsVM(IPlaylistFacade facade) : ViewModelBase
     //     Playlists = (await facade.GetAllAsync(1, 10)).ToObservableCollection();
     //     OnPropertyChanged(nameof(Playlists));
     // }
+        
+    [RelayCommand]
+    private async Task GoToDetailAsync(Guid id)
+    {
+        // Playlists.First().PlaylistName += "test";
+        
+        // await navigationService.GoToAsync<>();
+    }
 }

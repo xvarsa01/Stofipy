@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     x:Class="Stofipy.App.Views.SectionLeft"
     x:DataType="viewModels:ListOfPlaylistsVM"
+    x:Name="SectionLeftViewRoot"
 >
     
     <!-- Your library Left -->
@@ -52,7 +53,9 @@
                     <components:FileWithPictureAnd2Texts
                         Picture="{Binding Picture}"
                         TopText="{Binding PlaylistName}"
-                        BottomText="Playlist" />
+                        BottomText="Playlist"
+                        TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToDetailCommand}"
+                        CommandParameter="{Binding Id}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
