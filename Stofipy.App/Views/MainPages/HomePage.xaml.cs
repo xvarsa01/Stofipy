@@ -1,8 +1,10 @@
-﻿namespace Stofipy.App.Views.MainPages;
+﻿using Stofipy.App.ViewModels;
 
-public partial class HomePage : ContentView
+namespace Stofipy.App.Views.MainPages;
+
+public partial class HomePage
 {
-    public HomePage()
+    public HomePage(ListOfPlaylistsViewModel viewModel) : base(viewModel)
     {
         InitializeComponent();
     }

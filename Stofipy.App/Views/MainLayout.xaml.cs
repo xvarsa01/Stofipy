@@ -19,7 +19,7 @@ public partial class MainLayout : ContentPage
         LoadSectionLeft(new SectionLeft(listOfPlaylistsVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
-        LoadSectionMiddle(new HomePage());
+        LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
     }
     
     public void LoadSectionTop(View sectionTop)
