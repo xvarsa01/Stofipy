@@ -99,6 +99,9 @@
 	  <MauiXaml Update="Components\FileWithPictureAnd1Text.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Components\LikedSongs.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -124,6 +127,10 @@
 	  </Compile>
 	  <Compile Update="Components\FileWithPictureAnd1Text.xaml.cs">
 	    <DependentUpon>FileWithPictureAnd1Text.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\LikedSongs.xaml.cs">
+	    <DependentUpon>LikedSongs.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
