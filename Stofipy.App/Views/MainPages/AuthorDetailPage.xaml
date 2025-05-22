@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ContentViewBase
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels.Author"
+    xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
+    xmlns:views="clr-namespace:Stofipy.App.Views"
+    xmlns:components="clr-namespace:Stofipy.App.Components"
+    xmlns:converters="clr-namespace:Stofipy.App.Converters"
+    x:Class="Stofipy.App.Views.MainPages.AuthorDetailPage"
+    x:Name="AuthorDetailPageViewRoot"
+    x:DataType="viewModels:AuthorDetailVM"
+    >
+    <ContentView.Resources>
+        <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" />
+    </ContentView.Resources>
+
+    <!-- Main Middle -->
+    <Grid BackgroundColor="#121212">
+        
+        <!-- Background Layer (fixed height gradient) -->
+        <Grid HeightRequest="600" VerticalOptions="Start">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0, 1">
+                    <GradientStop Color="PaleGreen" Offset="0.0"/>
+                    <GradientStop Color="#121212" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="10"
+        >
+
+            <!-- author details -->
+            <Grid
+                ColumnDefinitions="auto, auto"
+                Padding="20,0"
+            >
+                <Image Grid.Column="0"
+                       Source="{Binding Author.ProfilePicture}"
+                       Aspect="AspectFill"
+                       HeightRequest="200"
+                />
+                <Grid Grid.Column="1" RowDefinitions="auto, auto" Padding="20,0" RowSpacing="20">
+                    <Label Grid.Row = "0"
+                           HorizontalOptions="Start"
+                           Text="{Binding Author.AuthorName}"
+                           TextColor="White"
+                           FontSize="50"
+                           FontFamily="FuturaBold"
+                           FontAttributes="Bold"/>
+                    <Label Grid.Row = "1"
+                           HorizontalOptions="Start"
+                           Text="monthly listerens"
+                           TextColor="White"
+                           FontSize="15"/>
+                </Grid>
+
+
+            </Grid>
+            
+            <!-- buttons -->
+            <HorizontalStackLayout
+                  Spacing="10">
+                
+                <Button Text="Play" />
+                <Button Text="Shuffle" />
+                <Button Text="follow" />
+            </HorizontalStackLayout>
+            
+            <Label Text="Popular" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+            
+            <!-- 5 most popular songs -->
+            <CollectionView
+                            ItemsSource="{Binding Author.Files}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FileListModel">
+                        <Border
+                            Padding="20,0"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 10"
+                        >
+                            <!-- <Border.GestureRecognizers> -->
+                            <!--     <TapGestureRecognizer -->
+                            <!--         Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.SelectRowCommand}" -->
+                            <!--         CommandParameter="{Binding .}" -->
+                            <!--     /> -->
+                            <!-- </Border.GestureRecognizers> -->
+            
+                            <Grid
+                                ColumnDefinitions="50, 2*, *, auto, auto"
+                                ColumnSpacing="20">
+                                
+                                <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
+                                       Text="1"></Label>
+                                <components:FileWithPictureAnd1Text
+                                    Picture="{Binding Picture}"
+                                    CenterText="{Binding FileName}"
+                                    IsInteractive="False"
+                                    Grid.Column="1"/>
+                                <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
+                                       Text="total play count" />
+                                <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
+                                       Text="icon" />
+                                <Label Grid.Column="4" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding Length, Converter={StaticResource SecondsToTimeConverter}}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="See more" TextColor="White" FontSize="15"/>
+            
+            <Label Text="Discography" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+            
+            <!-- author's albums -->
+            <CollectionView ItemsSource="{Binding Author.Albums}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal"
+                                     HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    
+                    <DataTemplate x:DataType="models:AlbumListModel">
+                        <Border
+                            Padding="20,0"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 10"
+                        >
+                            <Grid RowDefinitions="100, auto, auto">
+                                <Image Grid.Row="0"
+                                       Aspect="AspectFill"
+                                       WidthRequest="100" HeightRequest="100"
+                                       Source="{Binding Picture}" />
+
+                                <Label Grid.Row="1" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding AlbumName}" />
+                                <Label Grid.Row="2" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding Year, StringFormat='{}{0} Album'}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </Grid>
+
+</views:ContentViewBase>

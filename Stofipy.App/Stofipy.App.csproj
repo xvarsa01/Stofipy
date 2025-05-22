@@ -91,6 +91,12 @@
 	  <MauiXaml Update="Views\MainPages\PlaylistDetailPage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\MainPages\AuthorDetailPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\FileWithPictureAnd1Text.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -108,6 +114,14 @@
 	  </Compile>
 	  <Compile Update="Views\MainPages\PlaylistDetailPage.xaml.cs">
 	    <DependentUpon>PlaylistDetailPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\MainPages\AuthorDetailPage.xaml.cs">
+	    <DependentUpon>AuthorDetailPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\FileWithPictureAnd1Text.xaml.cs">
+	    <DependentUpon>FileWithPictureAnd1Text.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

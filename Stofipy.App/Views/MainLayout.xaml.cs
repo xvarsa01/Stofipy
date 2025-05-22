@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Stofipy.App.ViewModels;
+using Stofipy.App.ViewModels.Author;
 using Stofipy.App.Views.MainPages;
 
 namespace Stofipy.App.Views;
 
 public partial class MainLayout : ContentPage
 {
-    public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsVM listOfPlaylistsVM )
+    public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsVM listOfPlaylistsVM, PlaylistDetailVM playlistDetailVM, AuthorDetailVM authorDetailVM)
     {
         InitializeComponent();
         
@@ -19,7 +20,9 @@ public partial class MainLayout : ContentPage
         LoadSectionLeft(new SectionLeft(listOfPlaylistsVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
-        LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
+        // LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
+        // LoadSectionMiddle(new PlaylistDetailPage(playlistDetailVM));
+        LoadSectionMiddle(new AuthorDetailPage(authorDetailVM));
     }
     
     public void LoadSectionTop(View sectionTop)
