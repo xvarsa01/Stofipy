@@ -3,23 +3,61 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Stofipy.App.Views.SectionTop">
+    
     <!-- Top bar with searchbar and profile icon -->
     <Grid 
-        ColumnDefinitions="auto, *, auto">
-        <Button
-            Grid.Column="0"
-            Text="navigation">
+        ColumnDefinitions="auto, *, auto"
+        BackgroundColor="Black"
+        Padding="10">
+        
+        <HorizontalStackLayout Grid.Column="0">
+            <Grid>
+                <Image Source="dots_3_white.png" Aspect="AspectFill" WidthRequest="25" />
+                <Button BackgroundColor="Transparent"/>
+            </Grid>
+            <Grid>
+                <Image Source="go_back.png" Aspect="AspectFill" WidthRequest="30" />
+                <Button BackgroundColor="Transparent"/>
+            </Grid>
+            <Grid>
+                <Image Source="go_forward.png" Aspect="AspectFill" WidthRequest="30" />
+                <Button BackgroundColor="Transparent"/>
+            </Grid>
+        </HorizontalStackLayout>
                 
-        </Button>
-        <SearchBar 
-            Grid.Column="1" Text="search all"
-            HorizontalOptions="Center">
+        <HorizontalStackLayout
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Spacing="10">
                 
-        </SearchBar>
-        <Button 
-            Grid.Column="2"
-            Text="profile picture">
-                
-        </Button>
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="0"
+                    BackgroundColor="#2a2a2a">
+                <Grid>
+                    <Image Source="home_button.png" Aspect="AspectFill" WidthRequest="30" />
+                    <Button BackgroundColor="Transparent"
+                    />
+                </Grid>
+            </Border>
+            <Border
+                BackgroundColor="#2a2a2a"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 20"
+                >
+                 <SearchBar
+                    Placeholder="What do you want to play?"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    WidthRequest="400"
+                    />
+            </Border>
+        </HorizontalStackLayout>
+
+        <Grid Grid.Column="2">
+            <Image Source="user.png" Aspect="AspectFill" WidthRequest="40" />
+            <Button BackgroundColor="Transparent"/>
+        </Grid>
     </Grid>
 </ContentView>

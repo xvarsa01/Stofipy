@@ -5,7 +5,8 @@
              x:Class="Stofipy.App.Views.SectionBottom">
 
     <!-- Bottom bar with currently played file -->
-    <Grid ColumnDefinitions="auto, *, auto">
+    <Grid ColumnDefinitions="auto, *, auto"
+          BackgroundColor="Black">
         <Label Text="bottom"/>
     </Grid>
 </ContentView>

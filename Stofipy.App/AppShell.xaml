@@ -12,7 +12,8 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:MainLayout}"
-        Route="home" />
+        Route="home"
+        Shell.NavBarIsVisible="False"/>
     
 
 </Shell>
