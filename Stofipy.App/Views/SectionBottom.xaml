@@ -1,12 +1,116 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Stofipy.App.Views.SectionBottom">
+<views:ContentViewBase
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Stofipy.App.Components"
+    xmlns:views="using:Stofipy.App.Views"
+    xmlns:viewModels="using:Stofipy.App.ViewModels"
+    x:Class="Stofipy.App.Views.SectionBottom"
+    x:DataType="viewModels:FilesInQueueVM">
 
     <!-- Bottom bar with currently played file -->
-    <Grid ColumnDefinitions="auto, *, auto"
-          BackgroundColor="Black">
-        <Label Text="bottom"/>
+    <Grid ColumnDefinitions="*, *, *"
+          BackgroundColor="Black"
+          HeightRequest="100"
+          Padding="20">
+
+        <!--left-->
+        <Grid Grid.Column="0">
+            <components:FileWithPictureAnd2Texts
+                Picture="{Binding NowPlaying.Picture}"
+                TopText="{Binding NowPlaying.FileName}"
+                BottomText="{Binding NowPlaying.AuthorName}"
+                IsInteractive="False"/>
+        </Grid>
+        
+        <!--center-->
+        <Grid Grid.Column="1">
+            <Grid RowDefinitions="*, *">
+                <!--center top-->
+                <HorizontalStackLayout
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    Spacing="20"
+                    VerticalOptions="End">
+                    <Image 
+                            Source="shuffle_white.png"
+                            Aspect="AspectFill"
+                            HeightRequest="20"
+                    />
+                    <Image 
+                        Source="previous.png"
+                        Aspect="AspectFill"
+                        HeightRequest="20"
+                    />
+                    <Image 
+                        Source="pause.png"
+                        Aspect="AspectFill"
+                        HeightRequest="30"
+                    />
+                    <Image 
+                        Source="next.png"
+                        Aspect="AspectFill"
+                        HeightRequest="20"
+                    />
+                    <Image 
+                        Source="repeat_white.png"
+                        Aspect="AspectFill"
+                        HeightRequest="20"
+                    />
+                </HorizontalStackLayout>
+                
+                <!--center bottom-->
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="50, *, 50">
+
+                    <Label Grid.Column="0" Text="1:23" TextColor="White" VerticalOptions="Center"/>
+                    <Slider Grid.Column="1"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="0"
+                        HorizontalOptions="Fill"
+                        BackgroundColor="White"
+                        VerticalOptions="Center"/>
+                    <Label Grid.Column="2" Text="1:23" TextColor="White" VerticalOptions="Center"/>
+                </Grid>
+                
+            </Grid>
+            
+        </Grid>
+
+        <!--right-->
+        <HorizontalStackLayout
+            Grid.Column="2"
+                        HorizontalOptions="End"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <Image 
+                Source="lyrics_white.png"
+                Aspect="AspectFill"
+                HeightRequest="30"
+            />
+            <Image 
+                Source="queue_white.png"
+                Aspect="AspectFill"
+                HeightRequest="20"
+            />
+            <Slider
+                Maximum="100"
+                Minimum="0"
+                Value="0"
+                HorizontalOptions="Fill"
+                BackgroundColor="White"
+                VerticalOptions="Center"
+                WidthRequest="100"
+            />
+            <Image 
+                Source="full_screen_white.png"
+                Aspect="AspectFill"
+                HeightRequest="20"
+            />
+        </HorizontalStackLayout>
     </Grid>
-</ContentView>
+</views:ContentViewBase>

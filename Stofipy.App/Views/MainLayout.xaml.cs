@@ -16,7 +16,7 @@ public partial class MainLayout : ContentPage
         InitializeComponent();
         
         LoadSectionTop(new SectionTop());
-        LoadSectionBottom(new SectionBottom());
+        LoadSectionBottom(new SectionBottom(filesInQueueVM));
         LoadSectionLeft(new SectionLeft(listOfPlaylistsVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         

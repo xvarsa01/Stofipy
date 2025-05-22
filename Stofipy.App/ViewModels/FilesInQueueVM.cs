@@ -10,21 +10,16 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
 {
     public ObservableCollection<FilesInQueueModel> Queue { get; set; } = null!;
 
-    public FilesInQueueModel NowPlaying { get; set; } = new()
-    {
-        Id = Guid.NewGuid(),
-        FileName = "Fake ID",
-        AuthorName = "Rithon",
-        Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
-        Index = 1,
-        FileId = Guid.NewGuid(),
-        PriorityQueue = true
-    };
+    public FilesInQueueModel NowPlaying { get; set; } = null!;
 
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
-        Queue = (await facade.GetAllAsync()).ToObservableCollection();
+        var data = await facade.GetAllAsync();
+        var nowPlaying = data.First();
+        NowPlaying = nowPlaying;
+        data.Remove(nowPlaying);
+        Queue = data.ToObservableCollection();
     }
 
 
