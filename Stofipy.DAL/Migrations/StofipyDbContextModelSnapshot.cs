@@ -34,6 +34,12 @@ namespace Stofipy.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Picture")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Year")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
@@ -88,6 +94,9 @@ namespace Stofipy.DAL.Migrations
                     b.Property<string>("Lyrics")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Picture")
+                        .HasColumnType("TEXT");
+
                     b.Property<double>("Size")
                         .HasColumnType("REAL");
 
@@ -112,6 +121,9 @@ namespace Stofipy.DAL.Migrations
                     b.Property<Guid>("FileId")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
@@ -121,7 +133,7 @@ namespace Stofipy.DAL.Migrations
                     b.ToTable("FilesInAlbums");
                 });
 
-            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInPlaylists", b =>
+            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInPlaylistEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,6 +141,12 @@ namespace Stofipy.DAL.Migrations
 
                     b.Property<Guid>("FileId")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("IndexActual")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IndexCustom")
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("PlaylistId")
                         .HasColumnType("TEXT");
@@ -142,10 +160,39 @@ namespace Stofipy.DAL.Migrations
                     b.ToTable("FilesInPlaylists");
                 });
 
+            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInQueueEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("PriorityQueue")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("FilesInQueue");
+                });
+
             modelBuilder.Entity("Stofipy.DAL.Entities.PlaylistEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Picture")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PlaylistName")
@@ -178,7 +225,8 @@ namespace Stofipy.DAL.Migrations
 
                     b.HasOne("Stofipy.DAL.Entities.AlbumEntity", "DefaultAlbum")
                         .WithMany()
-                        .HasForeignKey("DefaultAlbumId");
+                        .HasForeignKey("DefaultAlbumId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 
@@ -190,7 +238,7 @@ namespace Stofipy.DAL.Migrations
                     b.HasOne("Stofipy.DAL.Entities.AlbumEntity", "Album")
                         .WithMany("FilesInAlbums")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Stofipy.DAL.Entities.FileEntity", "File")
@@ -204,7 +252,7 @@ namespace Stofipy.DAL.Migrations
                     b.Navigation("File");
                 });
 
-            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInPlaylists", b =>
+            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInPlaylistEntity", b =>
                 {
                     b.HasOne("Stofipy.DAL.Entities.FileEntity", "File")
                         .WithMany("FilesInPlaylists")
@@ -221,6 +269,17 @@ namespace Stofipy.DAL.Migrations
                     b.Navigation("File");
 
                     b.Navigation("Playlist");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.FilesInQueueEntity", b =>
+                {
+                    b.HasOne("Stofipy.DAL.Entities.FileEntity", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("Stofipy.DAL.Entities.AlbumEntity", b =>
