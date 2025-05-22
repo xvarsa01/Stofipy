@@ -81,7 +81,7 @@
             
             <!-- 5 most popular songs -->
             <CollectionView
-                ItemsSource="{Binding PopularFiles}">
+                ItemsSource="{Binding PopularFilesCurrentlyShowed}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FileListModel">
                         <Border
@@ -104,7 +104,7 @@
                                     <Label.Text>
                                         <MultiBinding Converter="{StaticResource MultiIndexOfConverter}">
                                             <Binding Path="." />
-                                            <Binding Source="{x:Reference AuthorDetailPageViewRoot}" Path="BindingContext.PopularFiles" />
+                                            <Binding Source="{x:Reference AuthorDetailPageViewRoot}" Path="BindingContext.PopularFilesCurrentlyShowed" />
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>
@@ -125,7 +125,14 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             
-            <Label Text="See more" TextColor="White" FontSize="15"/>
+            <Label Text="{Binding SeeMoreText}"
+                   TextColor="White"
+                   FontSize="15">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.ShowMorePopularFilesCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
             
             <Label Text="Discography" TextColor="White" FontSize="20" FontAttributes="Bold"/>
             

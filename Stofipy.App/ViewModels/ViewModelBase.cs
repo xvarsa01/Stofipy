@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Stofipy.App.ViewModels;
 
-public abstract class ViewModelBase : IViewModel, INotifyPropertyChanged
+public abstract class ViewModelBase : ObservableObject, IViewModel, INotifyPropertyChanged
 {
     private bool _forceDataRefresh = true;
 
