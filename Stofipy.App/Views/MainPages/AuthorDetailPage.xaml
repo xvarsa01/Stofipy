@@ -15,6 +15,7 @@
     <ContentView.Resources>
         <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" />
         <converters:MultiIndexOfConverter x:Key="MultiIndexOfConverter" />
+        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
     </ContentView.Resources>
 
     <!-- Main Middle -->
@@ -89,12 +90,22 @@
                             StrokeThickness="0"
                             StrokeShape="RoundRectangle 10"
                         >
-                            <!-- <Border.GestureRecognizers> -->
-                            <!--     <TapGestureRecognizer -->
-                            <!--         Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.SelectRowCommand}" -->
-                            <!--         CommandParameter="{Binding .}" -->
-                            <!--     /> -->
-                            <!-- </Border.GestureRecognizers> -->
+                            <Border.BackgroundColor>
+                                <MultiBinding Converter="{StaticResource FileBgColorConverter}">
+                                    <Binding Path="IsSelected"/>
+                                    <Binding Path="IsHovered"/>
+                                </MultiBinding>
+                            </Border.BackgroundColor>
+                            
+                            <Border.GestureRecognizers>
+                                <PointerGestureRecognizer
+                                    PointerEntered="OnPointerEntered"
+                                    PointerExited="OnPointerExited"/>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.SelectRowCommand}"
+                                    CommandParameter="{Binding .}"
+                                />
+                            </Border.GestureRecognizers>
             
                             <Grid
                                 ColumnDefinitions="auto, 2*, *, auto, auto"

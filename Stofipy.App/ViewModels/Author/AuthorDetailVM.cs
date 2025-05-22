@@ -15,6 +15,7 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
     public Guid Id { get; set; } = Guid.Parse("63E304C0-F051-436D-A466-3048C1C0D31F");
     public AuthorDetailModel? Author { get; set; }
     
+    private FileListModel? SelectedFile {get; set; }
     public ObservableCollection<FileListModel> PopularFilesCurrentlyShowed { get; set; } = new();
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
@@ -61,5 +62,16 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
             SeeMoreText = "Show more";
             _morePopularFilesShowed = false;
         }
+    }
+    
+    [RelayCommand]
+    private Task SelectRowAsync(FileListModel item)
+    {
+        if (SelectedFile != null)
+            SelectedFile.IsSelected = false;
+    
+        SelectedFile = item;
+        item.IsSelected = true;
+        return Task.CompletedTask;
     }
 }

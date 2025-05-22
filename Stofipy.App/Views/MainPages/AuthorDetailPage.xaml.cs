@@ -10,4 +10,15 @@ public partial class AuthorDetailPage
     {
         InitializeComponent();
     }
+    private void OnPointerEntered(object sender, PointerEventArgs e)
+    {
+        if (sender is Border border && border.BindingContext is FileListModel model)
+            model.IsHovered = true;
+    }
+
+    private void OnPointerExited(object sender, PointerEventArgs e)
+    {
+        if (sender is Border border && border.BindingContext is FileListModel model)
+            model.IsHovered = false;
+    }
 }

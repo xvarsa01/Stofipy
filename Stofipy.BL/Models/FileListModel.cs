@@ -11,6 +11,9 @@ public record FileListModel() : ModelBase
     public required string AuthorName { get; set; }
     public string? Picture { get; set; }
     
+    public bool IsHovered { get; set; }
+    public bool IsSelected { get; set; }
+    
     public static FileListModel Empty = new()
     {
         Id = Guid.Empty,
