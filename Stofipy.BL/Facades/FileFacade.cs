@@ -15,4 +15,12 @@ public class FileFacade : FacadeBase<FileRepository, FileEntity, FileListModel, 
         _modelMapper = modelMapper;
         _repository = repository;
     }
+    
+    public async Task<List<FileListModel>> GetMostPopularFiles(Guid authorId, int pageNumber, int pageSize )
+    {
+        List<FileEntity> entities = await _repository.GetMostPopularByAuthorAsync(authorId, pageNumber, pageSize);
+        
+        var models =  _modelMapper.MapToListModel(entities);
+        return models;
+    }
 }

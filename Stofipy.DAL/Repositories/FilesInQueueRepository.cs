@@ -9,29 +9,30 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
 
     public override async Task<List<FilesInQueueEntity>> GetAllAsync()
     {
-        return await _dbSet
-            .Include(e => e.File)
-            .ThenInclude(e => e.Author)
+        var query = _dbSet.AsQueryable();
+        query = IncludeAuthorAndDefaultAlbums(query);
+            
+        return await query
             .OrderBy(e => e.PriorityQueue)
             .ThenBy(e => e.Index)
             .ToListAsync();
     }
     public async Task<List<FilesInQueueEntity>> GetAllPriorityAsync()
     {
-        return await _dbSet
-            .Where(e => e.PriorityQueue == true)
-            .Include(e => e.File)
-            .ThenInclude(e => e.Author)
+        var query = _dbSet.Where(e => e.PriorityQueue == true);
+        query = IncludeAuthorAndDefaultAlbums(query);
+        
+        return await query
             .OrderBy(e => e.Index)
             .ToListAsync();
     }
     
     public async Task<List<FilesInQueueEntity>> GetAllNonPriorityAsync()
     {
-        return await _dbSet
-            .Where(e => e.PriorityQueue == false)
-            .Include(e => e.File)
-            .ThenInclude(e => e.Author)
+        var query = _dbSet.Where(e => e.PriorityQueue == false);
+        query = IncludeAuthorAndDefaultAlbums(query);
+        
+        return await query
             .OrderBy(e => e.Index)
             .ToListAsync();
     }
@@ -65,5 +66,14 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
             .Where(e => e.PriorityQueue == false)
             .Select(x => (int?)x.Index)
             .Max() ?? 0;
+    }
+    
+    private IQueryable<FilesInQueueEntity> IncludeAuthorAndDefaultAlbums(IQueryable<FilesInQueueEntity> query)
+    {
+        return query
+            .Include(e => e.File)
+            .ThenInclude(e => e.Author)
+            .Include(e => e.File)
+            .ThenInclude(e => e.DefaultAlbum);
     }
 }

@@ -27,6 +27,17 @@ public class FileRepository(StofipyDbContext dbContext) : RepositoryBase<FileEnt
             .Include(e => e.Author)
             .SingleOrDefaultAsync(e => e.Id == id);
     }
+    
+    public async Task<List<FileEntity>> GetMostPopularByAuthorAsync(Guid authorId, int pageNumber, int pageSize)
+    {
+        // TODO currently orderer just by name, as there is no popularity property
+        return await _dbSet
+            .Where(e => e.AuthorId == authorId)
+            .OrderBy(e => e.FileName)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 
     public async Task<List<FileEntity>> SearchInFilesAsync(string searchTerm)
     {
