@@ -14,11 +14,13 @@
     >
     <ContentView.Resources>
         <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" />
+        <converters:MultiIndexOfConverter x:Key="MultiIndexOfConverter" />
     </ContentView.Resources>
 
     <!-- Main Middle -->
+    <ScrollView>
     <Grid BackgroundColor="#121212">
-        
+    
         <!-- Background Layer (fixed height gradient) -->
         <Grid HeightRequest="600" VerticalOptions="Start">
             <Grid.Background>
@@ -28,7 +30,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
-        
+
         <VerticalStackLayout
             Padding="20"
             Spacing="10"
@@ -39,14 +41,20 @@
                 ColumnDefinitions="auto, auto"
                 Padding="20,0"
             >
-                <Image Grid.Column="0"
-                       Source="{Binding Author.ProfilePicture}"
-                       Aspect="AspectFill"
-                       HeightRequest="200"
-                />
+                <Border Grid.Column="0"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 100">
+                    <Image 
+                        Source="{Binding Author.ProfilePicture}"
+                        Aspect="AspectFill"
+                        HeightRequest="200"
+                    />
+                </Border>
+
                 <Grid Grid.Column="1" RowDefinitions="auto, auto" Padding="20,0" RowSpacing="20">
                     <Label Grid.Row = "0"
                            HorizontalOptions="Start"
+                           Padding="0,80,0,0"
                            Text="{Binding Author.AuthorName}"
                            TextColor="White"
                            FontSize="50"
@@ -58,13 +66,11 @@
                            TextColor="White"
                            FontSize="15"/>
                 </Grid>
-
-
             </Grid>
             
             <!-- buttons -->
             <HorizontalStackLayout
-                  Spacing="10">
+                Spacing="10">
                 
                 <Button Text="Play" />
                 <Button Text="Shuffle" />
@@ -75,7 +81,7 @@
             
             <!-- 5 most popular songs -->
             <CollectionView
-                            ItemsSource="{Binding Author.Files}">
+                ItemsSource="{Binding PopularFiles}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FileListModel">
                         <Border
@@ -91,11 +97,17 @@
                             <!-- </Border.GestureRecognizers> -->
             
                             <Grid
-                                ColumnDefinitions="50, 2*, *, auto, auto"
+                                ColumnDefinitions="auto, 2*, *, auto, auto"
                                 ColumnSpacing="20">
                                 
-                                <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
-                                       Text="1"></Label>
+                                <Label Grid.Column="0" VerticalOptions="Center" TextColor="White">
+                                    <Label.Text>
+                                        <MultiBinding Converter="{StaticResource MultiIndexOfConverter}">
+                                            <Binding Path="." />
+                                            <Binding Source="{x:Reference AuthorDetailPageViewRoot}" Path="BindingContext.PopularFiles" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
                                 <components:FileWithPictureAnd1Text
                                     Picture="{Binding Picture}"
                                     CenterText="{Binding FileName}"
@@ -148,6 +160,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </VerticalStackLayout>
+        
     </Grid>
+    </ScrollView>
 
 </views:ContentViewBase>

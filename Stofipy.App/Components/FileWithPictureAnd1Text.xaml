@@ -16,15 +16,24 @@
                                   CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}" />
         </Border.GestureRecognizers>
         
-        <Grid ColumnDefinitions="50, auto"
+        <Grid ColumnDefinitions="60, auto"
               ColumnSpacing="10"
-              Padding="0">
-            <Image 
-                Grid.Column="0" 
-                Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
-                Aspect="AspectFill"
-                HeightRequest="50"
-                WidthRequest="50"/>
+              Padding="5">
+            <Border
+                Grid.Column="0"
+                StrokeShape="RoundRectangle 5"
+                StrokeThickness="0"
+                HeightRequest="40"
+                WidthRequest="40"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                BackgroundColor="Transparent">
+                <Image 
+                    Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                    Aspect="AspectFill"
+                    HeightRequest="40"
+                    WidthRequest="40"/>
+            </Border>
             <Label
                 Grid.Column="1"
                 VerticalOptions="Center"

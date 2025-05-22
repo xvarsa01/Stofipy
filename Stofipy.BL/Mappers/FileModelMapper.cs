@@ -20,7 +20,7 @@ public class FileModelMapper : ModelMapperBase<FileEntity, FileListModel, FileDe
             Length = entity.Length,
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
-            Picture = entity.Picture,
+            Picture = entity.Picture ?? entity.DefaultAlbum?.Picture,
         };
     }
 
