@@ -258,27 +258,12 @@ public static class FileSeeds
     };
     
     // Horkyze Slize - Kyze Sliz
-    public static FileEntity Intro = new()
-    {
-        Id = Guid.Parse("1c03bcc4-b7f9-4739-a66d-3cecdcdded4e"),
-        FileName = "Intro",
-        Description = "",
-        Lyrics = null,
-        Size = 0,
-        Length = 86,
-        Category = Category.Rock,
-        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
-        Author = AuthorSeeds.HorkyzeSlize,
-        FilesInPlaylists = [],
-        FilesInAlbums = [],
-        DefaultAlbumId = AlbumSeeds.Kýže_Sliz.Id,
-        DefaultAlbum = AlbumSeeds.Kýže_Sliz,
-    };
     public static FileEntity MalaZuzu = new()
     {
         Id = Guid.Parse("c616ed5d-36fb-40af-b560-7b520391fc47"),
         FileName = "Mala Žužu",
         Description = "",
+        Picture = "Resources\\Images\\Albums\\Kýže Sliz (by Horkýže Slíže).jpg",
         Lyrics = null,
         Size = 0,
         Length = 86,
@@ -323,6 +308,122 @@ public static class FileSeeds
         DefaultAlbum = AlbumSeeds.Kýže_Sliz,
     };
     
+    // Horkyze Slize - Ukáž_tú_tvoju_ZOO
+    public static FileEntity JaZeruKviti = new()
+    {
+        Id = Guid.Parse("6777bf1e-76c0-494b-b5dd-1fdcdda4354a"),
+        FileName = "Já žeru Kvítí",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 160,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.Ukáž_tú_tvoju_ZOO.Id,
+        DefaultAlbum = AlbumSeeds.Ukáž_tú_tvoju_ZOO,
+    };
+    public static FileEntity RnBsoul = new()
+    {
+        Id = Guid.Parse("0dc00af9-f750-4e50-9821-299bd76f3596"),
+        FileName = "R m'B soul",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 169,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.Ukáž_tú_tvoju_ZOO.Id,
+        DefaultAlbum = AlbumSeeds.Ukáž_tú_tvoju_ZOO,
+    };
+    public static FileEntity KomisarRex = new()
+    {
+        Id = Guid.Parse("b31847dd-6730-48a7-8351-058d364f5c69"),
+        FileName = "Komisár Rex",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 116,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.Ukáž_tú_tvoju_ZOO.Id,
+        DefaultAlbum = AlbumSeeds.Ukáž_tú_tvoju_ZOO,
+    };
+    public static FileEntity SilnyRefren = new()
+    {
+        Id = Guid.Parse("c1f66e7f-ad44-4e5f-8ded-d1bf6637630a"),
+        FileName = "Silný Refrén",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 188,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.Ukáž_tú_tvoju_ZOO.Id,
+        DefaultAlbum = AlbumSeeds.Ukáž_tú_tvoju_ZOO,
+    };
+    
+    // Horkyze Slize - St_Mary_Huana_Ganja
+    public static FileEntity Intro = new()
+    {
+        Id = Guid.Parse("6e6f6c99-bbb2-4c01-b414-87b0d4faf642"),
+        FileName = "Intro",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 86,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.St_Mary_Huana_Ganja.Id,
+        DefaultAlbum = AlbumSeeds.St_Mary_Huana_Ganja,
+    };
+    public static FileEntity Nerob = new()
+    {
+        Id = Guid.Parse("e0d6ee09-8150-4add-9947-9fdd66ee535c"),
+        FileName = "Nerob!!!",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 139,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.St_Mary_Huana_Ganja.Id,
+        DefaultAlbum = AlbumSeeds.St_Mary_Huana_Ganja,
+    };
+    public static FileEntity Nazdar = new()
+    {
+        Id = Guid.Parse("70abea41-b43e-4257-9f4b-baa8ff7ac20a"),
+        FileName = "Nazdar!!!",
+        Description = "",
+        Lyrics = null,
+        Size = 0,
+        Length = 171,
+        Category = Category.Rock,
+        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
+        Author = AuthorSeeds.HorkyzeSlize,
+        FilesInPlaylists = [],
+        FilesInAlbums = [],
+        DefaultAlbumId = AlbumSeeds.St_Mary_Huana_Ganja.Id,
+        DefaultAlbum = AlbumSeeds.St_Mary_Huana_Ganja,
+    };
+    
     public static DbContext SeedFiles(this DbContext dbx)
     {
         dbx.Set<FileEntity>().AddRange(
@@ -344,10 +445,18 @@ public static class FileSeeds
             
             Abstinent with{Author = null!, DefaultAlbum = null!},
             
-            Intro with{Author = null!, DefaultAlbum = null!},
             MalaZuzu with{Author = null!, DefaultAlbum = null!},
             Jogin with{Author = null!, DefaultAlbum = null!},
-            Vlak with{Author = null!, DefaultAlbum = null!}
+            Vlak with{Author = null!, DefaultAlbum = null!},
+            
+            JaZeruKviti with{Author = null!, DefaultAlbum = null!},
+            RnBsoul with{Author = null!, DefaultAlbum = null!},
+            KomisarRex with{Author = null!, DefaultAlbum = null!},
+            SilnyRefren with{Author = null!, DefaultAlbum = null!},
+            
+            Intro with{Author = null!, DefaultAlbum = null!},
+            Nerob with{Author = null!, DefaultAlbum = null!},
+            Nazdar with{Author = null!, DefaultAlbum = null!}
         );
 
         return dbx;

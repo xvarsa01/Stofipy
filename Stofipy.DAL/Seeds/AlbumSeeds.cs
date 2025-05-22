@@ -112,9 +112,9 @@ public static class AlbumSeeds
     public static AlbumEntity Tvojho_brata_brat_má_brata = new()
     {
         Id = Guid.Parse("77476871-a3fe-4007-8002-7939caa31d30"),
-        AlbumName = "tvojho_brata_brat_ma_brata.jpg",
+        AlbumName = "Tvojho brata brat má brata.jpg",
         Description = "",
-        Picture = "Tvojho_brata_brat_má_brata.jpg",
+        Picture = "tvojho_brata_brat_ma_brata.jpg",
         Year = 2022,
         AuthorId = AuthorSeeds.HorkyzeSlize.Id,
         Author = AuthorSeeds.HorkyzeSlize,
@@ -140,8 +140,8 @@ public static class AlbumSeeds
         Description = "",
         Picture = "teatro_dira_vol_i.jpg",
         Year = 2002,
-        AuthorId = AuthorSeeds.HorkyzeSlize.Id,
-        Author = AuthorSeeds.HorkyzeSlize,
+        AuthorId = AuthorSeeds.Maneskin.Id,
+        Author = AuthorSeeds.Maneskin,
         FilesInAlbums = []
     };
     
