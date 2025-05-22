@@ -33,11 +33,16 @@
                     HorizontalOptions="Center"
                     Spacing="20"
                     VerticalOptions="End">
-                    <Image 
-                            Source="shuffle_white.png"
+                    <Border StrokeThickness="0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleShuffleCommand}" />
+                        </Border.GestureRecognizers>
+                        <Image
                             Aspect="AspectFill"
                             HeightRequest="20"
-                    />
+                            Source="{Binding ShuffleButton}"
+                        />
+                    </Border>
                     <Image 
                         Source="previous.png"
                         Aspect="AspectFill"

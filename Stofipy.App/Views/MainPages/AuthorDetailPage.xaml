@@ -78,11 +78,38 @@
                 
                     <!-- buttons -->
                 <HorizontalStackLayout
-                    Spacing="10">
+                    Spacing="20">
                     
-                    <Button Text="Play" />
-                    <Button Text="Shuffle" />
-                    <Button Text="follow" />
+                    <Border StrokeThickness="0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PlayArtisCommand}" />
+                        </Border.GestureRecognizers>
+                        <Image
+                           Aspect="AspectFill"
+                           WidthRequest="50" HeightRequest="50"
+                           Source="play_green.png"
+                        />
+                    </Border>
+                    <Border StrokeThickness="0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleShuffleCommand}" />
+                        </Border.GestureRecognizers>
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="30"
+                            Source="{Binding ShuffleButton}"
+                        />
+                    </Border>
+                    <Button Text="{Binding FollowText}"
+                            FontAttributes="Bold"
+                            Margin="0"
+                            WidthRequest="100"
+                            FontSize="15"
+                            BackgroundColor="Transparent"
+                            CornerRadius="25"
+                            BorderColor="White"
+                            BorderWidth="1"
+                            Command="{Binding ToggleFollowCommand}"/>
                 </HorizontalStackLayout>
                 
                 

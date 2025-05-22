@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,9 +20,14 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
     private List<FileListModel> PopularFiles10 { get; set; } = new();
 
     [ObservableProperty]
-    private string seeMoreText = "See more";
+    private string _seeMoreText = "See more";
+    [ObservableProperty]
+    private string _followText = "Follow";
+
     
-    private bool _morePopularFilesShowed = false;
+    private bool _morePopularFilesShowed;
+    private bool _following;
+
     
     protected override async Task LoadDataAsync()
     {
@@ -72,6 +76,30 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
     
         SelectedFile = item;
         item.IsSelected = true;
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private Task PlayArtis(FileListModel item)
+    {
+        return Task.CompletedTask;
+    }
+    
+
+    
+    [RelayCommand]
+    private Task ToggleFollow(FileListModel item)
+    {
+        if (_following)
+        {
+            _following = false;
+            FollowText = "Follow";
+        }
+        else
+        {
+            _following = true;
+            FollowText = "Following";
+        }
         return Task.CompletedTask;
     }
 }
