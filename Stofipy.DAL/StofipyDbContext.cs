@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
+using Stofipy.DAL.Seeds;
 
 namespace Stofipy.DAL;
 
@@ -56,6 +57,15 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
             optionsBuilder
                 .UseSeeding((context, _) =>
                 {
+                    context
+                        .SeedAuthors()
+                        .SeedAlbums()
+                        // .SeedPlaylists()
+                        .SeedFiles()
+                        // .SeedTestFilesInAlbums()
+                        // .SeedFilesInPlaylists()
+                        .SeedFilesInQueue()
+                        ;
                     context.SaveChanges();
                 })
                 .UseAsyncSeeding(async (context, _, cancellationToken) =>
