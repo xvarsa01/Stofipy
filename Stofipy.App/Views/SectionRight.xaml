@@ -35,35 +35,12 @@
                 Command="{Binding CloseRightSectionCommand}">
             </Button>
         </Grid>
+        
         <Label Text="Now playing" FontAttributes="Bold" TextColor="White"/>
-        <Grid ColumnDefinitions="50, auto"
-              ColumnSpacing="10"
-              Padding="5">
-            <Image 
-                Grid.Column="0" 
-                Source="{Binding NowPlaying.Picture}"
-                Aspect="AspectFill"
-                HeightRequest="50"
-                WidthRequest="50"/>
-            <Grid
-                Grid.Column="1"
-                RowDefinitions="*, *">
-                <Label
-                    Grid.Row="0"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Text="{Binding NowPlaying.FileName}"
-                    TextColor="Green"
-                    FontSize="15"/>
-                <Label
-                    Grid.Row="1"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Text="{Binding NowPlaying.AuthorName}"
-                    TextColor="White"
-                    FontSize="13"/>
-            </Grid>
-        </Grid>
+        <components:FileWithPictureAnd2Texts 
+            Picture="{Binding NowPlaying.Picture}" 
+            TopText="{Binding NowPlaying.FileName}" 
+            BottomText="{Binding NowPlaying.AuthorName}" />
 
         <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
         <CollectionView HeightRequest="300" ItemsSource="{Binding Queue}">

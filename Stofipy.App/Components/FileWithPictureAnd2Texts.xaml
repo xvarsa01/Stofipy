@@ -19,12 +19,16 @@
         <Grid ColumnDefinitions="50, auto"
               ColumnSpacing="10"
               Padding="5">
-            <Image 
+            <Border
                 Grid.Column="0" 
-                Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                Aspect="AspectFill"
-                HeightRequest="50"
-                WidthRequest="50"/>
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 5">
+                <Image 
+                    Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    Aspect="AspectFill"
+                    HeightRequest="50"
+                    WidthRequest="50"/>
+            </Border>
             <Grid
                 Grid.Column="1"
                 RowDefinitions="*, *">
