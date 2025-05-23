@@ -23,6 +23,60 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         _filesInPlaylistFacade = filesInPlaylistFacade;
     }
 
+    public async Task<FilesInQueueModel?> GetCurrentAsync()
+    {
+        var entity = await _repository.GetByIndexAsync(0, true);
+        if (entity == null)
+        {
+            entity = await _repository.GetByIndexAsync(0, false);
+        }
+        return entity is null ?
+            null : _modelMapper.MapToDetailModel(entity);
+    }
+
+    public async Task<List<FilesInQueueModel>> GetAllPriorityFilesInQueueAsync()
+    {
+        List<FilesInQueueEntity> entities = await _repository.GetAllPriorityAsync();
+        
+        var models =  _modelMapper.MapToListModel(entities);
+        return models;
+    }
+
+    public async Task<List<FilesInQueueModel>> GetAllNonPriorityFilesInQueueAsync()
+    {
+        List<FilesInQueueEntity> entities = await _repository.GetAllNonPriorityAsync();
+        
+        var models =  _modelMapper.MapToListModel(entities);
+        return models;
+    }
+
+    public async Task NextSong()
+    {
+        if (await _repository.GetByIndexAsync(1, true) != null)
+        {
+            await DecrementIndexes(null, null, true);
+        }
+        else
+        {
+            await DecrementIndexes(null, null, true);
+            await DecrementIndexes(null, null, false);
+        }
+    }
+
+    public async Task PreviousSong()
+    {
+        if (await _repository.GetByIndexAsync(0, false) != null)
+        {
+            await IncrementIndexes(null, null, true);
+            await IncrementIndexes(null, null, false);
+            return;
+        }
+        if (await _repository.GetByIndexAsync(-1, true) != null)
+        {
+            await IncrementIndexes(null, null, true);
+        }
+    }
+
     public async Task<Guid> AddFileToQueue(Guid fileId, string fileName, string authorName)
     {
         var newFile = new FilesInQueueModel
@@ -191,20 +245,19 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         return _repository.GetMaxPriorityIndex();
     }
 
-    private async Task DecrementIndexes(int startIndex, int? endIndex, bool priority)
+    private async Task DecrementIndexes(int? startIndex, int? endIndex, bool priority)
     {
+        startIndex ??= int.MinValue;
+        endIndex ??= int.MaxValue;
+        
         var filesInQueueEntity = await _repository.GetAllAsync();
         var itemsToUpdate = filesInQueueEntity
-            .Where(f => f.Index >= startIndex);
+            .Where(f => f.Index >= startIndex)
+            .Where(f => f.Index <= endIndex);
 
         itemsToUpdate = priority
             ? itemsToUpdate.Where(e => e.PriorityQueue)
             : itemsToUpdate.Where(e => e.PriorityQueue == false);
-        
-        if (endIndex.HasValue)
-        {
-            itemsToUpdate = itemsToUpdate.Where(f => f.Index <= endIndex.Value);
-        }
             
         foreach (var item in itemsToUpdate.ToList())
         {
@@ -213,20 +266,19 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
     }
     
-    private async Task IncrementIndexes(int startIndex, int? endIndex, bool priority)
+    private async Task IncrementIndexes(int? startIndex, int? endIndex, bool priority)
     {
+        startIndex ??= int.MinValue;
+        endIndex ??= int.MaxValue;
+        
         var filesInQueueEntity = await _repository.GetAllAsync();
         var itemsToUpdate = filesInQueueEntity
-            .Where(f => f.Index >= startIndex);
+            .Where(f => f.Index >= startIndex)
+            .Where(f => f.Index <= endIndex);
 
         itemsToUpdate = priority
             ? itemsToUpdate.Where(e => e.PriorityQueue)
             : itemsToUpdate.Where(e => e.PriorityQueue == false);
-        
-        if (endIndex.HasValue)
-        {
-            itemsToUpdate = itemsToUpdate.Where(f => f.Index <= endIndex.Value);
-        }
             
         foreach (var item in itemsToUpdate.ToList())
         {

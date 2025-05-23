@@ -5,6 +5,14 @@ namespace Stofipy.DAL.Seeds;
 
 public static class FilesInQueueTestSeeds
 {
+    public static readonly FilesInQueueEntity QueueItem0 = new()
+    {
+        Id = Guid.Parse("bac96347-ee3a-4bb8-9127-eae77dfa6ed4"),
+        Index = 0,
+        File = FileSeeds.KomisarRex,
+        FileId = FileSeeds.KomisarRex.Id,
+        PriorityQueue = true
+    };
     public static readonly FilesInQueueEntity QueueItemP1 = new()
     {
         Id = Guid.Parse("6A452CF6-4375-4C5F-9D4B-FB7F8BD2AD7E"),
@@ -73,6 +81,7 @@ public static class FilesInQueueTestSeeds
     public static DbContext SeedFilesInQueue(this DbContext dbx)
     {
         dbx.Set<FilesInQueueEntity>().AddRange(
+            QueueItem0 with{File = null!},
             QueueItemP1 with{File = null!},
             QueueItemP2 with{File = null!},
             QueueItemP3 with{File = null!},

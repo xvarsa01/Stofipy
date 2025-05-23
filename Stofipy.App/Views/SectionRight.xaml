@@ -10,9 +10,10 @@
         x:DataType="viewModels:FilesInQueueVM"
 >
     
+    <ScrollView>
     <VerticalStackLayout
         Padding="20"
-        Spacing="10"
+        Spacing="20"
         BackgroundColor="#121212">
 
         <Grid
@@ -42,8 +43,20 @@
             TopText="{Binding NowPlaying.FileName}" 
             BottomText="{Binding NowPlaying.AuthorName}" />
 
+        <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
+        <CollectionView ItemsSource="{Binding PriorityQueue}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:FilesInQueueModel">
+                    <components:FileWithPictureAnd2Texts 
+                        Picture="{Binding Picture}" 
+                        TopText="{Binding FileName}" 
+                        BottomText="{Binding AuthorName}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
         <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
-        <CollectionView HeightRequest="300" ItemsSource="{Binding Queue}">
+        <CollectionView ItemsSource="{Binding BasicQueue}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:FilesInQueueModel">
                     <components:FileWithPictureAnd2Texts 
@@ -55,4 +68,5 @@
         </CollectionView>
             
     </VerticalStackLayout>
+    </ScrollView>
 </views:ContentViewBase>

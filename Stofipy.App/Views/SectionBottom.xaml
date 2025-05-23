@@ -43,21 +43,32 @@
                             Source="{Binding ShuffleButton}"
                         />
                     </Border>
-                    <Image 
-                        Source="previous.png"
-                        Aspect="AspectFill"
-                        HeightRequest="20"
-                    />
+
+                    <Border StrokeThickness="0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PreviousSongCommand}" />
+                        </Border.GestureRecognizers>
+                        <Image 
+                            Source="previous.png"
+                            Aspect="AspectFill"
+                            HeightRequest="20"
+                        />
+                    </Border>
                     <Image 
                         Source="pause.png"
                         Aspect="AspectFill"
                         HeightRequest="30"
                     />
-                    <Image 
-                        Source="next.png"
-                        Aspect="AspectFill"
-                        HeightRequest="20"
-                    />
+                    <Border StrokeThickness="0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NextSongCommand}" />
+                        </Border.GestureRecognizers>
+                        <Image 
+                            Source="next.png"
+                            Aspect="AspectFill"
+                            HeightRequest="20"
+                        />
+                    </Border>
                     <Image 
                         Source="repeat_white.png"
                         Aspect="AspectFill"

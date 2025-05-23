@@ -19,7 +19,9 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
     }
     public async Task<List<FilesInQueueEntity>> GetAllPriorityAsync()
     {
-        var query = _dbSet.Where(e => e.PriorityQueue == true);
+        var query = _dbSet
+            .Where(e => e.PriorityQueue == true)
+            .Where(e => e.Index > 0);
         query = IncludeAuthorAndDefaultAlbums(query);
         
         return await query
@@ -29,7 +31,9 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
     
     public async Task<List<FilesInQueueEntity>> GetAllNonPriorityAsync()
     {
-        var query = _dbSet.Where(e => e.PriorityQueue == false);
+        var query = _dbSet
+            .Where(e => e.PriorityQueue == false)
+            .Where(e => e.Index > 0);;
         query = IncludeAuthorAndDefaultAlbums(query);
         
         return await query
@@ -43,13 +47,13 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
         {
             return await _dbSet
                 .Where(e => e.PriorityQueue == true)
-                .SingleAsync(e => e.Index == index);
+                .SingleOrDefaultAsync(e => e.Index == index);
         }
         else
         {
             return await _dbSet
                 .Where(e => e.PriorityQueue == false)
-                .SingleAsync(e => e.Index == index);
+                .SingleOrDefaultAsync(e => e.Index == index);
         }
     }
 
