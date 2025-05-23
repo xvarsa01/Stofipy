@@ -1,9 +1,9 @@
-﻿using CookBook.DAL.Options;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Stofipy.DAL.Factories;
-using System.Reflection;
+using Stofipy.DAL.Migrator;
 using Stofipy.DAL.Repositories;
+using Stofipy.DAL.Seeds;
 
 namespace Stofipy.DAL;
 
@@ -28,7 +28,7 @@ public static class DALInstaller
         }
 
         services.AddSingleton<IDbContextFactory<StofipyDbContext>>(_ =>
-            new DbContextSqLiteFactory($"Data Source={options.DatabaseFilePath}", options.SeedDemoData));
+            new DbContextSqLiteFactory(options.DatabaseFilePath, options.SeedDemoData));
         services.AddDbContext<StofipyDbContext>(contextOptions =>
             contextOptions.UseSqlite($"Data Source={options.DatabaseFilePath}"));
         
@@ -40,8 +40,8 @@ public static class DALInstaller
             .AsImplementedInterfaces() // Register as IRepository<T>
             .WithSingletonLifetime());
 
-        // services.AddSingleton<IDbMigrator, DbMigrator>();
-        // services.AddSingleton<IDbSeeder, DbSeeder>();
+        services.AddSingleton<IDbMigrator, DbMigrator>();
+        services.AddSingleton<IDbSeeder, DbSeeder>();
 
         return services;
     }

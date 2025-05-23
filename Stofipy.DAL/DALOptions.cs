@@ -1,4 +1,4 @@
-﻿namespace CookBook.DAL.Options;
+﻿namespace Stofipy.DAL;
 
 public record DALOptions
 {

@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 using CommunityToolkit.Maui;
-using CookBook.DAL.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stofipy.App.ViewModels;
 using Stofipy.App.Views;
 using Stofipy.BL;
 using Stofipy.DAL;
+using Stofipy.DAL.Migrator;
+using Stofipy.DAL.Seeds;
 
 namespace Stofipy.App;
 
@@ -45,7 +46,11 @@ public static class MauiProgram
             .AddBLServices()
             .AddDALServices(GetDALOptions(builder.Configuration));
             
-        return builder.Build();
+        var app = builder.Build();
+        
+        MigrateDb(app.Services.GetRequiredService<IDbMigrator>());
+        SeedDb(app.Services.GetRequiredService<IDbSeeder>());
+        return app;
     }
     
     private static void ConfigureAppSettings(MauiAppBuilder builder)
@@ -73,4 +78,7 @@ public static class MauiProgram
         configuration.GetSection("Stofipy:DAL").Bind(dalOptions);
         return dalOptions;
     }
+    
+    private static void MigrateDb(IDbMigrator migrator) => migrator.Migrate();
+    private static void SeedDb(IDbSeeder dbSeeder) => dbSeeder.Seed();
 }
