@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Views;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
@@ -10,6 +11,7 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
 {
     public ObservableCollection<FilesInQueueModel> PriorityQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> BasicQueue { get; set; } = null!;
+    public ObservableCollection<FilesInQueueModel> RecentlyPlayedQueue { get; set; } = null!;
 
     public FilesInQueueModel? NowPlaying { get; set; }
 
@@ -19,10 +21,12 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
         var current = await facade.GetCurrentAsync();
         var priority = await facade.GetAllPriorityFilesInQueueAsync();
         var basic = await facade.GetAllNonPriorityFilesInQueueAsync();
+        var recent = await facade.GetRecentFilesInQueueAsync(20);
         
         NowPlaying = current;
         PriorityQueue = priority.ToObservableCollection();
         BasicQueue = basic.ToObservableCollection();
+        RecentlyPlayedQueue = recent.ToObservableCollection();
     }
 
 
@@ -58,6 +62,7 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
         PriorityQueue = priority.ToObservableCollection();
         BasicQueue = basic.ToObservableCollection();
     }
+    
     [RelayCommand]
     private async Task PreviousSong()
     {
@@ -72,5 +77,4 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
         PriorityQueue = priority.ToObservableCollection();
         BasicQueue = basic.ToObservableCollection();
     }
-    
 }

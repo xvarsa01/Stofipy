@@ -8,6 +8,7 @@ public interface IFilesInQueueFacade : IFacade<FilesInQueueEntity, FilesInQueueM
     Task<FilesInQueueModel?> GetCurrentAsync();
     Task<List<FilesInQueueModel>> GetAllPriorityFilesInQueueAsync();
     Task<List<FilesInQueueModel>> GetAllNonPriorityFilesInQueueAsync();
+    Task<List<FilesInQueueModel>> GetRecentFilesInQueueAsync(int numberOfFiles);
     Task NextSong();
     Task PreviousSong();
     

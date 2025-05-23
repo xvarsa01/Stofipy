@@ -50,6 +50,14 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         return models;
     }
 
+    public async Task<List<FilesInQueueModel>> GetRecentFilesInQueueAsync(int numberOfFiles)
+    {
+        List<FilesInQueueEntity> entities = await _repository.GetRecentAsync(numberOfFiles);
+        
+        var models =  _modelMapper.MapToListModel(entities);
+        return models;
+    }
+
     public async Task NextSong()
     {
         if (await _repository.GetByIndexAsync(1, true) != null)
