@@ -13,7 +13,9 @@ public partial class MainLayout : ContentPage
     private readonly IServiceProvider _serviceProvider;
 
     public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsVM listOfPlaylistsVM,
-        PlaylistDetailVM playlistDetailVM, AuthorDetailVM authorDetailVM, SectionTopVM sectionTopVM,
+        PlaylistDetailVM playlistDetailVM, AuthorDetailVM authorDetailVM,
+        SectionTopVM sectionTopVM,
+        SectionLeftVM sectionLeftVM,
         INavigationService navigationService,
         IServiceProvider serviceProvider)
     {
@@ -23,7 +25,7 @@ public partial class MainLayout : ContentPage
         
         LoadSectionTop(new SectionTop(sectionTopVM));
         LoadSectionBottom(new SectionBottom(filesInQueueVM));
-        LoadSectionLeft(new SectionLeft(listOfPlaylistsVM));
+        LoadSectionLeft(new SectionLeft(sectionLeftVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
         // LoadSectionMiddle(new HomePage(listOfPlaylistsVM));

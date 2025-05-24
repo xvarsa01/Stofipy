@@ -8,11 +8,12 @@
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     x:Class="Stofipy.App.Views.SectionLeft"
-    x:DataType="viewModels:ListOfPlaylistsVM"
+    x:DataType="viewModels:SectionLeftVM"
     x:Name="SectionLeftViewRoot"
 >
     
     <!-- Your library Left -->
+    <ScrollView>
     <VerticalStackLayout
         Padding="20"
         Spacing="10"
@@ -54,11 +55,24 @@
                         Picture="{Binding Picture}"
                         TopText="{Binding PlaylistName}"
                         BottomText="Playlist"
-                        TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToDetailCommand}"
+                        TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                        CommandParameter="{Binding Id}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <CollectionView ItemsSource="{Binding Authors}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:AuthorListModel">
+                    <components:FileWithPictureAnd2Texts
+                        Picture="{Binding ProfilePicture}"
+                        TopText="{Binding AuthorName}"
+                        BottomText="Author"
+                        TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToAuthorDetailCommand}"
                         CommandParameter="{Binding Id}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
     </VerticalStackLayout>
+    </ScrollView>
     
 </views:ContentViewBase>
