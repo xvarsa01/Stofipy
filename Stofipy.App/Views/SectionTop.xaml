@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:ContentViewBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Stofipy.App.Views.SectionTop">
+             x:Class="Stofipy.App.Views.SectionTop"
+             xmlns:viewModels="using:Stofipy.App.ViewModels.Global"
+             xmlns:views="using:Stofipy.App.Views"
+             x:DataType="viewModels:SectionTopVM"
+             >
     
     <!-- Top bar with searchbar and profile icon -->
     <Grid 
@@ -38,6 +42,7 @@
                 <Grid>
                     <Image Source="home_button.png" Aspect="AspectFill" WidthRequest="30" />
                     <Button BackgroundColor="Transparent"
+                        Command="{Binding GoToHomeCommand}"
                     />
                 </Grid>
             </Border>
@@ -60,4 +65,4 @@
             <Button BackgroundColor="Transparent"/>
         </Grid>
     </Grid>
-</ContentView>
+</views:ContentViewBase>

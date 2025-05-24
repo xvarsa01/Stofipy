@@ -1,4 +1,5 @@
-﻿using Stofipy.App.ViewModels;
+﻿using Stofipy.App.Services;
+using Stofipy.App.ViewModels;
 using Stofipy.App.Views;
 
 namespace Stofipy.App;
@@ -26,7 +27,7 @@ public static class AppInstaller
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
 
-        // services.AddTransient<INavigationService, NavigationService>();
+        services.AddSingleton<INavigationService, NavigationService>();
 
         return services;
     }
