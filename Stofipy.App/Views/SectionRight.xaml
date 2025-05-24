@@ -12,60 +12,106 @@
     
     <ScrollView>
     <VerticalStackLayout
-        Padding="20"
+        Padding="10"
         Spacing="20"
         BackgroundColor="#121212">
 
-        <Grid
-            ColumnDefinitions="auto, auto,  *"
-            ColumnSpacing="20">
+        <Grid ColumnDefinitions="auto, auto,  *" Padding="-10">
             <Button
                 Grid.Column="0"
                 Text="Queue"
-                Command="{Binding ShowQueueCommand}">
+                Command="{Binding ShowQueueCommand}"
+                Style="{StaticResource HoverableButtonStyle}">
+                <Button.Triggers>
+                    <DataTrigger
+                        TargetType="Button"
+                        Binding="{Binding DisplayStandardQueue}"
+                        Value="true">
+                        <Setter Property="FontAttributes" Value="Bold"/>
+                    </DataTrigger>
+                </Button.Triggers>
             </Button>
             <Button
                 Grid.Column="1"
                 Text="Recently played"
-                Command="{Binding ShowRecentlyPlayedCommand}">
+                BackgroundColor="Transparent"
+                CornerRadius="0"
+                Command="{Binding ShowRecentlyPlayedCommand}"
+                Style="{StaticResource HoverableButtonStyle}">
+                <Button.Triggers>
+                    <DataTrigger
+                        TargetType="Button"
+                        Binding="{Binding DisplayRecentlyPlayed}"
+                        Value="true">
+                        <Setter Property="FontAttributes" Value="Bold"/>
+                    </DataTrigger>
+                </Button.Triggers>
             </Button>
             <Button
                 Grid.Column="2"
                 Text="X"
                 HorizontalOptions="End"
-                Command="{Binding CloseRightSectionCommand}">
+                Command="{Binding CloseRightSectionCommand}"
+                Style="{StaticResource HoverableButtonStyle}">
             </Button>
         </Grid>
         
-        <Label Text="Now playing" FontAttributes="Bold" TextColor="White"/>
-        <components:FileWithPictureAnd2Texts 
-            Picture="{Binding NowPlaying.Picture}" 
-            TopText="{Binding NowPlaying.FileName}" 
-            BottomText="{Binding NowPlaying.AuthorName}" />
-
-        <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
-        <CollectionView ItemsSource="{Binding PriorityQueue}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:FilesInQueueModel">
-                    <components:FileWithPictureAnd2Texts 
-                        Picture="{Binding Picture}" 
-                        TopText="{Binding FileName}" 
-                        BottomText="{Binding AuthorName}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <!-- Recently played -->
+        <VerticalStackLayout IsVisible="{Binding DisplayRecentlyPlayed}">
+            <Label Text="Recently played" FontAttributes="Bold" TextColor="White"/>
+            <CollectionView ItemsSource="{Binding RecentlyPlayedQueue}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FilesInQueueModel">
+                        <components:FileWithPictureAnd2Texts 
+                            Picture="{Binding Picture}" 
+                            TopText="{Binding FileName}" 
+                            BottomText="{Binding AuthorName}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>        
+        </VerticalStackLayout>
         
-        <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
-        <CollectionView ItemsSource="{Binding BasicQueue}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:FilesInQueueModel">
-                    <components:FileWithPictureAnd2Texts 
-                        Picture="{Binding Picture}" 
-                        TopText="{Binding FileName}" 
-                        BottomText="{Binding AuthorName}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <!-- Queue -->
+        <VerticalStackLayout
+            IsVisible="{Binding DisplayStandardQueue}"
+            Spacing="20">
+            
+            <Label Text="Now playing" FontAttributes="Bold" TextColor="White"/>
+            <components:FileWithPictureAnd2Texts 
+                Picture="{Binding NowPlaying.Picture}" 
+                TopText="{Binding NowPlaying.FileName}" 
+                BottomText="{Binding NowPlaying.AuthorName}" />
+
+            
+            <VerticalStackLayout
+                IsVisible="{Binding DisplayPriorityQueue}"
+                Spacing="20">
+                
+                <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
+                <CollectionView ItemsSource="{Binding PriorityQueue}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FilesInQueueModel">
+                            <components:FileWithPictureAnd2Texts 
+                                Picture="{Binding Picture}" 
+                                TopText="{Binding FileName}" 
+                                BottomText="{Binding AuthorName}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            
+            <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
+            <CollectionView ItemsSource="{Binding BasicQueue}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FilesInQueueModel">
+                        <components:FileWithPictureAnd2Texts 
+                            Picture="{Binding Picture}" 
+                            TopText="{Binding FileName}" 
+                            BottomText="{Binding AuthorName}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
             
     </VerticalStackLayout>
     </ScrollView>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Stofipy.App.Views;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
@@ -14,32 +14,40 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
     public ObservableCollection<FilesInQueueModel> RecentlyPlayedQueue { get; set; } = null!;
 
     public FilesInQueueModel? NowPlaying { get; set; }
-
+    
+    [ObservableProperty]
+    private bool _displayStandardQueue = true;
+    [ObservableProperty]
+    private bool _displayRecentlyPlayed;
+    
+    [ObservableProperty]
+    private bool _displayPriorityQueue = true;
+    
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
-        var current = await facade.GetCurrentAsync();
-        var priority = await facade.GetAllPriorityFilesInQueueAsync();
-        var basic = await facade.GetAllNonPriorityFilesInQueueAsync();
-        var recent = await facade.GetRecentFilesInQueueAsync(20);
+
+        NowPlaying = await facade.GetCurrentAsync();
+        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
+        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
+        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
         
-        NowPlaying = current;
-        PriorityQueue = priority.ToObservableCollection();
-        BasicQueue = basic.ToObservableCollection();
-        RecentlyPlayedQueue = recent.ToObservableCollection();
+        DisplayPriorityQueue = PriorityQueue.Count != 0;
     }
 
 
     [RelayCommand]
     private void ShowQueue()
     {
-        
+        DisplayStandardQueue = true;
+        DisplayRecentlyPlayed = false;
     }
 
     [RelayCommand]
     private void ShowRecentlyPlayed()
     {
-        
+        DisplayStandardQueue = false;
+        DisplayRecentlyPlayed = true;
     }
     
     [RelayCommand]
@@ -54,13 +62,13 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
         await facade.NextSong();
         
         await base.LoadDataAsync();
-        var current = await facade.GetCurrentAsync();
-        var priority = await facade.GetAllPriorityFilesInQueueAsync();
-        var basic = await facade.GetAllNonPriorityFilesInQueueAsync();
+
+        NowPlaying = await facade.GetCurrentAsync();
+        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
+        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
+        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
         
-        NowPlaying = current;
-        PriorityQueue = priority.ToObservableCollection();
-        BasicQueue = basic.ToObservableCollection();
+        DisplayPriorityQueue = PriorityQueue.Count != 0;
     }
     
     [RelayCommand]
@@ -69,12 +77,12 @@ public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
         await facade.PreviousSong();
         
         await base.LoadDataAsync();
-        var current = await facade.GetCurrentAsync();
-        var priority = await facade.GetAllPriorityFilesInQueueAsync();
-        var basic = await facade.GetAllNonPriorityFilesInQueueAsync();
+
+        NowPlaying = await facade.GetCurrentAsync();
+        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
+        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
+        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
         
-        NowPlaying = current;
-        PriorityQueue = priority.ToObservableCollection();
-        BasicQueue = basic.ToObservableCollection();
+        DisplayPriorityQueue = PriorityQueue.Count != 0;
     }
 }
