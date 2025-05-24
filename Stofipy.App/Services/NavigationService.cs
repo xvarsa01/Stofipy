@@ -20,20 +20,20 @@ public class NavigationService : INavigationService
         _filesInQueueVM = filesInQueueVM;
     }
 
-    public event Action<NavigationRequest>? NavigationRequested;
+    public event Func<NavigationRequest, Task>? NavigationRequested;
 
     public void NavigateToHome()
     {
         NavigationRequested?.Invoke(new NavigateToHomeRequest());
     }
 
-    public void NavigateToPlaylist(PlaylistDetailVM vm)
+    public void NavigateToPlaylist(Guid playlistId)
     {
-        NavigationRequested?.Invoke(new NavigateToPlaylistRequest(vm));
+        NavigationRequested?.Invoke(new NavigateToPlaylistRequest(playlistId));
     }
 
-    public void NavigateToAuthor(AuthorDetailVM vm)
+    public void NavigateToAuthor(Guid authorId)
     {
-        NavigationRequested?.Invoke(new NavigateToAuthorRequest(vm));
+        NavigationRequested?.Invoke(new NavigateToAuthorRequest(authorId));
     }
 }

@@ -7,11 +7,12 @@ namespace Stofipy.App.ViewModels;
 
 public partial class PlaylistDetailVM : ViewModelBase
 {
+    private Guid Id { get; set; }
     public PlaylistDetailModel Playlist { get; set; } = new ()
     {
         Id = Guid.NewGuid(),
         PlaylistName = "Tenerife Vacay",
-        Description = null,
+        Description = "test",
         Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
         Length = 0,
         IsPublic = false,
@@ -57,6 +58,12 @@ public partial class PlaylistDetailVM : ViewModelBase
             Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
         }
     };
+    
+    public async Task LoadByIdAsync(Guid id)
+    {
+        Id = id;
+        await LoadDataAsync();
+    }
             
     [RelayCommand]
     private async Task SelectRowAsync(FilesInPlaylistModel item)

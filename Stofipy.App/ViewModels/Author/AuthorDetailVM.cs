@@ -7,11 +7,9 @@ using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels.Author;
 
-[QueryProperty(nameof(Id), nameof(Id))]
-
 public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade) : ViewModelBase
 {
-    public Guid Id { get; set; } = Guid.Parse("63E304C0-F051-436D-A466-3048C1C0D31F");
+    private Guid Id { get; set; }
     public AuthorDetailModel? Author { get; set; }
     
     private FileListModel? SelectedFile {get; set; }
@@ -28,7 +26,11 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
     private bool _morePopularFilesShowed;
     private bool _following;
 
-    
+    public async Task LoadByIdAsync(Guid id)
+    {
+        Id = id;
+        await LoadDataAsync();
+    }
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
@@ -84,8 +86,6 @@ public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade
     {
         return Task.CompletedTask;
     }
-    
-
     
     [RelayCommand]
     private Task ToggleFollow(FileListModel item)

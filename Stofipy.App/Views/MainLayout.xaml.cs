@@ -10,12 +10,15 @@ namespace Stofipy.App.Views;
 public partial class MainLayout : ContentPage
 {
     private readonly ListOfPlaylistsVM _listOfPlaylistsVM;
+    private readonly IServiceProvider _serviceProvider;
 
     public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsVM listOfPlaylistsVM,
         PlaylistDetailVM playlistDetailVM, AuthorDetailVM authorDetailVM, SectionTopVM sectionTopVM,
-        INavigationService navigationService)
+        INavigationService navigationService,
+        IServiceProvider serviceProvider)
     {
         _listOfPlaylistsVM = listOfPlaylistsVM;
+        _serviceProvider = serviceProvider;
         InitializeComponent();
         
         LoadSectionTop(new SectionTop(sectionTopVM));
@@ -54,7 +57,7 @@ public partial class MainLayout : ContentPage
         CenterContent.Content = view;
     }
     
-    private void OnNavigationRequested(NavigationRequest request)
+    private async Task OnNavigationRequested(NavigationRequest request)
     {
         switch (request)
         {
@@ -63,11 +66,15 @@ public partial class MainLayout : ContentPage
                 break;
 
             case NavigateToAuthorRequest authorRequest:
-                LoadSectionMiddle(new AuthorDetailPage(authorRequest.ViewModel));
+                var authorDetailVM = _serviceProvider.GetRequiredService<AuthorDetailVM>();
+                await authorDetailVM.LoadByIdAsync(authorRequest.AuthorId);
+                LoadSectionMiddle(new AuthorDetailPage(authorDetailVM));
                 break;
 
             case NavigateToPlaylistRequest playlistRequest:
-                LoadSectionMiddle(new PlaylistDetailPage(playlistRequest.ViewModel));
+                var playlistDetailVM = _serviceProvider.GetRequiredService<PlaylistDetailVM>();
+                await playlistDetailVM.LoadByIdAsync(playlistRequest.PlaylistId);
+                LoadSectionMiddle(new PlaylistDetailPage(playlistDetailVM));
                 break;
         }
     }

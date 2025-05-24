@@ -5,10 +5,10 @@ namespace Stofipy.App.Services;
 
 public interface INavigationService
 {
-    event Action<NavigationRequest>? NavigationRequested;
+    event Func<NavigationRequest, Task>? NavigationRequested;
 
     void NavigateToHome();
-    void NavigateToPlaylist(PlaylistDetailVM vm);
-    void NavigateToAuthor(AuthorDetailVM vm);
+    void NavigateToPlaylist(Guid playlistId);
+    void NavigateToAuthor(Guid authorId);
 
 }

@@ -7,22 +7,12 @@ public abstract class NavigationRequest { }
 
 public class NavigateToHomeRequest : NavigationRequest { }
 
-public class NavigateToAuthorRequest : NavigationRequest
+public class NavigateToAuthorRequest(Guid authorId) : NavigationRequest
 {
-    public AuthorDetailVM ViewModel { get; }
-
-    public NavigateToAuthorRequest(AuthorDetailVM vm)
-    {
-        ViewModel = vm;
-    }
+    public Guid AuthorId { get; } = authorId;
 }
 
-public class NavigateToPlaylistRequest : NavigationRequest
+public class NavigateToPlaylistRequest(Guid playlistId) : NavigationRequest
 {
-    public PlaylistDetailVM ViewModel { get; }
-
-    public NavigateToPlaylistRequest(PlaylistDetailVM vm)
-    {
-        ViewModel = vm;
-    }
+    public Guid PlaylistId { get; } = playlistId;
 }
