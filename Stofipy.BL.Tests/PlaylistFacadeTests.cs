@@ -31,6 +31,7 @@ public class PlaylistFacadeTests : FacadeTestsBase
             PlaylistName = "PlaylistName",
             Description = "Description",
             Length = 0,
+            IsPublic = false,
         };
 
         var _ = await _playlistFacade.CreateAsync(model);
