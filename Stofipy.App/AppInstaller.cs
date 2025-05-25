@@ -1,4 +1,6 @@
-﻿using Stofipy.App.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Services;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.App.ViewModels;
 using Stofipy.App.Views;
 
@@ -10,8 +12,8 @@ public static class AppInstaller
     {
         services.AddSingleton<AppShell>();
 
-        // services.AddSingleton<IMessenger>(_ => StrongReferenceMessenger.Default);
-        // services.AddSingleton<IMessengerService, MessengerService>();
+        services.AddSingleton<IMessenger>(_ => StrongReferenceMessenger.Default);
+        services.AddSingleton<IMessengerService, MessengerService>();
         
         // services.AddSingleton<IAlertService, AlertService>();
 

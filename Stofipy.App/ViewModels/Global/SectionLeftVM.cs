@@ -2,12 +2,17 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using Stofipy.App.Services;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-public partial class SectionLeftVM(IPlaylistFacade playlistFacade, IAuthorFacade authorFacade, INavigationService navigationService) : ViewModelBase
+public partial class SectionLeftVM(
+    IPlaylistFacade playlistFacade,
+    IAuthorFacade authorFacade,
+    INavigationService navigationService,
+    IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     public ObservableCollection<PlaylistListModel> Playlists { get; set; } = [];
     public ObservableCollection<AuthorListModel> Authors { get; set; } = [];

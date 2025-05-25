@@ -2,12 +2,18 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Messages;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-public partial class FilesInQueueVM(IFilesInQueueFacade facade) : ViewModelBase
+public partial class FilesInQueueVM(
+    IFilesInQueueFacade facade,
+    IMessengerService messengerService)
+    : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>
 {
     public ObservableCollection<FilesInQueueModel> PriorityQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> BasicQueue { get; set; } = null!;

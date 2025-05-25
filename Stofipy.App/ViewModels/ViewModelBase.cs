@@ -2,23 +2,21 @@
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-public abstract partial class ViewModelBase : ObservableObject, IViewModel, INotifyPropertyChanged
+public abstract partial class ViewModelBase : ObservableRecipient, IViewModel, INotifyPropertyChanged
 {
     private bool _forceDataRefresh = true;
 
-    // protected readonly IMessengerService MessengerService;
-
-    // protected ViewModelBase(IMessengerService messengerService)
-    //     : base(messengerService.Messenger)
-    protected ViewModelBase()
-        : base()
+    protected readonly IMessengerService MessengerService;
+    protected ViewModelBase(IMessengerService messengerService)
+        : base(messengerService.Messenger)
     {
-        // MessengerService = messengerService;
-        // IsActive = true;
+        MessengerService = messengerService;
+        IsActive = true;
     }
 
     public async Task OnAppearingAsync()

@@ -1,13 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Messages;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-public partial class PlaylistDetailVM (IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade ,IFilesInQueueFacade filesInQueueFacade) : ViewModelBase
+public partial class PlaylistDetailVM (
+    IPlaylistFacade playlistFacade,
+    IFilesInPlaylistFacade filesInPlaylistFacade,
+    IFilesInQueueFacade filesInQueueFacade,
+    IMessengerService messengerService)
+    : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
     public PlaylistDetailModel Playlist { get; set; } = null!;

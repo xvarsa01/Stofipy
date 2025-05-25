@@ -2,12 +2,16 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels.Author;
 
-public partial class AuthorDetailVM(IAuthorFacade facade, IFileFacade fileFacade) : ViewModelBase
+public partial class AuthorDetailVM(
+    IAuthorFacade facade,
+    IFileFacade fileFacade,
+    IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
     public AuthorDetailModel? Author { get; set; }
