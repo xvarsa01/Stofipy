@@ -1,79 +1,52 @@
 ﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 
 namespace Stofipy.App.ViewModels;
 
-public partial class PlaylistDetailVM : ViewModelBase
+public partial class PlaylistDetailVM (IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade ,IFilesInQueueFacade filesInQueueFacade) : ViewModelBase
 {
     private Guid Id { get; set; }
-    public PlaylistDetailModel Playlist { get; set; } = new ()
-    {
-        Id = Guid.NewGuid(),
-        PlaylistName = "Tenerife Vacay",
-        Description = "test",
-        Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
-        Length = 0,
-        IsPublic = false,
-    };
+    public PlaylistDetailModel Playlist { get; set; } = null!;
     
     private FilesInPlaylistModel? SelectedFile {get; set; }
-    public ObservableCollection<FilesInPlaylistModel> Files { get; init; } = new()
-    {
-        new FilesInPlaylistModel
-        {
-            Id = Guid.Parse("1F794072-4CFE-4030-B03D-05DB93B3EC07"),
-            IndexActual = 1,
-            IndexCustom = 1,
-            FileId = Guid.NewGuid(),
-            FileName = "TEST FILE",
-            AuthorName = "Author of the file",
-            DefaultAlbumName = "Default album",
-            Length = 120,
-            Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
-        },
-        new FilesInPlaylistModel
-        {
-            Id = Guid.Parse("1F794072-4CFE-4030-B03D-05DB93B3E123"),
-            IndexActual = 2,
-            IndexCustom = 2,
-            FileId = Guid.NewGuid(),
-            FileName = "TEST FILE 2",
-            AuthorName = "Author of the file2",
-            DefaultAlbumName = "Default album",
-            Length = 150,
-            Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
-        },
-        new FilesInPlaylistModel
-        {
-            Id = Guid.Parse("1F794072-4CFE-4030-B03D-05DB93B3E123"),
-            IndexActual = 3,
-            IndexCustom = 3,
-            FileId = Guid.NewGuid(),
-            FileName = "TEST FILE 3",
-            AuthorName = "Author of the file3",
-            DefaultAlbumName = "Default album",
-            Length = 180,
-            Picture = "https://img.icons8.com/?size=100&id=14089&format=png&color=000000",
-        }
-    };
+    public ObservableCollection<FilesInPlaylistModel> Files { get; set; } = [];
     
     public async Task LoadByIdAsync(Guid id)
     {
         Id = id;
         await LoadDataAsync();
     }
-            
-    [RelayCommand]
-    private async Task SelectRowAsync(FilesInPlaylistModel item)
+    
+    protected override async Task LoadDataAsync()
     {
-        Files.First().DefaultAlbumName += "test";
-        
+        await base.LoadDataAsync();
+        Playlist = await playlistFacade.GetByIdAsync(Id) ?? PlaylistDetailModel.Empty;
+        Files = (await filesInPlaylistFacade.GetAllAsync(Id, 1, 10)).ToObservableCollection();
+    }
+    [RelayCommand]
+    private async Task PlayPlaylistAsync()
+    {
+        await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
+    }
+    
+    [RelayCommand]
+    private Task PlayItemAsync(FilesInPlaylistModel item)
+    {
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task SelectRowAsync(FilesInPlaylistModel item)
+    {
         if (SelectedFile != null)
             SelectedFile.IsSelected = false;
     
         SelectedFile = item;
         item.IsSelected = true;
+        return Task.CompletedTask;
     }
 }
