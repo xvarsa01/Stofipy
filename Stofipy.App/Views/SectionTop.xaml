@@ -3,7 +3,7 @@
 <views:ContentViewBase xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Stofipy.App.Views.SectionTop"
-             xmlns:viewModels="using:Stofipy.App.ViewModels.Global"
+             xmlns:viewModels="using:Stofipy.App.ViewModels"
              xmlns:views="using:Stofipy.App.Views"
              x:DataType="viewModels:SectionTopVM"
              >

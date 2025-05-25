@@ -1,7 +1,7 @@
 ﻿using Stofipy.App.Services;
 using Stofipy.App.ViewModels;
 using Stofipy.App.ViewModels.Author;
-using Stofipy.App.ViewModels.Global;
+using SectionTopVM = Stofipy.App.ViewModels.SectionTopVM;
 using Stofipy.App.Views.MainPages;
 using NavigationRequest = Stofipy.App.Services.NavigationRequest;
 

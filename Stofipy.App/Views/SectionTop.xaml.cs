@@ -1,4 +1,4 @@
-﻿using Stofipy.App.ViewModels.Global;
+﻿using SectionTopVM = Stofipy.App.ViewModels.SectionTopVM;
 
 namespace Stofipy.App.Views;
 
