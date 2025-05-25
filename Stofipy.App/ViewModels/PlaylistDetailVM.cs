@@ -37,6 +37,7 @@ public partial class PlaylistDetailVM (
     private async Task PlayPlaylistAsync()
     {
         await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
+        MessengerService.Send(new RefreshQueueMessage());
     }
     
     [RelayCommand]

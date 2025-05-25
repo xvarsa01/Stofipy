@@ -91,4 +91,9 @@ public partial class FilesInQueueVM(
         
         DisplayPriorityQueue = PriorityQueue.Count != 0;
     }
+    
+    public async void Receive(RefreshQueueMessage message)
+    {
+        await LoadDataAsync();
+    }
 }
