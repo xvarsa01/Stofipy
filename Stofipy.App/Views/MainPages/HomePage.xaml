@@ -6,8 +6,11 @@
     xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
+    xmlns:components="using:Stofipy.App.Components"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
-    x:DataType="viewModels:ListOfPlaylistsVM">
+    x:DataType="viewModels:ListOfPlaylistsVM"
+    x:Name="HomeViewRoot"
+    >
     
     <!-- Main Middle -->
     <Grid
@@ -32,20 +35,12 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlaylistListModel">
-                        <Grid ColumnDefinitions="50, auto"
-                              BackgroundColor="Red"
-                              ColumnSpacing="10">
-                            <Image 
-                                Grid.Column="0" 
-                                Source="{Binding Picture}" 
-                                Aspect="AspectFill"
-                                HeightRequest="50"
-                                WidthRequest="50"/>
-                            <Label Grid.Column="1"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Start"
-                                   Text="{Binding PlaylistName}"/>
-                        </Grid>
+                        <components:FileWithPictureAnd2Texts
+                            Picture="{Binding Picture}"
+                            TopText="{Binding PlaylistName}"
+                            BottomText="Playlist"
+                            TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                            CommandParameter="{Binding Id}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
