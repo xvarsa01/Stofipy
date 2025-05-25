@@ -16,10 +16,10 @@ public class DbSeeder(IDbContextFactory<StofipyDbContext> dbContextFactory, DALO
             dbContext
                 .SeedAuthors()
                 .SeedAlbums()
-                // .SeedPlaylists()
+                .SeedPlaylists()
                 .SeedFiles()
                 // .SeedTestFilesInAlbums()
-                // .SeedFilesInPlaylists()
+                .SeedFilesInPlaylists()
                 .SeedFilesInQueue()
                 ;
             await dbContext.SaveChangesAsync(cancellationToken);
