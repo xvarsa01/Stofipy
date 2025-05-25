@@ -33,7 +33,7 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
     {
         var query = _dbSet
             .Where(e => e.PriorityQueue == false)
-            .Where(e => e.Index > 0);;
+            .Where(e => e.Index > 0);
         query = IncludeAuthorAndDefaultAlbums(query);
         
         return await query
@@ -43,11 +43,11 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
     public async Task<List<FilesInQueueEntity>> GetRecentAsync(int numberOfFiles)
     {
         var query = _dbSet
-            .Where(e => e.Index < 0);;
+            .Where(e => e.Index < 0);
         query = IncludeAuthorAndDefaultAlbums(query);
         
         return await query
-            .OrderBy(e => e.Index)
+            .OrderByDescending(e => e.Index)
             .Take(numberOfFiles)
             .ToListAsync();
     }
