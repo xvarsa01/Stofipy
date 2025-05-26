@@ -18,7 +18,7 @@ public class DbSeeder(IDbContextFactory<StofipyDbContext> dbContextFactory, DALO
                 .SeedAlbums()
                 .SeedPlaylists()
                 .SeedFiles()
-                // .SeedTestFilesInAlbums()
+                .SeedFilesInAlbums()
                 .SeedFilesInPlaylists()
                 .SeedFilesInQueue()
                 ;
