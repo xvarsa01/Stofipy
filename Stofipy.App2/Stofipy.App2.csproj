@@ -17,4 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Stofipy.BL\Stofipy.BL.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.json" />
+  </ItemGroup>
 </Project>

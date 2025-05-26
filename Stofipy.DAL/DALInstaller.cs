@@ -31,14 +31,28 @@ public static class DALInstaller
             new DbContextSqLiteFactory(options.DatabaseFilePath, options.SeedDemoData));
         services.AddDbContext<StofipyDbContext>(contextOptions =>
             contextOptions.UseSqlite($"Data Source={options.DatabaseFilePath}"));
-        
-        services.Scan(scan => scan
-            .FromAssemblyOf<StofipyDbContext>()
-            .AddClasses(c => c.AssignableTo(typeof(IRepository<>))
-                .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
-            .AsSelf()                 // Register concrete type
-            .AsImplementedInterfaces() // Register as IRepository<T>
-            .WithSingletonLifetime());
+
+
+        if (options.MauiApp)
+        {
+            services.Scan(scan => scan
+                .FromAssemblyOf<StofipyDbContext>()
+                .AddClasses(c => c.AssignableTo(typeof(IRepository<>))
+                    .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+                .AsSelf()                 // Register concrete type
+                .AsImplementedInterfaces() // Register as IRepository<T>
+                .WithSingletonLifetime());
+        }
+        else
+        {
+            services.Scan(scan => scan
+                .FromAssemblyOf<StofipyDbContext>()
+                .AddClasses(c => c.AssignableTo(typeof(IRepository<>))
+                    .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+        }
 
         services.AddSingleton<IDbMigrator, DbMigrator>();
         services.AddSingleton<IDbSeeder, DbSeeder>();

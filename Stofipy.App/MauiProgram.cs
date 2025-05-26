@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -41,10 +42,11 @@ public static class MauiProgram
             
         builder.Services.AddSingleton<AppShell>();
             
+        var options = GetDALOptions(builder.Configuration);
         builder.Services
             .AddAppServices()
-            .AddBLServices()
-            .AddDALServices(GetDALOptions(builder.Configuration));
+            .AddBLServices(options)
+            .AddDALServices(options);
             
         var app = builder.Build();
         
@@ -69,11 +71,12 @@ public static class MauiProgram
         builder.Configuration.AddConfiguration(configuration);
     }
     
-    private static DALOptions GetDALOptions(IConfiguration configuration)
+    private static DALOptions GetDALOptions(IConfiguration configuration, [CallerFilePath] string sourceFilePath = "")
     {
+        var relativePath = Path.Combine(Path.GetDirectoryName(sourceFilePath)!,"../Stofipy.DAL");
         DALOptions dalOptions = new()
         {
-            DatabaseDirectory = FileSystem.AppDataDirectory
+            DatabaseDirectory = Path.GetFullPath(relativePath)
         };
         configuration.GetSection("Stofipy:DAL").Bind(dalOptions);
         return dalOptions;
