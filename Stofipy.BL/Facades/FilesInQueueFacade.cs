@@ -13,14 +13,19 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
     private readonly FilesInQueueRepository _repository;
     private readonly FilesInQueueModelMapper _modelMapper;
     private readonly IPlaylistFacade _playlistFacade;
+    private readonly IAlbumFacade _albumFacade;
     private readonly IFilesInPlaylistFacade _filesInPlaylistFacade;
+    private readonly IFilesInAlbumFacade _filesInAlbumFacade;
     public FilesInQueueFacade(FilesInQueueRepository repository, FilesInQueueModelMapper modelMapper,
-        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade) : base(repository, modelMapper)
+        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade, IAlbumFacade albumFacade, IFilesInAlbumFacade filesInAlbumFacade)
+        : base(repository, modelMapper)
     {
         _modelMapper = modelMapper;
         _repository = repository;
         _playlistFacade = playlistFacade;
         _filesInPlaylistFacade = filesInPlaylistFacade;
+        _albumFacade = albumFacade;
+        _filesInAlbumFacade = filesInAlbumFacade;
     }
 
     public async Task<FilesInQueueModel?> GetCurrentAsync()
@@ -140,6 +145,28 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
     }
 
+    public async Task AddAlbumToQueue(Guid albumId, bool randomShuffle)
+    {
+        AlbumDetailModel? album = await _albumFacade.GetByIdAsync(albumId);
+        if (album == null)
+        {
+            throw new InvalidDataException("Album not found");
+        }
+        
+        await RemoveAllFromQueue(false);
+
+        var files = await _filesInAlbumFacade.GetAllByAlbumIdAsync(album.Id);
+        if (randomShuffle)
+        {
+            files = files.OrderBy(_ => Guid.NewGuid()).ToList();
+        }
+        
+        foreach (var item in files)
+        {
+            await AddFileToNonPriorityQueue(item.FileId, item.FileName, album.AuthorName);
+        }
+        
+    }
     public async Task<Task> AddPlaylistToQueue(Guid playlistId, bool randomShuffle)
     {
         PlaylistDetailModel? playlist = await _playlistFacade.GetByIdAsync(playlistId);
