@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="**/*.dothtml;**/*.dotmaster;**/*.dotcontrol" Exclude="obj/**/*.*;bin/**/*.*" CopyToPublishDirectory="Always" />
+    <None Remove="**/*.dothtml;**/*.dotmaster;**/*.dotcontrol" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="dotvvm_serialized_config.json.tmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DotVVM.AspNetCore" Version="5.0.0-preview02-final" />
+    <PackageReference Include="DotVVM.HotReload.AspNetCore" Version="5.0.0-preview02-final" />
+
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stofipy.BL\Stofipy.BL.csproj" />
+  </ItemGroup>
+</Project>
