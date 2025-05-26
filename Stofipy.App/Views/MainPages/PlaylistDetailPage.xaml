@@ -89,21 +89,19 @@
                 <SearchBar Grid.Column="3" Text="Search"/>
                 <Button Grid.Column="4" Text="Sort" />
             </Grid>
-        
-            <!-- table header -->
-            <Grid Grid.Row="2"
-                  ColumnDefinitions="50, *, *, auto"
-                  Padding="20,5"
-                  >
-                <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
-                <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
-                <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Album" />
-                <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="⏱" />
-            </Grid>
-        
+            
             <!-- songs in playlist -->
             <CollectionView Grid.Row="3" 
                             ItemsSource="{Binding Files}">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="30, *, *, auto"
+                          Padding="20,5">
+                        <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
+                        <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
+                        <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Album" />
+                        <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="⏱" />
+                    </Grid>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInPlaylistModel">
                         <Border 
@@ -129,7 +127,7 @@
                             </Border.GestureRecognizers>
 
                             <Grid
-                                ColumnDefinitions="50, *, *, auto">
+                                ColumnDefinitions="30, *, *, auto">
                                 <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
                                        Text="{Binding IndexActual}"></Label>
                             
