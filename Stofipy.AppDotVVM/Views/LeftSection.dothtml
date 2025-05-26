@@ -1,0 +1,30 @@
+﻿@viewModel Stofipy.AppDotVVM.ViewModels.LeftSectionVM, Stofipy.AppDotVVM
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    Playlists:
+    <dot:Repeater DataSource="{value: Playlists}">
+        <ItemTemplate>
+            <div>
+                <span>{{value: _this.PlaylistName}}</span>
+                <span>{{value: _this.Picture}}</span>
+                <span>Playlist</span>
+                <dot:Button click="{command: _root.GoToPlaylistDetailAsync(_this.Id)}" Text="go to detail">
+            </div>
+        </ItemTemplate>
+    </dot:Repeater>
+
+    Authors:
+    <dot:Repeater DataSource="{value: Authors}">
+        <ItemTemplate>
+            <div>
+                <span>{{value: _this.AuthorName}}</span>
+                <span>Author</span>
+                <dot:Button click="{command: _root.GoToAuthorDetailAsync(_this.Id)}" Text="go to detail">
+            </div>
+        </ItemTemplate>
+    </dot:Repeater>
+
+</dot:Content>
+

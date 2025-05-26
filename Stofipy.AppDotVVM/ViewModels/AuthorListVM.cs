@@ -8,7 +8,7 @@ using DotVVM.Framework.Hosting;
 
 namespace Stofipy.AppDotVVM.ViewModels
 {
-    public class AuthorListPageVM : MasterPageViewModel
+    public class AuthorListVM : MasterPageViewModel
     {
         
     }

@@ -38,6 +38,7 @@ namespace Stofipy.AppDotVVM
             config.RouteTable.Add("Default", "", "Views/Default.dothtml");
             config.RouteTable.Add("Test", "test", "Views/Test.dothtml");
             config.RouteTable.Add("Author", "author", "Views/AutorDetailPage.dothtml");
+            config.RouteTable.Add("Left", "left", "Views/LeftSection.dothtml");
 
             // Uncomment the following line to auto-register all dothtml files in the Views folder
             // config.RouteTable.AutoDiscoverRoutes(new DefaultRouteStrategy(config, viewsFolder: "Views"));   

@@ -52,6 +52,7 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        
         if (seedData)
         {
             optionsBuilder
