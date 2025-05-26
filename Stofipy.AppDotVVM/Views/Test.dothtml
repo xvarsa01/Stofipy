@@ -1,0 +1,10 @@
+﻿@viewModel Stofipy.AppDotVVM.ViewModels.TestViewModel, Stofipy.AppDotVVM
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+    <div>
+        <p>Hello word</p>
+    </div>
+
+</dot:Content>
+

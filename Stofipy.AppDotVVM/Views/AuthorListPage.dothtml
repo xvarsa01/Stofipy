@@ -1,0 +1,8 @@
+﻿@viewModel Stofipy.AppDotVVM.ViewModels.AuthorListPageVM, Stofipy.AppDotVVM
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+
+</dot:Content>
+
