@@ -3,14 +3,14 @@
 <views:ContentViewBase
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
+    xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels.Album"
     xmlns:components="clr-namespace:Stofipy.App.Components"
     xmlns:converters="clr-namespace:Stofipy.App.Converters"
-    x:Class="Stofipy.App.Views.MainPages.PlaylistDetailPage"
-    x:Name="PlaylistDetailViewRoot"
-    x:DataType="viewModels:PlaylistDetailVM"
+    x:Class="Stofipy.App.Views.MainPages.AlbumDetailPage"
+    x:Name="AlbumDetailViewRoot"
+    x:DataType="viewModels:AlbumDetailVM"
     >
     
     <ContentView.Resources>
@@ -45,7 +45,7 @@
                 >
                 <Image 
                     Grid.Column="0" 
-                    Source="{Binding Playlist.Picture}"
+                    Source="{Binding Album.Picture}"
                     Aspect="AspectFill"
                     HeightRequest="150"
                     WidthRequest="150"/>
@@ -56,12 +56,12 @@
                     Padding="10,0,0,20">
                     <Label
                         HorizontalOptions="Start"
-                        Text="{Binding Playlist.PublicStatus}"
+                        Text="Album"
                         TextColor="White"
                         FontSize="15"/>
                     <Label
                         HorizontalOptions="Start"
-                        Text="{Binding Playlist.PlaylistName}"
+                        Text="{Binding Album.AlbumName}"
                         TextColor="White"
                         FontSize="50"
                         FontFamily="FuturaBold"
@@ -69,7 +69,7 @@
                         />
                     <Label
                         HorizontalOptions="Start"
-                        Text="{Binding Playlist.LengthFormatted}"
+                        Text="{Binding Album.LengthFormatted}"
                         TextColor="White"
                         FontSize="15"/>
                 </VerticalStackLayout>
@@ -83,14 +83,14 @@
             
                 <Button Grid.Column="0"
                         Text="Play"
-                        Command="{Binding PlayPlaylistCommand}"/>
+                        Command="{Binding PlayAlbumCommand}"/>
                 <Button Grid.Column="1" Text="Shuffle" />
                 <Button Grid.Column="2" Text="Download" />
                 <SearchBar Grid.Column="3" Text="Search"/>
                 <Button Grid.Column="4" Text="Sort" />
             </Grid>
             
-            <!-- songs in playlist -->
+            <!-- songs in album -->
             <CollectionView Grid.Row="3" 
                             ItemsSource="{Binding Files}">
                 <CollectionView.Header>
@@ -98,12 +98,12 @@
                           Padding="20,5">
                         <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
                         <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
-                        <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Album" />
+                        <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Plays" />
                         <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="⏱" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:FilesInPlaylistModel">
+                    <DataTemplate x:DataType="models:FilesInAlbumModel">
                         <Border 
                                 Padding="20,5"
                                 StrokeThickness="0"
@@ -121,7 +121,7 @@
                                     PointerEntered="OnPointerEntered"
                                     PointerExited="OnPointerExited"/>
                                 <TapGestureRecognizer 
-                                    Command="{Binding Source={x:Reference PlaylistDetailViewRoot}, Path=BindingContext.SelectRowCommand}"
+                                    Command="{Binding Source={x:Reference AlbumDetailViewRoot}, Path=BindingContext.SelectRowCommand}"
                                     CommandParameter="{Binding .}"
                                     />
                             </Border.GestureRecognizers>
@@ -129,19 +129,19 @@
                             <Grid
                                 ColumnDefinitions="30, *, *, auto">
                                 <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
-                                       Text="{Binding IndexActual}"></Label>
+                                       Text="{Binding Index}"></Label>
                             
                                 <components:FileWithPictureAnd2Texts 
-                                    Picture="{Binding Picture}" 
+                                    Picture="{Binding }" 
                                     TopText="{Binding FileName}" 
-                                    BottomText="{Binding AuthorName}"
+                                    BottomText="{Binding Source={x:Reference AlbumDetailViewRoot}, Path=BindingContext.Album.AuthorName}"
                                     IsInteractive="False"
                                     Grid.Column="1"/>
                             
                                 <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
-                                       Text="{Binding DefaultAlbumName}"></Label>
-                                <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
-                                       Text="{Binding LengthFormatted}"></Label>
+                                       Text="172,129"></Label>
+                                <!-- <Label Grid.Column="3" VerticalOptions="Center" TextColor="White" -->
+                                <!--        Text="{Binding LengthFormatted}"></Label> -->
                             </Grid>
                         </Border>
                     </DataTemplate>

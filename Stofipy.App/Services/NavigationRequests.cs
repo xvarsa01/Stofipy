@@ -16,3 +16,7 @@ public class NavigateToPlaylistRequest(Guid playlistId) : NavigationRequest
 {
     public Guid PlaylistId { get; } = playlistId;
 }
+public class NavigateToAlbumRequest(Guid albumId) : NavigationRequest
+{
+    public Guid AlbumId { get; } = albumId;
+}

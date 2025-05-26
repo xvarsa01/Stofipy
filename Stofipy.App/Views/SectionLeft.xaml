@@ -72,6 +72,18 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <CollectionView ItemsSource="{Binding Albums}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:AlbumListModel">
+                    <components:FileWithPictureAnd2Texts
+                        Picture="{Binding Picture}"
+                        TopText="{Binding AlbumName}"
+                        BottomText="{Binding AuthorName, StringFormat='{} Album {0}'}"
+                        TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToAlbumDetailCommand}"
+                        CommandParameter="{Binding Id}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
     </ScrollView>
     

@@ -102,6 +102,9 @@
 	  <MauiXaml Update="Components\LikedSongs.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\MainPages\AlbumDetailPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -131,6 +134,10 @@
 	  </Compile>
 	  <Compile Update="Components\LikedSongs.xaml.cs">
 	    <DependentUpon>LikedSongs.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\MainPages\AlbumDetailPage.xaml.cs">
+	    <DependentUpon>AlbumDetailPage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

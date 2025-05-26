@@ -10,5 +10,6 @@ public interface INavigationService
     void NavigateToHome();
     void NavigateToPlaylist(Guid playlistId);
     void NavigateToAuthor(Guid authorId);
+    void NavigateToAlbum(Guid albumId);
 
 }

@@ -1,5 +1,6 @@
 ﻿using Stofipy.App.Services;
 using Stofipy.App.ViewModels;
+using Stofipy.App.ViewModels.Album;
 using Stofipy.App.ViewModels.Author;
 using SectionTopVM = Stofipy.App.ViewModels.SectionTopVM;
 using Stofipy.App.Views.MainPages;
@@ -28,9 +29,9 @@ public partial class MainLayout : ContentPage
         LoadSectionLeft(new SectionLeft(sectionLeftVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
-        // LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
+        LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
         // LoadSectionMiddle(new PlaylistDetailPage(playlistDetailVM));
-        LoadSectionMiddle(new AuthorDetailPage(authorDetailVM));
+        // LoadSectionMiddle(new AuthorDetailPage(authorDetailVM));
 
         navigationService.NavigationRequested += OnNavigationRequested;
     }
@@ -77,6 +78,12 @@ public partial class MainLayout : ContentPage
                 var playlistDetailVM = _serviceProvider.GetRequiredService<PlaylistDetailVM>();
                 await playlistDetailVM.LoadByIdAsync(playlistRequest.PlaylistId);
                 LoadSectionMiddle(new PlaylistDetailPage(playlistDetailVM));
+                break;
+            
+            case NavigateToAlbumRequest albumRequest:
+                var albumDetailVM = _serviceProvider.GetRequiredService<AlbumDetailVM>();
+                await albumDetailVM.LoadByIdAsync(albumRequest.AlbumId);
+                LoadSectionMiddle(new AlbumDetailPage(albumDetailVM));
                 break;
         }
     }
