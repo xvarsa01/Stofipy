@@ -7,6 +7,8 @@ public record FilesInAlbumModel() : ModelBase
     public required Guid FileId { get; set; }
     public required string FileName { get; set; }
     public required int Index { get; set; }
+    public bool IsHovered { get; set; }
+    public bool IsSelected { get; set; }
     
     public static FilesInAlbumModel Empty = new()
     {

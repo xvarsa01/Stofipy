@@ -23,4 +23,9 @@ public class NavigationService : INavigationService
     {
         NavigationRequested?.Invoke(new NavigateToAuthorRequest(authorId));
     }
+
+    public void NavigateToAlbum(Guid albumId)
+    {
+        NavigationRequested?.Invoke(new NavigateToAlbumRequest(albumId));
+    }
 }

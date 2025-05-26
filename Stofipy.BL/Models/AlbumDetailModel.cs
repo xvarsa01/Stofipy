@@ -9,6 +9,7 @@ public record AlbumDetailModel() : ModelBase
     public string? Picture { get; set; }
     public int? Year { get; set; }
     public required int Length { get; set; }
+    public string LengthFormatted => $"{Length / 60 / 60}hr{Length / 60}min";
     
     public required Guid AuthorId { get; set; }
     public required string AuthorName { get; set; }
