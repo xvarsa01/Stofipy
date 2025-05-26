@@ -26,7 +26,7 @@ public static class DALInstaller
         {
             throw new InvalidOperationException($"{nameof(options.DatabaseName)} is not set");
         }
-
+    
         services.AddSingleton<IDbContextFactory<StofipyDbContext>>(_ =>
             new DbContextSqLiteFactory(options.DatabaseFilePath, options.SeedDemoData));
         services.AddDbContext<StofipyDbContext>(contextOptions =>
@@ -39,9 +39,29 @@ public static class DALInstaller
             .AsSelf()                 // Register concrete type
             .AsImplementedInterfaces() // Register as IRepository<T>
             .WithSingletonLifetime());
-
+    
         services.AddSingleton<IDbMigrator, DbMigrator>();
         services.AddSingleton<IDbSeeder, DbSeeder>();
+    
+        return services;
+    }
+    
+    public static IServiceCollection AddDALServicesDotVVM(this IServiceCollection services)
+    {
+        var databaseFilePath = Path.Combine("C:\\Users\\Adam\\RiderProjects\\Stofipy\\Stofipy.DAL", "Stofipy.db");
+
+        services.AddSingleton<IDbContextFactory<StofipyDbContext>>(_ =>
+            new DbContextSqLiteFactory(databaseFilePath, true));
+        services.AddDbContext<StofipyDbContext>(contextOptions =>
+            contextOptions.UseSqlite($"Data Source={databaseFilePath}"));
+        
+        services.Scan(scan => scan
+            .FromAssemblyOf<StofipyDbContext>()
+            .AddClasses(c => c.AssignableTo(typeof(IRepository<>))
+                .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition))
+            .AsSelf()                 // Register concrete type
+            .AsImplementedInterfaces() // Register as IRepository<T>
+            .WithScopedLifetime());
 
         return services;
     }

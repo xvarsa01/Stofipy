@@ -12,13 +12,13 @@ public static class BLInstaller
             .FromAssemblyOf<BusinessLogic>()
             .AddClasses(filter => filter.AssignableTo(typeof(IFacade<,,>)))
             .AsMatchingInterface()
-            .WithSingletonLifetime());
+            .WithScopedLifetime());
 
         services.Scan(selector => selector
             .FromAssemblyOf<BusinessLogic>()
             .AddClasses(filter => filter.AssignableTo(typeof(IModelMapper<,,>)))
             .AsSelfWithInterfaces()
-            .WithSingletonLifetime());
+            .WithScopedLifetime());
 
         return services;
     }
