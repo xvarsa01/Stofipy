@@ -36,6 +36,7 @@ public class FileRepository(StofipyDbContext dbContext) : RepositoryBase<FileEnt
             .OrderBy(e => e.FileName)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
+            .Include(e => e.Author)
             .ToListAsync();
     }
 

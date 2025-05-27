@@ -54,15 +54,18 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
 
     public async Task<FilesInQueueEntity?> GetByIndexAsync(int index, bool priority)
     {
+        var query = _dbSet.AsQueryable();
+        query = IncludeAuthorAndDefaultAlbums(query);
+
         if (priority)
         {
-            return await _dbSet
+            return await query
                 .Where(e => e.PriorityQueue == true)
                 .SingleOrDefaultAsync(e => e.Index == index);
         }
         else
         {
-            return await _dbSet
+            return await query
                 .Where(e => e.PriorityQueue == false)
                 .SingleOrDefaultAsync(e => e.Index == index);
         }
