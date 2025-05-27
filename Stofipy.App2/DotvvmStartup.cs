@@ -34,7 +34,7 @@ namespace Stofipy.App2
             config.RouteTable.Add("Default", "", "Views/Default.dothtml");
             config.RouteTable.Add("AuthorDetail", "author/{id:guid}", "Views/AuthorDetailView.dothtml");
             config.RouteTable.Add("PlaylistDetail", "playlist/{id:guid}", "Views/PlaylistDetailView.dothtml");
-            config.RouteTable.Add("AlbumDetail", "album/{id:guid}", "Views/PlaylistDetailView.dothtml");
+            config.RouteTable.Add("AlbumDetail", "album/{id:guid}", "Views/AlbumDetailView.dothtml");
 
             config.RouteTable.Add("Right", "right", "Views/SectionRight.dothtml");
             config.RouteTable.Add("Left", "left", "Views/SectionLeft.dothtml");
