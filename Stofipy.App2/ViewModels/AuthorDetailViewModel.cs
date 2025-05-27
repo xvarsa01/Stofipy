@@ -21,8 +21,8 @@ namespace Stofipy.App2.ViewModels
 
         private FileListModel SelectedFile { get; set; }
         public List<FileListModel> PopularFilesCurrentlyShowed { get; set; } = new();
-        private List<FileListModel> PopularFiles5 { get; set; } = new();
-        private List<FileListModel> PopularFiles10 { get; set; } = new();
+        public List<FileListModel> PopularFiles5 { get; set; } = new();
+        public List<FileListModel> PopularFiles10 { get; set; } = new();
 
 
         public bool MorePopularFilesShowed { get; set; } = false;
