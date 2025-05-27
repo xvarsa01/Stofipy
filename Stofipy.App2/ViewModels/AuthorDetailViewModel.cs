@@ -1,12 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using DotVVM.Framework.Hosting;
-using DotVVM.Framework.ViewModel;
+﻿using DotVVM.Framework.ViewModel;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Stofipy.App2.ViewModels
@@ -34,16 +30,10 @@ namespace Stofipy.App2.ViewModels
         {
             if (Author == null)
             {
-                await LoadByIdAsync(Id);
+                await LoadDataAsync();
             }
             
             await base.PreRender();
-        }
-
-        public async Task LoadByIdAsync(Guid id)
-        {
-            Id = id;
-            await LoadDataAsync();
         }
 
         private async Task LoadDataAsync()

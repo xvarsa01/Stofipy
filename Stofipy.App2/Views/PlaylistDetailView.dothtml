@@ -25,12 +25,6 @@
                     <div style="display:table-cell; vertical-align:middle; font-size:15px;">
                         {{value:  Playlist.LengthFormatted}}
                     </div>
-                    <%--<div style="display:table-row;">
-                    </div>
-                    <div style="display:table-row;">
-                    </div>
-                    <div style="display:table-row;">
-                    </div>--%>
                 </div>
             </div>
         </div>
