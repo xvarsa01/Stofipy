@@ -15,7 +15,8 @@ namespace Stofipy.App2.ViewModels
         IAuthorFacade facade,
         IFileFacade fileFacade) : MasterPageViewModel()
     {
-        private Guid Id { get; set; } = Guid.Parse("63E304C0-F051-436D-A466-3048C1C0D31F");
+        [FromRoute("id")]
+        private Guid Id { get; set; }
         public AuthorDetailModel Author { get; set; }
 
         private FileListModel SelectedFile { get; set; }
@@ -29,14 +30,14 @@ namespace Stofipy.App2.ViewModels
         private bool _following = false;
 
 
-        public override async Task Init()
+        public override async Task PreRender()
         {
             if (Author == null)
             {
                 await LoadByIdAsync(Id);
             }
             
-            await base.Init();
+            await base.PreRender();
         }
 
         public async Task LoadByIdAsync(Guid id)

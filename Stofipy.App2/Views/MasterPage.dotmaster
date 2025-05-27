@@ -10,19 +10,44 @@
 <body>
     <header>
         <nav>
-            <dot:RouteLink RouteName="Authors" Text="Authors"/>
+            <%--<dot:RouteLink RouteName="Authors" Text="Authors"/>
             <dot:RouteLink RouteName="Playlists" Text="Playlists"/>
             <dot:RouteLink RouteName="Albums" Text="Albums"/>
+            <dot:RouteLink RouteName="Right" Text="right"/>--%>
         </nav>
     </header>
- 	<main>
-        <div>
-            <dot:ContentPlaceHolder ID="queue"/>
-        </div>
-        <div>
-            <dot:ContentPlaceHolder ID="MainContent" />
-        </div>
-     </main>
+    <main>
+        <table style="width:100%; height:100%;">
+            <tr style="height:auto;">
+                <!-- Top bar with search bar and profile icon -->
+                <td colspan="3">
+                    <dot:ContentPlaceHolder ID="TopContent" />
+                </td>
+            </tr>
+            <tr style="height:100%;">
+                <!-- Your library Left -->
+                <td style="width:25%;">
+                    <dot:ContentPlaceHolder ID="LeftContent" />
+                </td>
+
+                <!-- Main screen Center -->
+                <td style="width:50%;">
+                    <dot:ContentPlaceHolder ID="MainContent" />
+                </td>
+
+                <!-- Right -->
+                <td style="width:25%;">
+                    <dot:ContentPlaceHolder ID="RightContent" />
+                </td>
+            </tr>
+            <tr style="height:auto;">
+                <!-- Bottom bar with currently played file -->
+                <td colspan="3">
+                    <dot:ContentPlaceHolder ID="BottomContent" />
+                </td>
+            </tr>
+        </table>
+    </main>
 
 
 </body>

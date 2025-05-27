@@ -1,0 +1,118 @@
+﻿@viewModel Stofipy.App2.ViewModels.SectionLeftViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="LeftContent">
+    left content
+
+
+    <div>
+        Playlsits:
+        <dot:Repeater DataSource="{value: Playlists}">
+            <div style="display:table; padding:5px;">
+                <div style="display:table-row;">
+                    <!-- Picture Column -->
+                    <div style="display:table-cell; width:50px; padding-right:10px;">
+                        <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                            <img src="{value: Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                        </div>
+                    </div>
+
+                    <!-- Text Column -->
+                    <div style="display:table-cell;">
+                        <div style="display:table; height:100%;">
+                            <!-- Top Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                    {{value: PlaylistName}}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                    playlist
+                                </div>
+                            </div>
+                            <dot:Button Click="{command: _root.GoToPlaylistDetailAsync(_this.Id)}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dot:Repeater>
+    </div>
+
+    <div>
+        Authors:
+        <dot:Repeater DataSource="{value: Authors}">
+            <div style="display:table; padding:5px;">
+                <div style="display:table-row;">
+                    <!-- Picture Column -->
+                    <div style="display:table-cell; width:50px; padding-right:10px;">
+                        <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                            <img src="{value: ProfilePicture}" style="width:50px; height:50px; object-fit:cover;" />
+                        </div>
+                    </div>
+
+                    <!-- Text Column -->
+                    <div style="display:table-cell;">
+                        <div style="display:table; height:100%;">
+                            <!-- Top Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                    {{value: AuthorName}}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                    author
+                                </div>
+                            </div>
+                            <dot:Button Click="{command: _root.GoToAuthorDetailAsync(_this.Id)}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dot:Repeater>
+    </div>
+
+    <div>
+        Albums:
+        <dot:Repeater DataSource="{value: Albums}">
+            <div style="display:table; padding:5px;">
+                <div style="display:table-row;">
+                    <!-- Picture Column -->
+                    <div style="display:table-cell; width:50px; padding-right:10px;">
+                        <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                            <img src="{value: Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                        </div>
+                    </div>
+                        
+                    <!-- Text Column -->
+                    <div style="display:table-cell;">
+                        <div style="display:table; height:100%;">
+                            <!-- Top Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                    {{value: AlbumName}}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                    album
+                                </div>
+                            </div>
+                            <dot:Button Click="{command: _root.GoToAlbumDetailAsync(_this.Id)}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dot:Repeater>
+    </div>
+
+
+</dot:Content>
+
