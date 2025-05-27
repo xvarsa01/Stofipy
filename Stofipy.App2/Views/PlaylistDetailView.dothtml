@@ -1,0 +1,72 @@
+﻿@viewModel Stofipy.App2.ViewModels.PlaylistDetailViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+
+<dot:Content ContentPlaceHolderID="MainContent">
+    <%--playlist info--%>
+    <div style="display:table; padding:5px;">
+        <div style="display:table-row;">
+            <!-- Picture Column -->
+            <div style="display:table-cell; padding-right:10px;">
+                <div style="border-radius:5px; overflow:hidden;">
+                    <img src="{value: Playlist.Picture}" style="width:150px; height:150px; object-fit:cover;" />
+                </div>
+            </div>
+
+            <!-- Text Column -->
+            <div style="display:table-cell;">
+                <div style="display:table; height:100%;">
+                    <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                        {{value: Playlist.IsPublic ? "Public playlist" : "Private playlist"}}
+                    </div>
+                    <div style="display:table-cell; vertical-align:middle; font-size:50px;">
+                        {{value:  Playlist.PlaylistName}}
+                    </div>
+                    <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                        {{value:  Playlist.LengthFormatted}}
+                    </div>
+                    <%--<div style="display:table-row;">
+                    </div>
+                    <div style="display:table-row;">
+                    </div>
+                    <div style="display:table-row;">
+                    </div>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--buttons--%>
+    <div>
+        <dot:Button Click="{command: PlayPlaylistAsync()}" Text="Play" />
+        <dot:Button Click="{command: Shuffle()}" Text="Shuffle" />            
+        <dot:Button Click="{command: Download()}" Text="Download" />            
+    </div>
+
+    <%--files--%>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Album</th>
+                <th>⏱</th>
+            </tr>
+        </thead>
+    </table>
+    <dot:Repeater DataSource="{value: Files}">
+        <ItemTemplate>
+            <tr>
+                <td>{{value: _this.IndexActual}}</td>
+                <td>{{value: _this.Picture}}</td>
+                <td>{{value: _this.FileName}}</td>
+                <td>{{value: _this.AuthorName}}</td>
+                <td>{{value: _this.DefaultAlbumName}}</td>
+                <td>{{value: _this.LengthFormatted}}</td>
+            </tr>
+        </ItemTemplate>
+    </dot:Repeater>
+
+
+</dot:Content>
