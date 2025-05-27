@@ -8,10 +8,22 @@
     <dot:RequiredResource Name="Styles"/>
 </head>
 <body>
+    <header>
+        <nav>
+            <dot:RouteLink RouteName="Authors" Text="Authors"/>
+            <dot:RouteLink RouteName="Playlists" Text="Playlists"/>
+            <dot:RouteLink RouteName="Albums" Text="Albums"/>
+        </nav>
+    </header>
+ 	<main>
+        <div>
+            <dot:ContentPlaceHolder ID="queue"/>
+        </div>
+        <div>
+            <dot:ContentPlaceHolder ID="MainContent" />
+        </div>
+     </main>
 
- 	
-
-    <dot:ContentPlaceHolder ID="MainContent" />
 
 </body>
 </html>

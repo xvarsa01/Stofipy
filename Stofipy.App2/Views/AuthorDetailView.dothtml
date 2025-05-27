@@ -1,0 +1,56 @@
+﻿@viewModel Stofipy.App2.ViewModels.AuthorDetailViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+    <div>
+        Author Details
+        <div>
+            <img src="{{value: Author.ProfilePicture}}" />
+
+            <div>
+                <h1>{{value: Author.AuthorName}}</h1>
+                <p>monthly listeners</p>
+            </div>
+        </div>
+
+        Buttons
+        <div>
+            <dot:Button click="{command: PlayArtist()}" Text="Play Artist" />
+        </div>
+
+        Popular Songs
+        <h2>Popular</h2>
+        <dot:Repeater DataSource="{value: PopularFilesCurrentlyShowed}">
+            <ItemTemplate>
+                <div>
+                    <span>{{value: _this.FileName}}</span>
+                    <span>{{value: _this.Length}}</span>
+                </div>
+            </ItemTemplate>
+        </dot:Repeater>
+        <dot:Button Text="{value: SeeMoreText}" Click="{command: ShowMorePopularFiles()}" />
+
+        Liked Songs
+        <h2>Liked Songs</h2>
+        <div>
+            <img src="{{value: Author.ProfilePicture}}" />
+            <div>
+                <p>You've liked 2 songs</p>
+                <p>{{value: Author.AuthorName}}</p>
+            </div>
+        </div>
+
+        Albums
+        <h2>Discography</h2>
+        <dot:Repeater DataSource="{value: Author.Albums}">
+            <ItemTemplate>
+                <div>
+                    <img src="{{value: _this.Picture}}" />
+                    <p>{{value: _this.AlbumName}}</p>
+                    <p>{{value: _this.Year}} Album</p>
+                </div>
+            </ItemTemplate>
+        </dot:Repeater>
+    </div>
+</dot:Content>
+
