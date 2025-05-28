@@ -1,15 +1,17 @@
-﻿using Stofipy.BL.Models;
+﻿using DotVVM.Framework.ViewModel;
+using Stofipy.BL.Facades;
+using Stofipy.BL.Facades.Interfaces;
+using Stofipy.BL.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Stofipy.BL.Facades.Interfaces;
 
 namespace Stofipy.App2.ViewModels
 {
     public class SectionLeftViewModel(
         IPlaylistFacade playlistFacade,
         IAuthorFacade authorFacade,
-        IAlbumFacade albumFacade) : MasterPageViewModel
+        IAlbumFacade albumFacade) : DotvvmViewModelBase
     {
         public List<PlaylistListModel> Playlists { get; set; } = [];
         public List<AuthorListModel> Authors { get; set; } = [];
@@ -22,7 +24,7 @@ namespace Stofipy.App2.ViewModels
             await base.PreRender();
         }
 
-        protected async Task LoadDataAsync()
+        public async Task LoadDataAsync()
         {
             Playlists = await playlistFacade.GetAllAsync(1, 10);
             Authors = await authorFacade.GetAllAsync(1, 10);

@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 namespace Stofipy.App2.ViewModels
 {
     public class AuthorDetailViewModel(
-        IAuthorFacade facade,
-        IFileFacade fileFacade) : MasterPageViewModel()
+        IAuthorFacade authorFacade,
+        IPlaylistFacade playlistFacade,
+        IAlbumFacade albumFacade,
+        IFilesInQueueFacade filesInQueueFacade,
+        IFileFacade fileFacade) : MasterPageViewModel(playlistFacade, authorFacade, albumFacade, filesInQueueFacade)
     {
+        private readonly IAuthorFacade _authorFacade = authorFacade;
+
         [FromRoute("id")]
         private Guid Id { get; set; }
         public AuthorDetailModel Author { get; set; }
@@ -38,7 +43,7 @@ namespace Stofipy.App2.ViewModels
 
         private async Task LoadDataAsync()
         {
-            Author = await facade.GetByIdAsync(Id);
+            Author = await _authorFacade.GetByIdAsync(Id);
             PopularFiles5 = await fileFacade.GetMostPopularFiles(Id, 1, 5);
             PopularFilesCurrentlyShowed = PopularFiles5;
         }

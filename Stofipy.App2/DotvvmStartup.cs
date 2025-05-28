@@ -31,13 +31,10 @@ namespace Stofipy.App2
 
         private void ConfigureRoutes(DotvvmConfiguration config, string applicationPath)
         {
-            config.RouteTable.Add("Default", "", "Views/Default.dothtml");
+            config.RouteTable.Add("Home", "", "Views/Home.dothtml");
             config.RouteTable.Add("AuthorDetail", "author/{id:guid}", "Views/AuthorDetailView.dothtml");
             config.RouteTable.Add("PlaylistDetail", "playlist/{id:guid}", "Views/PlaylistDetailView.dothtml");
             config.RouteTable.Add("AlbumDetail", "album/{id:guid}", "Views/AlbumDetailView.dothtml");
-
-            config.RouteTable.Add("Right", "right", "Views/SectionRight.dothtml");
-            config.RouteTable.Add("Left", "left", "Views/SectionLeft.dothtml");
 
 
             // Uncomment the following line to auto-register all dothtml files in the Views folder
@@ -47,6 +44,11 @@ namespace Stofipy.App2
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)
         {
             // register code-only controls and markup controls
+            config.Markup.AddMarkupControl("cc", "Left", "Sections/SectionLeft.dotcontrol");
+            config.Markup.AddMarkupControl("cc", "Right", "Sections/SectionRight.dotcontrol");
+            config.Markup.AddMarkupControl("cc", "Bottom", "Sections/SectionBottom.dotcontrol");
+            config.Markup.AddMarkupControl("cc", "Top", "Sections/SectionTop.dotcontrol");
+
         }
 
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)

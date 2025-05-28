@@ -1,16 +1,19 @@
 ﻿using DotVVM.Framework.ViewModel;
+using Stofipy.BL.Facades;
+using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Stofipy.BL.Facades.Interfaces;
 
 namespace Stofipy.App2.ViewModels
 {
     public class AlbumDetailViewModel(
+        IAuthorFacade authorFacade,
+        IPlaylistFacade playlistFacade,
         IAlbumFacade albumFacade,
         IFilesInAlbumFacade filesInAlbumFacade,
-        IFilesInQueueFacade filesInQueueFacade) : MasterPageViewModel
+        IFilesInQueueFacade filesInQueueFacade) : MasterPageViewModel(playlistFacade, authorFacade, albumFacade, filesInQueueFacade)
     {
         [FromRoute("id")]
         private Guid Id { get; set; }

@@ -1,0 +1,8 @@
+﻿@viewModel Stofipy.App2.ViewModels.HomeViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+
+</dot:Content>
+

@@ -14,8 +14,10 @@ namespace Stofipy.App2.ViewModels
 {
     public class PlaylistDetailViewModel(
         IPlaylistFacade playlistFacade,
+        IAuthorFacade authorFacade,
+        IAlbumFacade albumFacade,
         IFilesInPlaylistFacade filesInPlaylistFacade,
-        IFilesInQueueFacade filesInQueueFacade) : MasterPageViewModel
+        IFilesInQueueFacade filesInQueueFacade) : MasterPageViewModel(playlistFacade, authorFacade, albumFacade, filesInQueueFacade)
     {
         [FromRoute("id")]
         private Guid Id { get; set; }
