@@ -5,48 +5,41 @@
 <head>
     <meta charset="utf-8" />
     <title>Stofipy.App2</title>
-    <dot:RequiredResource Name="Styles"/>
+    <dot:RequiredResource Name="Styles" />
+
+
+
 </head>
 <body>
     <header>
-        <nav>
-            <%--<dot:RouteLink RouteName="Authors" Text="Authors"/>
-            <dot:RouteLink RouteName="Playlists" Text="Playlists"/>
-            <dot:RouteLink RouteName="Albums" Text="Albums"/>
-            <dot:RouteLink RouteName="Right" Text="right"/>--%>
-        </nav>
     </header>
     <main>
-        <table style="width:100%; height:100%;">
-            <tr style="height:auto;">
-                <!-- Top bar with search bar and profile icon -->
-                <td colspan="3">
-                    <dot:ContentPlaceHolder ID="TopContent" />
-                </td>
-            </tr>
-            <tr style="height:100%;">
-                <!-- Your library Left -->
-                <td style="width:25%;">
-                    <dot:ContentPlaceHolder ID="LeftContent" />
-                </td>
+        <div class="top">
+            <cc:Top />
+        </div>
 
-                <!-- Main screen Center -->
-                <td style="width:50%;">
-                    <dot:ContentPlaceHolder ID="MainContent" />
-                </td>
+        <div class="content-wrapper" style="display: flex; align-items: flex-start;">
+            <div class="left" style="width: 25%; background-color: #f0f0f0;">
+                    <cc:Left />
+            </div>
+            <div class="center" style="width: 50%; background-color: #ffffff;">
+                <dot:ContentPlaceHolder ID="MainContent" />
+            </div>
+            <div class="right" style="width: 25%; background-color: #f0f0f0;">
+                <cc:Right />
+            </div>
+        </div>
 
-                <!-- Right -->
-                <td style="width:25%;">
-                    <dot:ContentPlaceHolder ID="RightContent" />
-                </td>
-            </tr>
-            <tr style="height:auto;">
-                <!-- Bottom bar with currently played file -->
-                <td colspan="3">
-                    <dot:ContentPlaceHolder ID="BottomContent" />
-                </td>
-            </tr>
-        </table>
+        <div class="bottom" style="
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 1000;">
+            <cc:Bottom />
+        </div>
     </main>
 
 

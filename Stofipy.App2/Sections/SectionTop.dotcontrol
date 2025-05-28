@@ -1,0 +1,78 @@
+﻿@viewModel Stofipy.App2.ViewModels.MasterPageViewModel, Stofipy.App2
+
+
+<div class="top-bar">
+    <!-- Left Controls -->
+    <div class="left-buttons">
+        <img class="dots-icon" src="dots_3_white.png" alt="Menu">
+        <img class="icon" src="go_back.png" alt="Back">
+        <img class="icon" src="go_forward.png" alt="Forward">
+    </div>
+
+    <!-- Center Search and Home -->
+    <div class="center-content">
+        <div class="icon-button">
+            <img class="icon" src="home_button.png" alt="Home">
+        </div>
+        <input class="search-bar" type="text" placeholder="What do you want to play?">
+    </div>
+
+    <!-- Right User Icon -->
+    <div class="right-button">
+        <img class="user-icon" src="user.png" alt="User">
+    </div>
+</div>
+
+<style>
+    .top-bar {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        background-color: black;
+        padding: 10px;
+        align-items: center;
+        color: white;
+    }
+
+    .left-buttons, .right-button {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .icon-button {
+        background-color: #2a2a2a;
+        border-radius: 20px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icon {
+        width: 30px;
+    }
+
+    .dots-icon {
+        width: 25px;
+    }
+
+    .user-icon {
+        width: 40px;
+    }
+
+    .search-bar {
+        width: 400px;
+        background-color: #2a2a2a;
+        border-radius: 20px;
+        border: none;
+        padding: 8px 12px;
+        color: white;
+    }
+</style>

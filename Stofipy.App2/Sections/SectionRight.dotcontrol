@@ -1,0 +1,149 @@
+﻿@viewModel Stofipy.App2.ViewModels.MasterPageViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+
+<div>
+    <dot:Button Click="{command: SectionRightVm.ShowQueue()}" Text="Queue" />
+    <dot:Button Click="{command: SectionRightVm.ShowRecentlyPlayed()}" Text="Recently played" />
+    <dot:Button Click="{command: SectionRightVm.ShowRecentlyPlayed()}" Text="x" />
+</div>
+
+
+<div Visible="{value: SectionRightVm.DisplayRecentlyPlayed == false}">
+    <div>
+        Now playing
+        <div style="display:table; padding:5px;">
+            <div style="display:table-row;">
+                <!-- Picture Column -->
+                <div style="display:table-cell; width:50px; padding-right:10px;">
+                    <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                        <img src="{value: SectionRightVm.NowPlaying.Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                    </div>
+                </div>
+
+                <!-- Text Column -->
+                <div style="display:table-cell;">
+                    <div style="display:table; height:100%;">
+                        <!-- Top Text -->
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                {{value: SectionRightVm.NowPlaying.FileName}}
+                            </div>
+                        </div>
+
+                        <!-- Bottom Text -->
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                {{value: SectionRightVm.NowPlaying.AuthorName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        Next in queue
+        <dot:Repeater DataSource="{value: SectionRightVm.PriorityQueue}">
+            <div style="display:table; padding:5px;">
+                <div style="display:table-row;">
+                    <!-- Picture Column -->
+                    <div style="display:table-cell; width:50px; padding-right:10px;">
+                        <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                            <img src="{value: _this.Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                        </div>
+                    </div>
+
+                    <!-- Text Column -->
+                    <div style="display:table-cell;">
+                        <div style="display:table; height:100%;">
+                            <!-- Top Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                    {{value: _this.FileName}}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                    {{value: _this.AuthorName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dot:Repeater>
+    </div>
+    <div>
+        Next from playlist
+        <dot:Repeater DataSource="{value: SectionRightVm.BasicQueue}">
+            <div style="display:table; padding:5px;">
+                <div style="display:table-row;">
+                    <!-- Picture Column -->
+                    <div style="display:table-cell; width:50px; padding-right:10px;">
+                        <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                            <img src="{value: _this.Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                        </div>
+                    </div>
+
+                    <!-- Text Column -->
+                    <div style="display:table-cell;">
+                        <div style="display:table; height:100%;">
+                            <!-- Top Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                    {{value: _this.FileName}}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Text -->
+                            <div style="display:table-row;">
+                                <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                    {{value: _this.AuthorName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dot:Repeater>
+    </div>
+</div>
+
+<div Visible="{value: SectionRightVm.DisplayRecentlyPlayed}">
+    recenlty played
+    <dot:Repeater DataSource="{value: SectionRightVm.RecentlyPlayed}">
+        <div style="display:table; padding:5px;">
+            <div style="display:table-row;">
+                <!-- Picture Column -->
+                <div style="display:table-cell; width:50px; padding-right:10px;">
+                    <div style="border-radius:5px; overflow:hidden; width:50px; height:50px;">
+                        <img src="{value: _this.Picture}" style="width:50px; height:50px; object-fit:cover;" />
+                    </div>
+                </div>
+
+                <!-- Text Column -->
+                <div style="display:table-cell;">
+                    <div style="display:table; height:100%;">
+                        <!-- Top Text -->
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; vertical-align:middle; font-size:15px;">
+                                {{value: _this.FileName}}
+                            </div>
+                        </div>
+
+                        <!-- Bottom Text -->
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; vertical-align:middle; font-size:13px;">
+                                {{value: _this.AuthorName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dot:Repeater>
+</div>
+

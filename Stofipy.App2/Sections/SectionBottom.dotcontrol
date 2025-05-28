@@ -1,0 +1,104 @@
+﻿@viewModel Stofipy.App2.ViewModels.MasterPageViewModel, Stofipy.App2
+
+
+<div class="bottom-bar">
+    <!-- Left -->
+    <div class="left">
+        <div>
+            <img src="{value: SectionRightVm.NowPlaying.Picture}" style="height: 60px;">
+            <div>{{value: SectionRightVm.NowPlaying.FileName}}</div>
+            <div>{{value: SectionRightVm.NowPlaying.AuthorName}}</div>
+        </div>
+    </div>
+
+    <!-- Center -->
+    <div class="center">
+        <!-- Top Controls -->
+        <div class="center-top">
+            <img src="shuffle.png" alt="Shuffle">
+            <img src="previous.png" alt="Previous">
+            <img class="pause-button" src="pause.png" alt="Pause">
+            <img src="next.png" alt="Next">
+            <img src="repeat_white.png" alt="Repeat">
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="center-bottom">
+            <div>1:23</div>
+            <input type="range" class="slider" min="0" max="100" value="0">
+            <div>1:23</div>
+        </div>
+    </div>
+
+    <!-- Right -->
+    <div class="right">
+        <img src="lyrics_white.png" alt="Lyrics" style="height: 30px;">
+        <img src="queue_white.png" alt="Queue">
+        <input type="range" class="volume-slider" min="0" max="100" value="0">
+        <img src="full_screen_white.png" alt="Full Screen">
+    </div>
+</div>
+
+
+<style>
+    .bottom-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        background-color: black;
+        height: 100px;
+        padding: 20px;
+        color: white;
+        box-sizing: border-box;
+    }
+
+    .left, .center, .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .left {
+        justify-content: flex-start;
+    }
+
+    .center {
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .center-top {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 20px;
+    }
+
+    .center-bottom {
+        display: grid;
+        grid-template-columns: 50px 1fr 50px;
+        align-items: center;
+        width: 100%;
+        color: white;
+    }
+
+    .right {
+        justify-content: flex-end;
+        gap: 20px;
+    }
+
+    .slider {
+        width: 100%;
+    }
+
+    .volume-slider {
+        width: 100px;
+    }
+
+    img {
+        height: 20px;
+    }
+
+    .pause-button {
+        height: 30px;
+    }
+</style>
