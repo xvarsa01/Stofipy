@@ -104,17 +104,15 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             await DecrementIndexes(null, 0, false);
         }
-        
-        var newFile = new FilesInQueueModel
+
+        FilesInQueueEntity entity = new()
         {
             Id = Guid.NewGuid(),
-            FileId = fileId,
-            FileName = fileName,
-            AuthorName = authorName,
             Index = 0,
-            PriorityQueue = true
+            PriorityQueue = true,
+            File = null!,
+            FileId = fileId
         };
-        FilesInQueueEntity entity = _modelMapper.MapToEntity(newFile);
         await _repository.InsertAsync(entity);
     }
 
@@ -181,13 +179,19 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             throw new InvalidDataException("Album not found");
         }
         
+        var files = await _filesInAlbumFacade.GetAllByAlbumIdAsync(album.Id);
+        if(files.Count == 0) return;
+
         await RemoveAllFromQueue(false);
 
-        var files = await _filesInAlbumFacade.GetAllByAlbumIdAsync(album.Id);
         if (randomShuffle)
         {
             files = files.OrderBy(_ => Guid.NewGuid()).ToList();
         }
+        var first = files.First();
+        files.Remove(first);
+        
+        await PlayFileNow(first.FileId, first.FileName, album.AuthorName);
         
         foreach (var item in files)
         {
@@ -228,17 +232,23 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             throw new InvalidDataException("Playlist not found");
         }
         
-        await RemoveAllFromQueue(false);
 
         const int pageSize = 10;
 
         // Step 1: Get the first page immediately
         var firstPage = await _filesInPlaylistFacade.GetAllAsync(playlistId, 1, pageSize);
+        if(firstPage.Count == 0) return Task.CompletedTask;
+
+        await RemoveAllFromQueue(false);
         
         if (randomShuffle)
         {
             firstPage = firstPage.OrderBy(_ => Guid.NewGuid()).ToList();
         }
+        var first = firstPage.First();
+        firstPage.Remove(first);
+        
+        await PlayFileNow(first.FileId, first.FileName, first.AuthorName);
         foreach (var item in firstPage)
         {
             await AddFileToNonPriorityQueue(item.FileId, item.FileName, item.AuthorName);
