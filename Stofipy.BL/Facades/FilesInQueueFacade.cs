@@ -14,10 +14,12 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
     private readonly FilesInQueueModelMapper _modelMapper;
     private readonly IPlaylistFacade _playlistFacade;
     private readonly IAlbumFacade _albumFacade;
+    private readonly IAuthorFacade _authorFacade;
     private readonly IFilesInPlaylistFacade _filesInPlaylistFacade;
     private readonly IFilesInAlbumFacade _filesInAlbumFacade;
+    private readonly IFileFacade _fileFacade;
     public FilesInQueueFacade(FilesInQueueRepository repository, FilesInQueueModelMapper modelMapper,
-        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade, IAlbumFacade albumFacade, IFilesInAlbumFacade filesInAlbumFacade)
+        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade, IAlbumFacade albumFacade, IFilesInAlbumFacade filesInAlbumFacade, IAuthorFacade authorFacade, IFileFacade fileFacade)
         : base(repository, modelMapper)
     {
         _modelMapper = modelMapper;
@@ -26,6 +28,8 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         _filesInPlaylistFacade = filesInPlaylistFacade;
         _albumFacade = albumFacade;
         _filesInAlbumFacade = filesInAlbumFacade;
+        _authorFacade = authorFacade;
+        _fileFacade = fileFacade;
     }
 
     public async Task<FilesInQueueModel?> GetCurrentAsync()
@@ -88,6 +92,30 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             await IncrementIndexes(null, null, true);
         }
+    }
+
+    private async Task PlayFileNow(Guid fileId, string fileName, string authorName)
+    {
+        if (await _repository.GetByIndexAsync(0, true) != null)
+        {
+            await DecrementIndexes(null, 0, true);
+        }
+        else
+        {
+            await DecrementIndexes(null, 0, false);
+        }
+        
+        var newFile = new FilesInQueueModel
+        {
+            Id = Guid.NewGuid(),
+            FileId = fileId,
+            FileName = fileName,
+            AuthorName = authorName,
+            Index = 0,
+            PriorityQueue = true
+        };
+        FilesInQueueEntity entity = _modelMapper.MapToEntity(newFile);
+        await _repository.InsertAsync(entity);
     }
 
     public async Task<Guid> AddFileToQueue(Guid fileId, string fileName, string authorName)
@@ -165,8 +193,33 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             await AddFileToNonPriorityQueue(item.FileId, item.FileName, album.AuthorName);
         }
-        
     }
+    
+    public async Task AddAuthorToQueue(Guid authorId)
+    {
+        AuthorDetailModel? author = await _authorFacade.GetByIdAsync(authorId);
+        if (author == null)
+        {
+            throw new InvalidDataException("Author not found");
+        }
+
+        var files = await _fileFacade.GetMostPopularFiles(author.Id, 1, 20);
+        if(files.Count == 0) return;
+        
+        await RemoveAllFromQueue(false);
+        
+        files = files.OrderBy(_ => Guid.NewGuid()).ToList();
+        var first = files.First();
+        files.Remove(first);
+        
+        await PlayFileNow(first.Id, first.FileName, first.AuthorName);
+        
+        foreach (var item in files)
+        {
+            await AddFileToNonPriorityQueue(item.Id, item.FileName, author.AuthorName);
+        }
+    }
+    
     public async Task<Task> AddPlaylistToQueue(Guid playlistId, bool randomShuffle)
     {
         PlaylistDetailModel? playlist = await _playlistFacade.GetByIdAsync(playlistId);

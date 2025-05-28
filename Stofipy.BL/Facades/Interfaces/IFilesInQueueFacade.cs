@@ -14,6 +14,7 @@ public interface IFilesInQueueFacade : IFacade<FilesInQueueEntity, FilesInQueueM
     
     Task<Guid> AddFileToQueue(Guid fileId, string fileName, string authorName);
     Task<Task> AddPlaylistToQueue(Guid playlistId, bool randomShuffle);
+    Task AddAuthorToQueue(Guid authorId);
     Task AddAlbumToQueue(Guid albumId, bool randomShuffle);
     Task DeleteAsync(Guid id, int deletedIndex);
     Task RemoveAllFromQueue(bool priority);
