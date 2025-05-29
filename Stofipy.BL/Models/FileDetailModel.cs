@@ -11,6 +11,7 @@ public record FileDetailModel() : ModelBase
     public string? Lyrics { get; set; }
     public required double Size { get; set; }
     public required int Length { get; set; }
+    public required int PlayCount { get; set; }
     public required Category Category { get; set; }
     
     public required Guid AuthorId { get; set; }
@@ -27,10 +28,11 @@ public record FileDetailModel() : ModelBase
         Lyrics = null,
         Size = 0,
         Length = 0,
+        PlayCount = 0,
         Category = Category.Rock,
         AuthorId = default,
         AuthorName = string.Empty,
         DefaultAlbumId = null,
-        DefaultAlbumName = null
+        DefaultAlbumName = null,
     };
 }

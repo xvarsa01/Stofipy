@@ -159,7 +159,7 @@
                                         IsInteractive="False"
                                         Grid.Column="1"/>
                                     <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
-                                           Text="total play count" />
+                                           Text="{Binding PlayCount}" />
                                     <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
                                            Text="icon" />
                                     <Label Grid.Column="4" VerticalOptions="Center" TextColor="White"

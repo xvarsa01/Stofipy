@@ -27,13 +27,19 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         // Register real repo and mapper
         services.AddTransient<FilesInQueueRepository>();
         services.AddTransient<PlaylistRepository>();
+        services.AddTransient<AlbumRepository>();
+        services.AddTransient<FilesInAlbumRepository>();
         services.AddTransient<FilesInPlaylistRepository>();
         services.AddSingleton<FilesInQueueModelMapper>();
         services.AddSingleton<PlaylistModelMapper>();
         services.AddSingleton<FilesInPlaylistModelMapper>();
+        services.AddSingleton<FilesInAlbumModelMapper>();
+        services.AddSingleton<AlbumModelMapper>();
         
         // Option 2: OR register a real one if you have all dependencies
         services.AddTransient<IPlaylistFacade, PlaylistFacade>();
+        services.AddTransient<IAlbumFacade, AlbumFacade>();
+        services.AddTransient<IFilesInAlbumFacade, FilesInAlbumFacade>();
         
         services.AddTransient<IFilesInPlaylistFacade, FilesInPlaylistFacade>();
 

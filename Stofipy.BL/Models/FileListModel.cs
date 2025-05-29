@@ -5,6 +5,7 @@ namespace Stofipy.BL.Models;
 public record FileListModel() : ModelBase
 {
     public required string FileName { get; set; }
+    public required int PlayCount { get; set; }
     public required int Length { get; set; }
     
     public required Guid AuthorId { get; set; }
@@ -19,6 +20,7 @@ public record FileListModel() : ModelBase
         Id = Guid.Empty,
         FileName = string.Empty,
         Picture = null,
+        PlayCount = 0,
         Length = 0,
         AuthorId = default,
         AuthorName = string.Empty,
