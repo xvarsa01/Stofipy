@@ -20,6 +20,7 @@ public class FileTests (ITestOutputHelper output): DbContextTestsBase(output)
             Description = "Test Description",
             Size = 0,
             Length = 0,
+            PlayCount = 0,
             Category = Category.Pop,
             Author = new AuthorEntity
             {

@@ -18,6 +18,8 @@ public class FilesInAlbumModelMapper : ModelMapperBase<FilesInAlbumEntity, Files
             Id = entity.Id,
             FileId = entity.FileId,
             FileName = entity.File.FileName,
+            PlayCount = entity.File.PlayCount,
+            Length = entity.File.Length,
             Index = entity.Index,
         };
     }

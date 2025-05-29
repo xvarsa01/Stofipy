@@ -94,12 +94,17 @@
             <CollectionView Grid.Row="3" 
                             ItemsSource="{Binding Files}">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="30, *, *, auto"
+                    <Grid ColumnDefinitions="30, *, *, 50"
                           Padding="20,5">
                         <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
                         <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
                         <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Album" />
                         <Label Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="⏱" />
+                        <Label Grid.Column="3"
+                               Text="99:99"
+                               TextColor="Transparent"
+                               Opacity="0"
+                               IsVisible="False" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
@@ -127,7 +132,7 @@
                             </Border.GestureRecognizers>
 
                             <Grid
-                                ColumnDefinitions="30, *, *, auto">
+                                ColumnDefinitions="30, *, *, 50">
                                 <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
                                        Text="{Binding IndexActual}"></Label>
                             

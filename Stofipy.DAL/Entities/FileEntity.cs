@@ -11,6 +11,7 @@ public record FileEntity : IEntity
     public string? Lyrics { get; set; }
     public required double Size { get; set; }
     public required int Length { get; set; }
+    public required int PlayCount { get; set; }
     public required Category Category { get; set; }
     
     public required Guid AuthorId { get; set; }
