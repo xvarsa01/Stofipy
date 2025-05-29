@@ -33,11 +33,12 @@ public class FileFacadeTests : FacadeTestsBase
             Lyrics = null,
             Size = 500,
             Length = 100,
+            PlayCount = 120120,
             Category = Category.Rock,
             AuthorId = AuthorTestSeeds.AuthorAbc.Id,
             AuthorName = AuthorTestSeeds.AuthorAbc.AuthorName,
             DefaultAlbumId = null,
-            DefaultAlbumName = null
+            DefaultAlbumName = null,
         };
         
         await _fileFacade.CreateAsync(file);
@@ -100,6 +101,7 @@ public class FileFacadeTests : FacadeTestsBase
             Description = "changed description",
             Size = 1234,
             Length = 5678,
+            PlayCount = 500500,
             Category = Category.Chill,
             AuthorId = FileTestSeeds.FileForUpdate.AuthorId,
         };

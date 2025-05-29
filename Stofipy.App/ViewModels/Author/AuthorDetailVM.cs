@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Messages;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
@@ -11,6 +12,7 @@ namespace Stofipy.App.ViewModels.Author;
 public partial class AuthorDetailVM(
     IAuthorFacade facade,
     IFileFacade fileFacade,
+    IFilesInQueueFacade filesInQueueFacade,
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
@@ -86,9 +88,10 @@ public partial class AuthorDetailVM(
     }
 
     [RelayCommand]
-    private Task PlayArtis(FileListModel item)
+    private async Task PlayArtis(FileListModel item)
     {
-        return Task.CompletedTask;
+        await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
+        MessengerService.Send(new RefreshQueueMessage());
     }
     
     [RelayCommand]

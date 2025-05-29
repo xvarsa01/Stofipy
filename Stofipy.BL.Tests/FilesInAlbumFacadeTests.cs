@@ -47,6 +47,8 @@ public class FilesInAlbumFacadeTests : FacadeTestsBase
             Id = Guid.NewGuid(),
             FileId = FileTestSeeds.FileBasic.Id,
             FileName = FileTestSeeds.FileBasic.FileName,
+            Length = FileTestSeeds.FileBasic.Length,
+            PlayCount = FileTestSeeds.FileBasic.PlayCount,
             Index = 0,
         };
 

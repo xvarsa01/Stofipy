@@ -42,6 +42,7 @@ public class PlaylistTests  (ITestOutputHelper output): DbContextTestsBase(outpu
             Description = "New Description",
             Size = 0,
             Length = 0,
+            PlayCount = 0,
             Category = Category.Rock,
             AuthorId = AuthorTestSeeds.AuthorForFileBasic.Id,
             Author = AuthorTestSeeds.AuthorForFileBasic,

@@ -17,6 +17,7 @@ public class FileModelMapper : ModelMapperBase<FileEntity, FileListModel, FileDe
         {
             Id = entity.Id,
             FileName = entity.FileName,
+            PlayCount = entity.PlayCount,
             Length = entity.Length,
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
@@ -40,6 +41,7 @@ public class FileModelMapper : ModelMapperBase<FileEntity, FileListModel, FileDe
             Lyrics = entity.Lyrics,
             Size = entity.Size,
             Length = entity.Length,
+            PlayCount = entity.PlayCount,
             Category = entity.Category,
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
@@ -59,6 +61,7 @@ public class FileModelMapper : ModelMapperBase<FileEntity, FileListModel, FileDe
             Lyrics = model.Lyrics,
             Size = model.Size,
             Length = model.Length,
+            PlayCount = model.PlayCount,
             Category = model.Category,
             AuthorId = model.AuthorId,
             Author = null!,

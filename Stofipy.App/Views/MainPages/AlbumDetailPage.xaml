@@ -139,9 +139,9 @@
                                     Grid.Column="1"/>
                             
                                 <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
-                                       Text="172,129"></Label>
-                                <!-- <Label Grid.Column="3" VerticalOptions="Center" TextColor="White" -->
-                                <!--        Text="{Binding LengthFormatted}"></Label> -->
+                                       Text="{Binding PlayCount}"></Label>
+                                <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
+                                       Text="{Binding LengthFormatted}"></Label>
                             </Grid>
                         </Border>
                     </DataTemplate>
