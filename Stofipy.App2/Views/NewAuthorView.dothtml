@@ -1,0 +1,13 @@
+﻿@viewModel Stofipy.App2.ViewModels.NewAuthorViewModel, Stofipy.App2
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <label>Authors name:</label>
+    <dot:TextBox Text="{value: Author.AuthorName}" />
+    <label>Profile picture:</label>
+    <dot:TextBox Text="{value: Author.ProfilePicture}" />
+
+    <dot:Button Click="{command: Save}" Text="Create" />
+</dot:Content>
+
