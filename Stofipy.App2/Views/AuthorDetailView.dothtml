@@ -20,17 +20,16 @@
 
         Popular Songs
         <h2>Popular</h2>
-        <dot:Repeater DataSource="{value: PopularFilesCurrentlyShowed}">
-            <ItemTemplate>
-                <div>
-                    <span>{{value: _this.FileName}}</span>
-                    <span>{{value: _this.Length}}</span>
-                </div>
-            </ItemTemplate>
-        </dot:Repeater>
+        <dot:GridView DataSource="{value: PopularFilesCurrentlyShowed}">
+            <Columns>
+                <dot:GridViewTextColumn ValueBinding="{value: FileName}" HeaderText="Name" />
+                <dot:GridViewTextColumn ValueBinding="{value: PlayCount}" HeaderText="Plays" />
+                <dot:GridViewTextColumn ValueBinding="{value: Length}" HeaderText="Length" />
+            </Columns>
+        </dot:GridView>
+
         <dot:Button Text="{value: SeeMoreText}" Click="{command: ShowMorePopularFiles()}" />
 
-        Liked Songs
         <h2>Liked Songs</h2>
         <div>
             <img src="{{value: Author.ProfilePicture}}" />
@@ -40,17 +39,15 @@
             </div>
         </div>
 
-        Albums
         <h2>Discography</h2>
-        <dot:Repeater DataSource="{value: Author.Albums}">
-            <ItemTemplate>
-                <div>
-                    <img src="{{value: _this.Picture}}" />
-                    <p>{{value: _this.AlbumName}}</p>
-                    <p>{{value: _this.Year}} Album</p>
-                </div>
-            </ItemTemplate>
-        </dot:Repeater>
+
+        <dot:GridView DataSource="{value: Author.Albums}">
+            <Columns>
+                <dot:GridViewTextColumn ValueBinding="{value: AlbumName}" HeaderText="Album" />
+                <dot:GridViewTextColumn ValueBinding="{value: Year}" HeaderText="Year" />
+            </Columns>
+        </dot:GridView>
+
     </div>
 </dot:Content>
 

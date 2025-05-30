@@ -38,25 +38,13 @@
     </div>
 
     <%--files--%>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Plays</th>
-                <th>⏱</th>
-            </tr>
-        </thead>
-    </table>
-    <dot:Repeater DataSource="{value: Files}">
-        <ItemTemplate>
-            <tr>
-                <td>{{value: _this.Index}}</td>
-                <td>{{value: _this.FileName}}</td>
-                <td>{{value: _root.Album.AuthorName}}</td>
-                <td>"172,129"</td>
-                <%--<td>{{value: _this.LengthFormatted}}</td>--%>
-            </tr>
-        </ItemTemplate>
-    </dot:Repeater>
+    <dot:GridView DataSource="{value: Files}">
+        <Columns>
+            <dot:GridViewTextColumn ValueBinding="{value: Index}" HeaderText="#" />
+            <dot:GridViewTextColumn ValueBinding="{value: FileName}" HeaderText="Title" />
+            <dot:GridViewTextColumn ValueBinding="{value: _root.Album.AuthorName}" HeaderText="Author" />
+            <dot:GridViewTextColumn ValueBinding="{value: PlayCount}" HeaderText="Plays" />
+            <dot:GridViewTextColumn ValueBinding="{value: LengthFormatted}" HeaderText="⏱" />
+        </Columns>
+    </dot:GridView>
 </dot:Content>

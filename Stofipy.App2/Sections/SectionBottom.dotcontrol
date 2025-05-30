@@ -16,9 +16,11 @@
         <!-- Top Controls -->
         <div class="center-top">
             <img src="shuffle.png" alt="Shuffle">
-            <img src="previous.png" alt="Previous">
+            <%--<img src="previous.png" alt="Previous">--%>
+            <dot:Button Click="{command: PreviousSong()}" Text="Previous" />
             <img class="pause-button" src="pause.png" alt="Pause">
-            <img src="next.png" alt="Next">
+            <dot:Button Click="{command: NextSong()}" Text="Next" />
+            <%--<img src="next.png" alt="Next">--%>
             <img src="repeat_white.png" alt="Repeat">
         </div>
 

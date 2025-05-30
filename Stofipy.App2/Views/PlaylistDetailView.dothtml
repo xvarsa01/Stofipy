@@ -33,34 +33,20 @@
     <%--buttons--%>
     <div>
         <dot:Button Click="{command: PlayPlaylistAsync()}" Text="Play" />
-        <dot:Button Click="{command: Shuffle()}" Text="Shuffle" />            
-        <dot:Button Click="{command: Download()}" Text="Download" />            
+        <dot:Button Click="{command: Shuffle()}" Text="Shuffle" />
+        <dot:Button Click="{command: Download()}" Text="Download" />
     </div>
 
     <%--files--%>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Album</th>
-                <th>⏱</th>
-            </tr>
-        </thead>
-    </table>
-    <dot:Repeater DataSource="{value: Files}">
-        <ItemTemplate>
-            <tr>
-                <td>{{value: _this.IndexActual}}</td>
-                <td>{{value: _this.Picture}}</td>
-                <td>{{value: _this.FileName}}</td>
-                <td>{{value: _this.AuthorName}}</td>
-                <td>{{value: _this.DefaultAlbumName}}</td>
-                <td>{{value: _this.LengthFormatted}}</td>
-            </tr>
-        </ItemTemplate>
-    </dot:Repeater>
-
+    <dot:GridView DataSource="{value: Files}">
+        <Columns>
+            <dot:GridViewTextColumn ValueBinding="{value: IndexActual}" HeaderText="#" />
+            <dot:GridViewTextColumn ValueBinding="{value: Picture}" HeaderText="" />
+            <dot:GridViewTextColumn ValueBinding="{value: FileName}" HeaderText="Title" />
+            <dot:GridViewTextColumn ValueBinding="{value: AuthorName}" HeaderText="Author" />
+            <dot:GridViewTextColumn ValueBinding="{value: DefaultAlbumName}" HeaderText="Album" />
+            <dot:GridViewTextColumn ValueBinding="{value: LengthFormatted}" HeaderText="⏱" />
+        </Columns>
+    </dot:GridView>
 
 </dot:Content>

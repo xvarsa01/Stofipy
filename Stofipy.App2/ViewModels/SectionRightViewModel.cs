@@ -1,4 +1,5 @@
-﻿using DotVVM.Framework.Hosting;
+﻿using CommunityToolkit.Mvvm.Input;
+using DotVVM.Framework.Hosting;
 using DotVVM.Framework.ViewModel;
 using Stofipy.BL.Facades;
 using Stofipy.BL.Facades.Interfaces;
@@ -43,6 +44,17 @@ namespace Stofipy.App2.ViewModels
             await PreRender();
         }
 
+        private async Task NextSong()
+        {
+            await filesInQueueFacade.NextSong();
+            await PreRender();
+        }
+
+        private async Task PreviousSong()
+        {
+            await filesInQueueFacade.PreviousSong();
+            await PreRender();
+        }
     }
 }
 

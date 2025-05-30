@@ -23,7 +23,7 @@
                     <cc:Left />
             </div>
             <div class="center" style="width: 50%; background-color: #ffffff;">
-                <dot:ContentPlaceHolder ID="MainContent" />
+                <dot:SpaContentPlaceHolder  ID="MainContent" />
             </div>
             <div class="right" style="width: 25%; background-color: #f0f0f0;">
                 <cc:Right />
