@@ -7,6 +7,7 @@
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
         xmlns:components="clr-namespace:Stofipy.App.Components"
         x:Class="Stofipy.App.Views.SectionRight"
+        x:Name="SectionRightViewRoot"
         x:DataType="viewModels:FilesInQueueVM"
 >
     
@@ -91,10 +92,25 @@
                 <CollectionView ItemsSource="{Binding PriorityQueue}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FilesInQueueModel">
-                            <components:FileWithPictureAnd2Texts 
-                                Picture="{Binding Picture}" 
-                                TopText="{Binding FileName}" 
-                                BottomText="{Binding AuthorName}" />
+                            <Border>
+                                <Border.GestureRecognizers>
+                                    <DragGestureRecognizer
+                                        DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
+                                        DragStartingCommandParameter="{Binding .}"
+                                    />
+                                    <DropGestureRecognizer
+                                        DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
+                                        DragOverCommandParameter="{Binding Index}"
+                                    
+                                        DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
+                                        DropCommandParameter="{Binding .}"
+                                    />
+                                </Border.GestureRecognizers>
+                                <components:FileWithPictureAnd2Texts 
+                                    Picture="{Binding Picture}" 
+                                    TopText="{Binding FileName}" 
+                                    BottomText="{Binding AuthorName}" />
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -104,10 +120,25 @@
             <CollectionView ItemsSource="{Binding BasicQueue}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
-                        <components:FileWithPictureAnd2Texts 
-                            Picture="{Binding Picture}" 
-                            TopText="{Binding FileName}" 
-                            BottomText="{Binding AuthorName}" />
+                        <Border>
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
+                                    DragStartingCommandParameter="{Binding .}"
+                                />
+                                <DropGestureRecognizer
+                                    DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
+                                    DragOverCommandParameter="{Binding Index}"
+                                    
+                                    DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
+                                    DropCommandParameter="{Binding .}"
+                                />
+                            </Border.GestureRecognizers>
+                            <components:FileWithPictureAnd2Texts 
+                                Picture="{Binding Picture}" 
+                                TopText="{Binding FileName}" 
+                                BottomText="{Binding AuthorName}" />
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
