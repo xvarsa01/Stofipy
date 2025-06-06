@@ -30,7 +30,8 @@ public partial class FilesInQueueVM(
     private bool _displayPriorityQueue = true;
     
     private FilesInQueueModel? _draggedFile = null;
-    private int _lastlyHoveredOverIndex = -1;
+    [ObservableProperty]
+    private bool _draggedIntoLast = false;
     
     protected override async Task LoadDataAsync()
     {
@@ -69,24 +70,56 @@ public partial class FilesInQueueVM(
     public void DragStarted(FilesInQueueModel draggedFile)
     {
         _draggedFile = draggedFile;
-        _lastlyHoveredOverIndex = draggedFile.Index;
+    }
+
+    [RelayCommand]
+    public void DragReleased()
+    {
+        foreach (var file in BasicQueue)
+        {
+            file.IsDraggedInto = false;
+        }
+        DraggedIntoLast = false;
+        _draggedFile = null;
     }
     
     [RelayCommand]
     public async Task DragEnded(FilesInQueueModel endFile)
     {
         await facade.ReorderQueue(_draggedFile!.Index, endFile.Index , _draggedFile.PriorityQueue, endFile.PriorityQueue);
-        _draggedFile = null;
         await LoadDataAsync();
     }
     
     [RelayCommand]
-    public Task DragOver(int hoverIndex)
+    public async Task DragEndedAtTheEndNonPriority()
     {
-
-        return Task.CompletedTask;
+        await facade.ReorderQueue(_draggedFile!.Index, BasicQueue.Count + 1 , _draggedFile.PriorityQueue, false);
+        await LoadDataAsync();
     }
     
+    [RelayCommand]
+    public void DragOver(FilesInQueueModel endFile)
+    {
+        if (_draggedFile == null) return;
+        endFile.IsDraggedInto = true;
+    }
+    [RelayCommand]
+    public void DragOverLeave(FilesInQueueModel endFile)
+    {
+        if (_draggedFile == null) return;
+        endFile.IsDraggedInto = false;
+    }
+    
+    [RelayCommand]
+    public void DragOverAtTheEnd()
+    {
+        DraggedIntoLast = true;
+    }
+    [RelayCommand]
+    public void DragOverAtTheEndLeave()
+    {
+        DraggedIntoLast = false;
+    }
     
     
     [RelayCommand]

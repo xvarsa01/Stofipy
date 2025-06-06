@@ -11,6 +11,8 @@ public record FilesInQueueModel() : ModelBase
     public required Guid FileId { get; set; }
     public required bool PriorityQueue { get; set; }
     
+    public bool IsDraggedInto { get; set; }
+    
     public static FilesInQueueModel Empty = new()
     {
         Id = Guid.NewGuid(),
