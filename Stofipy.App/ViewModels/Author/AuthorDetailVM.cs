@@ -13,6 +13,7 @@ public partial class AuthorDetailVM(
     IAuthorFacade facade,
     IFileFacade fileFacade,
     IFilesInQueueFacade filesInQueueFacade,
+    ICurrentStateService currentState,
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
@@ -22,6 +23,14 @@ public partial class AuthorDetailVM(
     public ObservableCollection<FileListModel> PopularFilesCurrentlyShowed { get; set; } = new();
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
+
+    private FilesInQueueModel? NowPlaying => currentState.NowPlaying;
+    
+    public bool ThisArtistIsPlaying
+    {
+        get { return currentState.IsPlaying && currentState.NowPlaying?.AuthorName == Author.AuthorName; }
+        set => currentState.IsPlaying = value;
+    }
 
     [ObservableProperty]
     private string _seeMoreText = "See more";

@@ -12,14 +12,19 @@ namespace Stofipy.App.ViewModels;
 
 public partial class FilesInQueueVM(
     IFilesInQueueFacade facade,
-    IMessengerService messengerService)
+    IMessengerService messengerService,
+    ICurrentStateService currentState)
     : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>
 {
     public ObservableCollection<FilesInQueueModel> PriorityQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> BasicQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> RecentlyPlayedQueue { get; set; } = null!;
 
-    public FilesInQueueModel? NowPlaying { get; set; }
+    public FilesInQueueModel? NowPlaying
+    {
+        get => currentState.NowPlaying;
+        set => currentState.NowPlaying = value;
+    }
     
     [ObservableProperty]
     private bool _displayStandardQueue = true;
