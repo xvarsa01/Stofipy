@@ -100,16 +100,8 @@
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <Border Style="{StaticResource TransparentBorderThickness0}"
-                                        HeightRequest="10">
-                                    <Border.Triggers>
-                                        <DataTrigger TargetType="Border"
-                                                     Binding="{Binding IsDraggedInto}"
-                                                     Value="true">
-                                            <Setter Property="BackgroundColor" Value="Green" />
-                                        </DataTrigger>
-                                    </Border.Triggers>
-                                </Border>
+                                <components:QueueHighlightedDropArea 
+                                    Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
@@ -146,6 +138,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
@@ -159,17 +152,9 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <Grid HeightRequest="10" ZIndex="-1" Margin="0,-10,0,0">
-                    <Border BackgroundColor="Transparent" StrokeThickness="0">
-                        <Border.Triggers>
-                            <DataTrigger TargetType="Border"
-                                         Binding="{Binding DraggedIntoLastPriority}"
-                                         Value="true">
-                                <Setter Property="BackgroundColor" Value="Green" />
-                            </DataTrigger>
-                        </Border.Triggers>
-                    </Border>
-                </Grid>
+                <components:QueueHighlightedDropArea 
+                    Highlighted="{Binding DraggedIntoLastPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
+                
             </VerticalStackLayout>
             
             <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
@@ -179,16 +164,8 @@
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <Border Style="{StaticResource TransparentBorderThickness0}"
-                                        HeightRequest="10">
-                                    <Border.Triggers>
-                                        <DataTrigger TargetType="Border"
-                                                     Binding="{Binding IsDraggedInto}"
-                                                     Value="true">
-                                            <Setter Property="BackgroundColor" Value="Green" />
-                                        </DataTrigger>
-                                    </Border.Triggers>
-                                </Border>
+                                <components:QueueHighlightedDropArea 
+                                    Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
@@ -239,17 +216,9 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <Grid HeightRequest="10" ZIndex="-1" Margin="0,-10,0,0">
-                    <Border BackgroundColor="Transparent" StrokeThickness="0">
-                        <Border.Triggers>
-                            <DataTrigger TargetType="Border"
-                                         Binding="{Binding DraggedIntoLastNonPriority}"
-                                         Value="true">
-                                <Setter Property="BackgroundColor" Value="Green" />
-                            </DataTrigger>
-                        </Border.Triggers>
-                    </Border>
-                </Grid>
+                <components:QueueHighlightedDropArea 
+                    Highlighted="{Binding DraggedIntoLastNonPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
+                
             </VerticalStackLayout>
             
         </VerticalStackLayout>
