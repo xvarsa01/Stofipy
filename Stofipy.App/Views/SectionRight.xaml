@@ -92,48 +92,16 @@
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}" />
 
-            
-            <VerticalStackLayout
-                IsVisible="{Binding DisplayPriorityQueue}"
-                Spacing="20">
-                
-                <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
+            <VerticalStackLayout Margin="0, -10, 0, 0"
+                IsVisible="{Binding DisplayPriorityQueue}">
                 <CollectionView ItemsSource="{Binding PriorityQueue}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FilesInQueueModel">
-                            <Border>
-                                <Border.GestureRecognizers>
-                                    <DragGestureRecognizer
-                                        DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
-                                        DragStartingCommandParameter="{Binding .}"
-                                    />
-                                    <DropGestureRecognizer
-                                        DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
-                                        DragOverCommandParameter="{Binding .}"
-                                    
-                                        DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
-                                        DropCommandParameter="{Binding .}"
-                                    />
-                                </Border.GestureRecognizers>
-                                <components:FileWithPictureAnd2Texts 
-                                    Picture="{Binding Picture}" 
-                                    TopText="{Binding FileName}" 
-                                    BottomText="{Binding AuthorName}" />
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
-            
-            <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
-            <VerticalStackLayout Spacing="-10">
-                <CollectionView ItemsSource="{Binding BasicQueue}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
-
                                 <!-- BACKGROUND: Green on drag -->
-                                <Border ZIndex="-1">
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        HeightRequest="10">
                                     <Border.Triggers>
                                         <DataTrigger TargetType="Border"
                                                      Binding="{Binding IsDraggedInto}"
@@ -144,9 +112,8 @@
                                 </Border>
 
                                 <!-- MAIN CONTENT: Draggable -->
-                                <Border Margin="0,10,0,0"
-                                        BackgroundColor="Black"
-                                        ZIndex="0">
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        Margin="0,10,0,0">
                                     <Border.GestureRecognizers>
                                         <DragGestureRecognizer
                                             DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
@@ -161,14 +128,10 @@
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
-                                <Border 
-                                    InputTransparent="False"
-                                    BackgroundColor="Transparent"
-                                    Margin="0,-30,50,0"
-                                    VerticalOptions="Start"
-                                    HeightRequest="72"
-                                    ZIndex="1">
-
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        Margin="0,-30,0,0"
+                                        InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                                        HeightRequest="72">
                                     <Border.GestureRecognizers>
                                         <DropGestureRecognizer
                                             DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
@@ -179,30 +142,28 @@
                                             DropCommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
                                 </Border>
-
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                
                 <!-- last box if item needs to be placed at the last place in queue -->
-                <Grid HeightRequest="20" ZIndex="1">
-                    <Border BackgroundColor="Transparent"
-                            Margin="0,-20,50,0">
+                <Grid HeightRequest="10" ZIndex="1">
+                    <Border BackgroundColor="Transparent" StrokeThickness="0"
+                            Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
-                                DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndCommand}"
-                                DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndLeaveCommand}"
-                                DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedAtTheEndNonPriorityCommand}"
+                                DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndPriorityCommand}"
+                                DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndPriorityLeaveCommand}"
+                                DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedAtTheEndPriorityCommand}"
                             />
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <Grid HeightRequest="10" ZIndex="-1">
-                    <Border BackgroundColor="Transparent">
+                <Grid HeightRequest="10" ZIndex="-1" Margin="0,-10,0,0">
+                    <Border BackgroundColor="Transparent" StrokeThickness="0">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border"
-                                         Binding="{Binding DraggedIntoLast}"
+                                         Binding="{Binding DraggedIntoLastPriority}"
                                          Value="true">
                                 <Setter Property="BackgroundColor" Value="Green" />
                             </DataTrigger>
@@ -210,6 +171,87 @@
                     </Border>
                 </Grid>
             </VerticalStackLayout>
+            
+            <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
+            <VerticalStackLayout Margin="0, -10, 0, 0">
+                <CollectionView ItemsSource="{Binding BasicQueue}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FilesInQueueModel">
+                            <Grid>
+                                <!-- BACKGROUND: Green on drag -->
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        HeightRequest="10">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border"
+                                                     Binding="{Binding IsDraggedInto}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor" Value="Green" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                </Border>
+
+                                <!-- MAIN CONTENT: Draggable -->
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        Margin="0,10,0,0">
+                                    <Border.GestureRecognizers>
+                                        <DragGestureRecognizer
+                                            DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
+                                            DragStartingCommandParameter="{Binding .}"
+                                            DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <components:FileWithPictureAnd2Texts 
+                                        Picture="{Binding Picture}" 
+                                        TopText="{Binding FileName}" 
+                                        BottomText="{Binding AuthorName}" />
+                                </Border>
+
+                                <!-- DROP TARGET: Transparent hit area, allows drag-through -->
+                                <Border Style="{StaticResource TransparentBorderThickness0}"
+                                        Margin="0,-30,0,0"
+                                        InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                                        HeightRequest="72">
+                                    <Border.GestureRecognizers>
+                                        <DropGestureRecognizer
+                                            DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
+                                            DragOverCommandParameter="{Binding .}"
+                                            DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverLeaveCommand}"
+                                            DragLeaveCommandParameter="{Binding .}"
+                                            DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
+                                            DropCommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+                <!-- last box if item needs to be placed at the last place in queue -->
+                <Grid HeightRequest="10" ZIndex="1">
+                    <Border BackgroundColor="Transparent" StrokeThickness="0"
+                                Margin="0,-30,0,0">
+                        <Border.GestureRecognizers>
+                            <DropGestureRecognizer
+                                DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityCommand}"
+                                DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityLeaveCommand}"
+                                DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedAtTheEndNonPriorityCommand}"
+                            />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </Grid>
+                <Grid HeightRequest="10" ZIndex="-1" Margin="0,-10,0,0">
+                    <Border BackgroundColor="Transparent" StrokeThickness="0">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding DraggedIntoLastNonPriority}"
+                                         Value="true">
+                                <Setter Property="BackgroundColor" Value="Green" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+            
         </VerticalStackLayout>
             
     </VerticalStackLayout>

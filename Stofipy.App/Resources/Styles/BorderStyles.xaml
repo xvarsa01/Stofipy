@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Style TargetType="Border" x:Key="TransparentBorderThickness0">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="VerticalOptions" Value="Start"/>
+    </Style>
+</ResourceDictionary>

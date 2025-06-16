@@ -31,7 +31,12 @@ public partial class FilesInQueueVM(
     
     private FilesInQueueModel? _draggedFile = null;
     [ObservableProperty]
-    private bool _draggedIntoLast = false;
+    private bool _isInputTransparent = true;
+    
+    [ObservableProperty]
+    private bool _draggedIntoLastNonPriority = false;
+    [ObservableProperty]
+    private bool _draggedIntoLastPriority = false;
     
     protected override async Task LoadDataAsync()
     {
@@ -70,6 +75,7 @@ public partial class FilesInQueueVM(
     public void DragStarted(FilesInQueueModel draggedFile)
     {
         _draggedFile = draggedFile;
+        IsInputTransparent = false;
     }
 
     [RelayCommand]
@@ -79,8 +85,10 @@ public partial class FilesInQueueVM(
         {
             file.IsDraggedInto = false;
         }
-        DraggedIntoLast = false;
+        DraggedIntoLastPriority = false;
+        DraggedIntoLastNonPriority = false;
         _draggedFile = null;
+        IsInputTransparent = true;
     }
     
     [RelayCommand]
@@ -89,7 +97,12 @@ public partial class FilesInQueueVM(
         await facade.ReorderQueue(_draggedFile!.Index, endFile.Index , _draggedFile.PriorityQueue, endFile.PriorityQueue);
         await LoadDataAsync();
     }
-    
+    [RelayCommand]
+    public async Task DragEndedAtTheEndPriority()
+    {
+        await facade.ReorderQueue(_draggedFile!.Index, PriorityQueue.Count + 1 , _draggedFile.PriorityQueue, true);
+        await LoadDataAsync();
+    }
     [RelayCommand]
     public async Task DragEndedAtTheEndNonPriority()
     {
@@ -97,6 +110,7 @@ public partial class FilesInQueueVM(
         await LoadDataAsync();
     }
     
+    // just for the green highlight
     [RelayCommand]
     public void DragOver(FilesInQueueModel endFile)
     {
@@ -111,14 +125,25 @@ public partial class FilesInQueueVM(
     }
     
     [RelayCommand]
-    public void DragOverAtTheEnd()
+    public void DragOverAtTheEndPriority()
     {
-        DraggedIntoLast = true;
+        DraggedIntoLastPriority = true;
     }
     [RelayCommand]
-    public void DragOverAtTheEndLeave()
+    public void DragOverAtTheEndPriorityLeave()
     {
-        DraggedIntoLast = false;
+        DraggedIntoLastPriority = false;
+    }
+    
+    [RelayCommand]
+    public void DragOverAtTheEndNonPriority()
+    {
+        DraggedIntoLastNonPriority = true;
+    }
+    [RelayCommand]
+    public void DragOverAtTheEndNonPriorityLeave()
+    {
+        DraggedIntoLastNonPriority = false;
     }
     
     
