@@ -28,7 +28,7 @@ public partial class AuthorDetailVM(
     
     public bool ThisArtistIsPlaying
     {
-        get { return currentState.IsPlaying && currentState.NowPlaying?.AuthorName == Author.AuthorName; }
+        get { return currentState.IsPlaying && currentState.NowPlaying?.AuthorName == Author!.AuthorName; }
         set => currentState.IsPlaying = value;
     }
 
@@ -97,10 +97,21 @@ public partial class AuthorDetailVM(
     }
 
     [RelayCommand]
-    private async Task PlayArtis(FileListModel item)
+    private async Task PlayArtis()
     {
-        await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
-        MessengerService.Send(new RefreshQueueMessage());
+        if (ThisArtistIsPlaying)
+        {
+            ThisArtistIsPlaying = false;
+            return;
+        }
+        
+        if (NowPlaying == null || NowPlaying.AuthorName != Author?.AuthorName)
+        {
+            await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
+            MessengerService.Send(new RefreshQueueMessage());
+        }
+        ThisArtistIsPlaying = true;
+        OnPropertyChanged(nameof(ThisArtistIsPlaying));
     }
     
     [RelayCommand]

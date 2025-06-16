@@ -80,16 +80,10 @@
                 <HorizontalStackLayout
                     Spacing="20">
                     
-                    <Border StrokeThickness="0">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PlayArtisCommand}" />
-                        </Border.GestureRecognizers>
-                        <Image
-                           Aspect="AspectFill"
-                           WidthRequest="50" HeightRequest="50"
-                           Source="play_green.png"
-                        />
-                    </Border>
+                    <components:PlayPauseButtonGreen
+                        ButtonPressedCommand="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.PlayArtisCommand}"
+                        MusicIsPlaying="{Binding ThisArtistIsPlaying}"/>
+                    
                     <Border StrokeThickness="0">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleShuffleCommand}" />
