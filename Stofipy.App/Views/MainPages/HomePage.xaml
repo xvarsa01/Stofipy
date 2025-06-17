@@ -15,7 +15,7 @@
     <!-- Main Middle -->
     <Grid
         RowDefinitions="auto, auto"
-        BackgroundColor="DarkGray">
+        BackgroundColor="{StaticResource PagesBg}">
         <HorizontalStackLayout
             Grid.Row="0">
             <Button Text="All" />

@@ -11,7 +11,6 @@
     <!-- Top bar with searchbar and profile icon -->
     <Grid 
         ColumnDefinitions="auto, *, auto"
-        BackgroundColor="Black"
         Padding="10">
         
         <HorizontalStackLayout Grid.Column="0">

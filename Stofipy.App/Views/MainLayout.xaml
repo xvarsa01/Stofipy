@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Stofipy.App.Views.MainLayout">
 
-    <Grid RowDefinitions="auto, *, auto">
+    <Grid RowDefinitions="auto, *, auto" BackgroundColor="{StaticResource MainBg}">
         
         <!-- Top bar with searchbar and profile icon -->
         <ContentView x:Name="TopContent" Grid.Row="0"/>
@@ -15,13 +15,19 @@
             ColumnDefinitions="*, 2*, *">
 
             <!-- Your library Left -->
-            <ContentView x:Name="LeftContent" Grid.Column="0"/>
-            
+            <Border Grid.Column="0" Margin="5, 0, 0, 0"  Style="{StaticResource PageBorder}">
+            <ContentView x:Name="LeftContent" />
+            </Border>
+
             <!-- Main screen -->
-            <ContentView x:Name="CenterContent" Grid.Column="1"/>
-            
+            <Border Grid.Column="1" Margin="5, 0"  Style="{StaticResource PageBorder}">
+            <ContentView x:Name="CenterContent"/>
+            </Border>
+
             <!-- Right -->
-            <ContentView x:Name="RightContent" Grid.Column="2"/>
+            <Border Grid.Column="2" Margin="0, 0, 5, 0"  Style="{StaticResource PageBorder}">
+            <ContentView x:Name="RightContent" />
+            </Border>
         </Grid>
         
         <!-- Bottom bar with currently played file -->

@@ -6,9 +6,7 @@
              x:Class="Stofipy.App.Components.FileWithPictureAnd1Text">
     
     <Border
-        StrokeShape="RoundRectangle 10"
-        StrokeThickness="0"
-        BackgroundColor="Transparent"
+        Style="{StaticResource TransparentBorderThickness0}"
         Padding="0">
                     
         <Border.GestureRecognizers>

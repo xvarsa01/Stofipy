@@ -5,4 +5,11 @@
         <Setter Property="StrokeThickness" Value="0"/>
         <Setter Property="VerticalOptions" Value="Start"/>
     </Style>
+    
+    <Style TargetType="Border" x:Key="PageBorder">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+    </Style>
 </ResourceDictionary>

@@ -15,11 +15,12 @@
         <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
     </ContentView.Resources>
     
+
     <Grid
         RowDefinitions="auto, *"
         Padding="10"
         RowSpacing="20"
-        BackgroundColor="#121212">
+        BackgroundColor="{StaticResource PagesBg}">
 
         <Grid Grid.Row="0"
             ColumnDefinitions="auto, auto,  *" Padding="-10">

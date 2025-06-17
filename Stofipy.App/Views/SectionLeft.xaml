@@ -17,7 +17,7 @@
     <VerticalStackLayout
         Padding="20"
         Spacing="10"
-        BackgroundColor="#121212"
+        BackgroundColor="{StaticResource PagesBg}"
         >
         <Grid ColumnDefinitions="auto, *">
             <Label
