@@ -15,7 +15,7 @@
     <!-- Main Middle -->
     <ScrollView>
     <VerticalStackLayout
-        Padding="20"
+        Padding="30"
         Spacing="20"
         BackgroundColor="{StaticResource PagesBg}">
         
@@ -47,12 +47,13 @@
             </CollectionView>
         </FlexLayout>
         
-        <Label Text="Your shows" Style="{StaticResource TitleMid}"/>
+        <components:HomePageTitleWithLink
+            TitleText="Your shows"
+            ShowAllCommand="{Binding GoToYourShowsCommand}"/>
         
         <CollectionView ItemsSource="{Binding Playlists}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Horizontal"
-                                 HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                <GridItemsLayout Orientation="Horizontal"/>
             </CollectionView.ItemsLayout>
                     
             <CollectionView.ItemTemplate>
@@ -60,17 +61,29 @@
                     <components:FileBigWith2Texts
                         Picture="{Binding Picture}"
                         TopText="{Binding PlaylistName}"
+                        BottomText="{Binding PlaylistName}"
                         TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
-                        CommandParameter="{Binding Id}"/>
+                        CommandParameter="{Binding Id}"
+                        IsHovered="{Binding IsHovered}"
+                    />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
         
-        <Label Text="Made for you" Style="{StaticResource TitleMid}"/>
         
-        <Label Text="Recently played" Style="{StaticResource TitleMid}"/>
+        <components:HomePageTitleWithLink
+            TitleText="Made for you"
+            ShowAllCommand="{Binding GoToMadeForYouCommand}"/>
         
-        <Label Text="Popular radio" Style="{StaticResource TitleMid}"/>
+        
+        <components:HomePageTitleWithLink
+            TitleText="Recently played"
+            ShowAllCommand="{Binding GoToRecentlyPlayedCommand}"/>
+        
+        
+        <components:HomePageTitleWithLink
+            TitleText="Popular radio"
+            ShowAllCommand="{Binding GoToPopularRadioCommand}"/>
         
     </VerticalStackLayout>
     </ScrollView>

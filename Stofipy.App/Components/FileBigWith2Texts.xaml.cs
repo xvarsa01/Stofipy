@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Stofipy.BL.Models;
 
 namespace Stofipy.App.Components;
 
@@ -74,5 +75,34 @@ public partial class FileBigWith2Texts : ContentView
     {
         get => (string)GetValue(BottomTextProperty);
         set => SetValue(BottomTextProperty, value);
+    }
+    
+    public static readonly BindableProperty IsSelectedProperty =
+        BindableProperty.Create(nameof(BottomText), typeof(bool), typeof(FileWithPictureAnd2Texts));
+    public bool IsSelected
+    {
+        get => (bool)GetValue(IsSelectedProperty);
+        set => SetValue(IsSelectedProperty, value);
+    }
+    
+    public static readonly BindableProperty IsHoveredProperty =
+        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(FileWithPictureAnd2Texts));
+    public bool IsHovered
+    {
+        get => (bool)GetValue(IsHoveredProperty);
+        set => SetValue(IsHoveredProperty, value);
+    }
+    
+    
+    private void OnPointerEntered(object sender, PointerEventArgs e)
+    {
+        if (sender is Border border && border.BindingContext is PlaylistListModel model)
+            model.IsHovered = true;
+    }
+
+    private void OnPointerExited(object sender, PointerEventArgs e)
+    {
+        if (sender is Border border && border.BindingContext is PlaylistListModel model)
+            model.IsHovered = false;
     }
 }
