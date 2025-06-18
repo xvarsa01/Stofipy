@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Stofipy.App.Components"
+             x:Class="Stofipy.App.Components.PlaylistsComponentHomePage">
+    
+    <Border
+        Style="{StaticResource TransparentBorderThickness0}"
+        Padding="0">
+                    
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}" />
+        </Border.GestureRecognizers>
+        
+        <Grid ColumnDefinitions="60, auto"
+              ColumnSpacing="10"
+              Padding="5">
+            <Border
+                Grid.Column="0"
+                StrokeShape="RoundRectangle 5"
+                StrokeThickness="0"
+                HeightRequest="40"
+                WidthRequest="40"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                BackgroundColor="Transparent">
+                <Image 
+                    Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                    Aspect="AspectFill"
+                    HeightRequest="40"
+                    WidthRequest="40"/>
+            </Border>
+            <Label
+                Grid.Column="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                Text="{Binding CenterText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                TextColor="White"
+                FontSize="15"/>
+        </Grid>
+    </Border>
+</ContentView>

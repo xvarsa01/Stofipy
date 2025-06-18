@@ -8,23 +8,24 @@
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="using:Stofipy.App.Components"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
-    x:DataType="viewModels:ListOfPlaylistsVM"
+    x:DataType="viewModels:HomePageVM"
     x:Name="HomeViewRoot"
     >
     
     <!-- Main Middle -->
-    <Grid
-        RowDefinitions="auto, auto"
+    <ScrollView>
+    <VerticalStackLayout
+        Padding="20"
+        Spacing="20"
         BackgroundColor="{StaticResource PagesBg}">
-        <HorizontalStackLayout
-            Grid.Row="0">
+        
+        <HorizontalStackLayout>
             <Button Text="All" />
             <Button Text="Music" />
             <Button Text="Podcasts" />
         </HorizontalStackLayout>
 
-        <FlexLayout 
-            Grid.Row="1">
+        <FlexLayout>
             <CollectionView ItemsSource="{Binding Playlists}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout
@@ -35,16 +36,43 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlaylistListModel">
-                        <components:FileWithPictureAnd2Texts
+                        <components:FileWithPictureAnd1Text
+                            BackgroundColor="Blue"
                             Picture="{Binding Picture}"
-                            TopText="{Binding PlaylistName}"
-                            BottomText="Playlist"
+                            CenterText="{Binding PlaylistName}"
                             TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
                             CommandParameter="{Binding Id}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </FlexLayout>
-    </Grid>
+        
+        <Label Text="Your shows" Style="{StaticResource TitleMid}"/>
+        
+        <CollectionView ItemsSource="{Binding Playlists}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Horizontal"
+                                 HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+                    
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PlaylistListModel">
+                    <components:FileBigWith2Texts
+                        Picture="{Binding Picture}"
+                        TopText="{Binding PlaylistName}"
+                        TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                        CommandParameter="{Binding Id}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <Label Text="Made for you" Style="{StaticResource TitleMid}"/>
+        
+        <Label Text="Recently played" Style="{StaticResource TitleMid}"/>
+        
+        <Label Text="Popular radio" Style="{StaticResource TitleMid}"/>
+        
+    </VerticalStackLayout>
+    </ScrollView>
         
 </views:ContentViewBase>

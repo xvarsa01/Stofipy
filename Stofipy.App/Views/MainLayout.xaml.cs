@@ -10,17 +10,17 @@ namespace Stofipy.App.Views;
 
 public partial class MainLayout : ContentPage
 {
-    private readonly ListOfPlaylistsVM _listOfPlaylistsVM;
+    private readonly HomePageVM _homePageVM;
     private readonly IServiceProvider _serviceProvider;
 
-    public MainLayout( FilesInQueueVM filesInQueueVM, ListOfPlaylistsVM listOfPlaylistsVM,
-        PlaylistDetailVM playlistDetailVM, AuthorDetailVM authorDetailVM,
+    public MainLayout( FilesInQueueVM filesInQueueVM,
+        HomePageVM homePageVM,
         SectionTopVM sectionTopVM,
         SectionLeftVM sectionLeftVM,
         INavigationService navigationService,
         IServiceProvider serviceProvider)
     {
-        _listOfPlaylistsVM = listOfPlaylistsVM;
+        _homePageVM = homePageVM;
         _serviceProvider = serviceProvider;
         InitializeComponent();
         
@@ -29,7 +29,7 @@ public partial class MainLayout : ContentPage
         LoadSectionLeft(new SectionLeft(sectionLeftVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
-        LoadSectionMiddle(new HomePage(listOfPlaylistsVM));
+        LoadSectionMiddle(new HomePage(homePageVM));
         // LoadSectionMiddle(new PlaylistDetailPage(playlistDetailVM));
         // LoadSectionMiddle(new AuthorDetailPage(authorDetailVM));
 
@@ -65,7 +65,7 @@ public partial class MainLayout : ContentPage
         switch (request)
         {
             case NavigateToHomeRequest:
-                LoadSectionMiddle(new HomePage(_listOfPlaylistsVM));
+                LoadSectionMiddle(new HomePage(_homePageVM));
                 break;
 
             case NavigateToAuthorRequest authorRequest:

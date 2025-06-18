@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Stofipy.App.Components"
+             x:Class="Stofipy.App.Components.FileBigWith2Texts">
+    
+    <Border
+        Padding="20,0"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 10"
+    >
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}"
+                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}" />
+        </Border.GestureRecognizers>
+        
+        <Grid RowDefinitions="100, auto, auto">
+            <Image Grid.Row="0"
+                   Aspect="AspectFill"
+                   WidthRequest="100" HeightRequest="100"
+                   Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}"/>
+
+            <Label Grid.Row="1" VerticalOptions="Center" TextColor="White"
+                   Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}"/>
+            
+            <Label Grid.Row="2" VerticalOptions="Center" TextColor="White"
+                   Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}"/>
+        </Grid>
+    </Border>
+</ContentView>
