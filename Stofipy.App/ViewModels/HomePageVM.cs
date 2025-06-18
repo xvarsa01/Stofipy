@@ -27,4 +27,32 @@ public partial class HomePageVM(
         navigationService.NavigateToPlaylist(id);
         return Task.CompletedTask;
     }
+   
+    [RelayCommand]
+    private Task GoToYourShowsAsync()
+    {
+        navigationService.NavigateToYourShows();
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task GoToMadeForYouAsync()
+    {
+        navigationService.NavigateToMadeForYou();
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task GoToRecentlyPlayedAsync()
+    {
+        navigationService.NavigateToRecentlyPlayed();
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task GoToPopularRadioAsync()
+    {
+        navigationService.NavigateToPopularRadio();
+        return Task.CompletedTask;
+    }
 }

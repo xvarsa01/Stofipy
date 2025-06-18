@@ -11,5 +11,9 @@ public interface INavigationService
     void NavigateToPlaylist(Guid playlistId);
     void NavigateToAuthor(Guid authorId);
     void NavigateToAlbum(Guid albumId);
+    void NavigateToYourShows();
+    void NavigateToMadeForYou();
+    void NavigateToRecentlyPlayed();
+    void NavigateToPopularRadio();
 
 }

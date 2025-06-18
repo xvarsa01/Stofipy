@@ -67,6 +67,18 @@ public partial class MainLayout : ContentPage
             case NavigateToHomeRequest:
                 LoadSectionMiddle(new HomePage(_homePageVM));
                 break;
+            
+            case NavigateToYourShowsRequest:
+                break;
+            
+            case NavigateToMadeForYouRequest:
+                break;
+            
+            case NavigateToRecentlyPlayedRequest:
+                break;
+            
+            case NavigateToPopularRadioRequest:
+                break;
 
             case NavigateToAuthorRequest authorRequest:
                 var authorDetailVM = _serviceProvider.GetRequiredService<AuthorDetailVM>();
