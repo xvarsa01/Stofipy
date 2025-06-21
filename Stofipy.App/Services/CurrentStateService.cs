@@ -12,4 +12,9 @@ public partial class CurrentStateService : ObservableObject, ICurrentStateServic
     [ObservableProperty]
     private bool _isPlaying;
 
+    public bool IsPlaylistPlaying { get; set; }
+    public Guid CurrentlyPlayingPlaylistId { get; set; }
+    public bool IsAuthorPlaying { get; set; }
+    public bool IsAlbumPlaying { get; set; }
+    public bool IsSomethingElsePlaying { get; set; }
 }

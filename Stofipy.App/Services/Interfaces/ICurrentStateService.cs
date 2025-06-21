@@ -6,5 +6,10 @@ namespace Stofipy.App.Services.Interfaces;
 public interface ICurrentStateService : INotifyPropertyChanged
 {
     FilesInQueueModel? NowPlaying { get; set; }
-    bool IsPlaying { get; set; }
+    
+    bool IsPlaylistPlaying { get; set; }
+    Guid CurrentlyPlayingPlaylistId { get; set; }
+    bool IsAuthorPlaying { get; set; }
+    bool IsAlbumPlaying { get; set; }
+    bool IsSomethingElsePlaying { get; set; }
 }

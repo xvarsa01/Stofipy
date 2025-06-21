@@ -14,7 +14,7 @@ public partial class AuthorDetailVM(
     IFileFacade fileFacade,
     IFilesInQueueFacade filesInQueueFacade,
     ICurrentStateService currentState,
-    IMessengerService messengerService) : ViewModelBase(messengerService)
+    IMessengerService messengerService) : ViewModelWithCurrentState(currentState, messengerService)
 {
     private Guid Id { get; set; }
     public AuthorDetailModel? Author { get; set; }
@@ -23,13 +23,11 @@ public partial class AuthorDetailVM(
     public ObservableCollection<FileListModel> PopularFilesCurrentlyShowed { get; set; } = new();
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
-
-    private FilesInQueueModel? NowPlaying => currentState.NowPlaying;
     
     public bool ThisArtistIsPlaying
     {
-        get { return currentState.IsPlaying && currentState.NowPlaying?.AuthorName == Author!.AuthorName; }
-        set => currentState.IsPlaying = value;
+        get => IsAuthorPlaying && NowPlaying?.AuthorName == Author!.AuthorName;
+        set => IsAuthorPlaying = value;
     }
 
     [ObservableProperty]
