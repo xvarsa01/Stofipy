@@ -7,6 +7,10 @@ public class FileBackgroundColorConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
+        if (values is [bool b])
+        {
+            return b ? "#802a2a2a" : "Transparent" ;
+        }
         if (values.Length < 2 ||
             values[0] is not bool isSelected ||
             values[1] is not bool isHovered)

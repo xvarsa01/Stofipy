@@ -7,6 +7,7 @@
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="clr-namespace:Stofipy.App.Components"
+    xmlns:menubars="clr-namespace:Stofipy.App.Components.Menubar"
     xmlns:converters="clr-namespace:Stofipy.App.Converters"
     x:Class="Stofipy.App.Views.MainPages.PlaylistDetailPage"
     x:Name="PlaylistDetailViewRoot"
@@ -183,6 +184,17 @@
                 
                 <Label Text="Recommended" Style="{StaticResource TitleMid}" />
                 
+                <Grid WidthRequest="220" BackgroundColor="{StaticResource Gray600}">
+                    <VerticalStackLayout Padding="3">
+                        <menubars:MenuItem Text="Add to playlist" IconName="dots_3_white.png" />
+                        <menubars:MenuItem Text="Save to your liked songs" IconName="dots_3_white.png" />
+                        <menubars:MenuItem Text="Add to queue" IconName="add_to_queue.png" />
+                        <menubars:MenuItem Text="Go to song radio" IconName="dots_3_white.png" />
+                        <menubars:MenuItem Text="Go to artist" IconName="dots_3_white.png" />
+                        <menubars:MenuItem Text="Add to album" IconName="dots_3_white.png" />
+
+                    </VerticalStackLayout>
+                </Grid>
             </VerticalStackLayout>
             </Grid>
             
