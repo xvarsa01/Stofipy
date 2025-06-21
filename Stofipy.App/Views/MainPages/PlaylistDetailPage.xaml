@@ -15,6 +15,7 @@
     
     <ContentView.Resources>
         <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </ContentView.Resources>
 
 
@@ -104,7 +105,7 @@
                 <CollectionView
                                 ItemsSource="{Binding Files}">
                     <CollectionView.Header>
-                        <Grid ColumnDefinitions="30, *, *, 50"
+                        <Grid ColumnDefinitions="30, *, *, 50, 20"
                               Padding="20,5">
                             <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="#" />
                             <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="White" Text="Title" />
@@ -119,8 +120,7 @@
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FilesInPlaylistModel">
-                            <Border 
-                                    Padding="20,5"
+                            <Border Padding="20,5"
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 10"
                                     >
@@ -141,10 +141,14 @@
                                         />
                                 </Border.GestureRecognizers>
 
-                                <Grid
-                                    ColumnDefinitions="30, *, *, 50">
-                                    <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding IndexActual}"></Label>
+                                <Grid ColumnDefinitions="30, *, *, 50, 20">
+                                    <Grid Grid.Column="0" VerticalOptions="Center">
+                                        <Label IsVisible="{Binding IsSelectedOrHovered, Converter={StaticResource InverseBooleanConverter}}"
+                                               Style="{StaticResource GeneralText}" Text="{Binding IndexActual}" />
+                                        
+                                        <Label IsVisible="{Binding IsSelectedOrHovered}"
+                                               Style="{StaticResource GeneralText}" Text="▶" />
+                                    </Grid>
                                 
                                     <components:FileWithPictureAnd2Texts 
                                         Picture="{Binding Picture}" 
@@ -153,10 +157,24 @@
                                         IsInteractive="False"
                                         Grid.Column="1"/>
                                 
-                                    <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
+                                    <Label Grid.Column="2" VerticalOptions="Center" Style="{StaticResource GeneralText}"
                                            Text="{Binding DefaultAlbumName}"></Label>
-                                    <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
+                                    <Label Grid.Column="3" VerticalOptions="Center" Style="{StaticResource GeneralText}"
                                            Text="{Binding LengthFormatted}"></Label>
+                                    <Border Grid.Column="4" Style="{StaticResource TransparentBorderThickness0}" 
+                                            IsVisible="{Binding IsSelectedOrHovered}"
+                                            VerticalOptions="Center">
+                                        <Border.GestureRecognizers>
+                                            <!-- <TapGestureRecognizer Command=""/> -->
+                                        </Border.GestureRecognizers>
+                                        <Image
+                                           Aspect="AspectFill"
+                                           HeightRequest="15"
+                                           WidthRequest="15"
+                                           Source="dots_3_white.png">
+                                        </Image>
+                                    </Border>
+
                                 </Grid>
                             </Border>
                         </DataTemplate>

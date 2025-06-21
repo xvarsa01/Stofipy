@@ -6,6 +6,11 @@
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
+    
+    <Style TargetType="Label" x:Key="GeneralText">
+        <Setter Property="TextColor" Value="{StaticResource Gray200}"></Setter>
+    </Style>
+        
 
     <Style TargetType="Label" x:Key="ShowAllLink">
         <Setter Property="BackgroundColor" Value="Transparent" />
