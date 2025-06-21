@@ -89,9 +89,10 @@
                     ColumnDefinitions="auto, auto, auto, *, auto"
                     ColumnSpacing="10">
                 
-                    <Button Grid.Column="0"
-                            Text="Play"
-                            Command="{Binding PlayPlaylistCommand}"/>
+                    <components:PlayPauseButtonGreen
+                        ButtonPressedCommand="{Binding Source={x:Reference PlaylistDetailViewRoot}, Path=BindingContext.PlayPlaylistCommand}"
+                        MusicIsPlaying="{Binding ThisPlaylistIsPlaying}"
+                        Grid.Column="0"/>
                     <Button Grid.Column="1" Text="Shuffle" />
                     <Button Grid.Column="2" Text="Download" />
                     <SearchBar Grid.Column="3" Text="Search"/>

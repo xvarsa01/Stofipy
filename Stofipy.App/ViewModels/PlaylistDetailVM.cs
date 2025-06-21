@@ -12,8 +12,9 @@ public partial class PlaylistDetailVM (
     IPlaylistFacade playlistFacade,
     IFilesInPlaylistFacade filesInPlaylistFacade,
     IFilesInQueueFacade filesInQueueFacade,
+    ICurrentStateService currentState,
     IMessengerService messengerService)
-    : ViewModelBase(messengerService)
+    : ViewModelWithCurrentState(currentState, messengerService)
 {
     private Guid Id { get; set; }
     public PlaylistDetailModel Playlist { get; set; } = null!;
@@ -21,6 +22,21 @@ public partial class PlaylistDetailVM (
     private FilesInPlaylistModel? SelectedFile {get; set; }
     public ObservableCollection<FilesInPlaylistModel> Files { get; set; } = [];
     
+    public bool ThisPlaylistIsPlaying
+    {
+        get => IsPlaylistPlaying && CurrentlyPlayingPlaylistId == Playlist.Id;
+        set
+        {
+            if (value){
+                IsPlaylistPlaying = true; CurrentlyPlayingPlaylistId = Playlist.Id;
+            }
+            else
+            {
+                IsPlaylistPlaying = false;
+            }
+        }
+    }
+
     public async Task LoadByIdAsync(Guid id)
     {
         Id = id;
@@ -36,8 +52,20 @@ public partial class PlaylistDetailVM (
     [RelayCommand]
     private async Task PlayPlaylistAsync()
     {
-        await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
-        MessengerService.Send(new RefreshQueueMessage());
+        
+        if (ThisPlaylistIsPlaying)
+        {
+            ThisPlaylistIsPlaying = false;
+            return;
+        }
+        
+        if (NowPlaying == null || !IsPlaylistPlaying || CurrentlyPlayingPlaylistId != Playlist.Id)
+        {
+            await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
+            MessengerService.Send(new RefreshQueueMessage());
+        }
+        ThisPlaylistIsPlaying = true;
+        OnPropertyChanged(nameof(ThisPlaylistIsPlaying));
     }
     
     [RelayCommand]

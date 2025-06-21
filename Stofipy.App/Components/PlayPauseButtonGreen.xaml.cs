@@ -57,7 +57,7 @@ public partial class PlayPauseButtonGreen : ContentView
 
     private void UpdateImageIcon()
     {
-        ImageIcon = MusicIsPlaying ? "pause.png" : "play_green.png";
+        ImageIcon = MusicIsPlaying ? "pause_green.png" : "play_green.png";
     }
 
 }
