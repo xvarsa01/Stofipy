@@ -7,6 +7,7 @@
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="using:Stofipy.App.Components"
+    xmlns:buttons="using:Stofipy.App.Components.Buttons"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
     x:DataType="viewModels:HomePageVM"
     x:Name="HomeViewRoot"
@@ -20,9 +21,15 @@
         BackgroundColor="{StaticResource PagesBg}">
         
         <HorizontalStackLayout>
-            <Button Text="All" />
-            <Button Text="Music" />
-            <Button Text="Podcasts" />
+            <buttons:HomepageRounded Text="All"
+                                     TapCommand="{Binding SelectAllCommand}"
+                                     Selected="{Binding AllSelected}"/>
+            <buttons:HomepageRounded Text="Music"
+                                     TapCommand="{Binding SelectMusicCommand}"
+                                     Selected="{Binding MusicSelected}"/>
+            <buttons:HomepageRounded Text="Podcasts"
+                                     TapCommand="{Binding SelectPodcastsCommand}"
+                                     Selected="{Binding PodcastsSelected}"/>
         </HorizontalStackLayout>
 
         <FlexLayout>

@@ -22,4 +22,12 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+    
+    <Style TargetType="Button" x:Key="HomepageRounded">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBgSemiTransparent}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
 </ResourceDictionary>
