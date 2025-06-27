@@ -8,6 +8,8 @@
 
     <Color x:Key="MainBg">Black</Color>
     <Color x:Key="PagesBg">#121212</Color>
+    <Color x:Key="TextWhite">White</Color>
+    <Color x:Key="TextDarkerWhite">#b3b3b3</Color>
     
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>

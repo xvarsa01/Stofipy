@@ -6,6 +6,7 @@
         xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
         xmlns:components="clr-namespace:Stofipy.App.Components"
+        xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
         xmlns:converters="clr-namespace:Stofipy.App.Converters"
         x:Class="Stofipy.App.Views.SectionRight"
         x:Name="SectionRightViewRoot"
@@ -23,44 +24,22 @@
         BackgroundColor="{StaticResource PagesBg}">
 
         <Grid Grid.Row="0"
-            ColumnDefinitions="auto, auto,  *" Padding="-10">
-            <Button
+            ColumnDefinitions="auto, auto,  *" Padding="-10, 0, 0, 0">
+            <buttons:Queue_RecentlyPlayed
                 Grid.Column="0"
                 Text="Queue"
-                Command="{Binding ShowQueueCommand}"
-                Style="{StaticResource HoverableButtonStyle}">
-                <Button.Triggers>
-                    <DataTrigger
-                        TargetType="Button"
-                        Binding="{Binding DisplayStandardQueue}"
-                        Value="true">
-                        <Setter Property="FontAttributes" Value="Bold"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-            <Button
+                TapCommand="{Binding ShowQueueCommand}"
+                IsPressed="{Binding DisplayStandardQueue}"/>
+            <buttons:Queue_RecentlyPlayed
                 Grid.Column="1"
                 Text="Recently played"
-                BackgroundColor="Transparent"
-                CornerRadius="0"
-                Command="{Binding ShowRecentlyPlayedCommand}"
-                Style="{StaticResource HoverableButtonStyle}">
-                <Button.Triggers>
-                    <DataTrigger
-                        TargetType="Button"
-                        Binding="{Binding DisplayRecentlyPlayed}"
-                        Value="true">
-                        <Setter Property="FontAttributes" Value="Bold"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-            <Button
+                TapCommand="{Binding ShowRecentlyPlayedCommand}"
+                IsPressed="{Binding DisplayRecentlyPlayed}"/>
+            <buttons:Queue_RecentlyPlayed
                 Grid.Column="2"
                 Text="X"
-                HorizontalOptions="End"
-                Command="{Binding CloseRightSectionCommand}"
-                Style="{StaticResource HoverableButtonStyle}">
-            </Button>
+                TapCommand="{Binding CloseRightSectionCommand}"
+                IsPressed="False"/>
         </Grid>
         
         
@@ -68,8 +47,9 @@
     <VerticalStackLayout>
     
         <!-- Recently played -->
-        <VerticalStackLayout IsVisible="{Binding DisplayRecentlyPlayed}">
-            <Label Text="Recently played" FontAttributes="Bold" TextColor="White"/>
+        <Grid 
+            IsVisible="{Binding DisplayRecentlyPlayed}">
+
             <CollectionView ItemsSource="{Binding RecentlyPlayedQueue}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
@@ -80,20 +60,20 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>        
-        </VerticalStackLayout>
+        </Grid>
         
         <!-- Queue -->
         <VerticalStackLayout
             IsVisible="{Binding DisplayStandardQueue}"
             Spacing="20">
             
-            <Label Text="Now playing" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Now playing" Style="{StaticResource TitleSmall}"/>
             <components:FileWithPictureAnd2Texts 
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}" />
 
-            <Label Text="Next in queue: " FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Next in queue: " Style="{StaticResource TitleSmall}"/>
             <VerticalStackLayout Margin="0, -10, 0, 0"
                 IsVisible="{Binding DisplayPriorityQueue}">
                 <CollectionView ItemsSource="{Binding PriorityQueue}">
@@ -106,7 +86,7 @@
 
                                 <!-- MAIN CONTENT: Draggable -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
-                                        Margin="0,10,0,0">
+                                        Margin="0,5,0,0">
                                     <Border.GestureRecognizers>
                                         <DragGestureRecognizer
                                             DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
@@ -158,7 +138,7 @@
                 
             </VerticalStackLayout>
             
-            <Label Text="Next from playlist: " FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Next from playlist: " Style="{StaticResource TitleSmall}"/>
             <VerticalStackLayout Margin="0, -10, 0, 0">
                 <CollectionView ItemsSource="{Binding BasicQueue}">
                     <CollectionView.ItemTemplate>
@@ -170,7 +150,7 @@
 
                                 <!-- MAIN CONTENT: Draggable -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
-                                        Margin="0,10,0,0">
+                                        Margin="0,5,0,0">
                                     <Border.GestureRecognizers>
                                         <DragGestureRecognizer
                                             DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"

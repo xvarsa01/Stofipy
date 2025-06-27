@@ -2,15 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     
     <Style TargetType="Label" x:Key="TitleMid">
-        <Setter Property="TextColor" Value="{StaticResource White}"/>
+        <Setter Property="TextColor" Value="{StaticResource TextWhite}"/>
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     
     <Style TargetType="Label" x:Key="GeneralText">
-        <Setter Property="TextColor" Value="{StaticResource Gray200}"></Setter>
+        <Setter Property="TextColor" Value="{StaticResource TextDarkerWhite}"></Setter>
     </Style>
         
+    <Style TargetType="Label" x:Key="TitleSmall">
+        <Setter Property="TextColor" Value="{StaticResource TextWhite}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Circular"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
 
     <Style TargetType="Label" x:Key="ShowAllLink">
         <Setter Property="BackgroundColor" Value="Transparent" />

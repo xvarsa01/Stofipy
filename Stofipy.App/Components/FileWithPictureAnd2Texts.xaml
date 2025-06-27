@@ -37,15 +37,18 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
                     Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                    TextColor="White"
-                    FontSize="15"/>
+                    TextColor="{StaticResource TextWhite}"
+                    FontFamily="Circular"
+                    FontAttributes="Bold"
+                    FontSize="16"/>
                 <Label
                     Grid.Row="1"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
                     Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                    TextColor="White"
-                    FontSize="13"/>
+                    TextColor="{StaticResource TextDarkerWhite}"
+                    FontFamily="Circular"
+                    FontSize="14"/>
             </Grid>
         </Grid>
     </Border>

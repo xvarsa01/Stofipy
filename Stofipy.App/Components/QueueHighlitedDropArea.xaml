@@ -6,7 +6,7 @@
              x:Class="Stofipy.App.Components.QueueHighlightedDropArea">
     
     <Border Style="{StaticResource TransparentBorderThickness0}"
-            HeightRequest="10">
+            HeightRequest="5">
         <Border.Triggers>
             <DataTrigger TargetType="Border"
                          Binding="{Binding Highlighted, Source={RelativeSource AncestorType={x:Type local:QueueHighlightedDropArea}}}"
