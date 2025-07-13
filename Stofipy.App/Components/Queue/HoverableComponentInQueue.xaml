@@ -2,12 +2,10 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                             xmlns:local="clr-namespace:Stofipy.App.Components"
                              x:Class="Stofipy.App.Components.Queue.HoverableComponentInQueue"
                              x:Name="Root">
     
-    <Border x:Name="HoverableBorder"
-            StrokeThickness="0"
+    <Border StrokeThickness="0"
             StrokeShape="RoundRectangle 10">
                         
         <Border.GestureRecognizers>
@@ -105,7 +103,6 @@
                     Style="{StaticResource TransparentBorderThickness0}"
                     IsVisible="False"
                     VerticalOptions="Center">
-                    <!-- IsVisible="{Binding IsSelectedOrHovered, Source={x:Reference Root}}" -->
         
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DotsClickedCommand, Source={x:Reference Root}}"
