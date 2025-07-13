@@ -5,16 +5,12 @@
         xmlns:views="clr-namespace:Stofipy.App.Views"
         xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
-        xmlns:components="clr-namespace:Stofipy.App.Components"
         xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
-        xmlns:converters="clr-namespace:Stofipy.App.Converters"
+        xmlns:queue="clr-namespace:Stofipy.App.Components.Queue"
         x:Class="Stofipy.App.Views.SectionRight"
         x:Name="SectionRightViewRoot"
         x:DataType="viewModels:FilesInQueueVM"
 >
-    <ContentView.Resources>
-        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
-    </ContentView.Resources>
     
 
     <Grid
@@ -53,10 +49,16 @@
             <CollectionView ItemsSource="{Binding RecentlyPlayedQueue}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
-                        <components:FileWithPictureAnd2Texts 
+                        <queue:HoverableComponentInQueue
                             Picture="{Binding Picture}" 
                             TopText="{Binding FileName}" 
-                            BottomText="{Binding AuthorName}" />
+                            BottomText="{Binding AuthorName}"
+                            TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                            CommandParameter="{Binding .}"
+                            IsSelected="{Binding IsSelected}"
+                            PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                            DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                            />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>        
@@ -68,10 +70,16 @@
             Spacing="20">
             
             <Label Text="Now playing" Style="{StaticResource TitleSmall}"/>
-            <components:FileWithPictureAnd2Texts 
+            <queue:HoverableComponentInQueue
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
-                BottomText="{Binding NowPlaying.AuthorName}" />
+                BottomText="{Binding NowPlaying.AuthorName}"
+                IsSelected="{Binding NowPlaying.IsSelected}"
+                TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}"
+                CommandParameter="{Binding NowPlaying}"
+                PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                />
 
             <Label Text="Next in queue: " Style="{StaticResource TitleSmall}"/>
             <VerticalStackLayout Margin="0, -10, 0, 0"
@@ -81,7 +89,7 @@
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <components:QueueHighlightedDropArea 
+                                <queue:QueueHighlightedDropArea 
                                     Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
@@ -94,10 +102,16 @@
                                             DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <components:FileWithPictureAnd2Texts 
+                                    <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
-                                        BottomText="{Binding AuthorName}" />
+                                        BottomText="{Binding AuthorName}"
+                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        IsSelected="{Binding IsSelected}"
+                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                    />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
@@ -133,7 +147,7 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <components:QueueHighlightedDropArea 
+                <queue:QueueHighlightedDropArea 
                     Highlighted="{Binding DraggedIntoLastPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
                 
             </VerticalStackLayout>
@@ -145,7 +159,7 @@
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <components:QueueHighlightedDropArea 
+                                <queue:QueueHighlightedDropArea 
                                     Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
@@ -158,10 +172,16 @@
                                             DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <components:FileWithPictureAnd2Texts 
+                                    <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
-                                        BottomText="{Binding AuthorName}" />
+                                        BottomText="{Binding AuthorName}"
+                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        IsSelected="{Binding IsSelected}"
+                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                        />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
@@ -197,7 +217,7 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <components:QueueHighlightedDropArea 
+                <queue:QueueHighlightedDropArea 
                     Highlighted="{Binding DraggedIntoLastNonPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
                 
             </VerticalStackLayout>

@@ -12,6 +12,8 @@ public record FilesInQueueModel() : ModelBase
     public required bool PriorityQueue { get; set; }
     
     public bool IsDraggedInto { get; set; }
+    public bool IsSelected { get; set; }
+    
     
     public static FilesInQueueModel Empty = new()
     {

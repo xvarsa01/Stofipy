@@ -43,6 +43,8 @@ public partial class FilesInQueueVM(
     [ObservableProperty]
     private bool _draggedIntoLastPriority = false;
     
+    private FilesInQueueModel? SelectedFile {get; set; }
+
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
@@ -180,6 +182,31 @@ public partial class FilesInQueueVM(
         RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
         
         DisplayPriorityQueue = PriorityQueue.Count != 0;
+    }
+    
+    [RelayCommand]
+    private Task SelectRowAsync(FilesInQueueModel? item)
+    {
+        if (SelectedFile != null)
+            SelectedFile.IsSelected = false;
+
+        item ??= NowPlaying;
+        
+        SelectedFile = item;
+        item!.IsSelected = true;
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task PlayItemAsync(FilesInQueueModel item)
+    {
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task DotsClickedAsync(FilesInQueueModel item)
+    {
+        return Task.CompletedTask;
     }
     
     public async void Receive(RefreshQueueMessage message)
