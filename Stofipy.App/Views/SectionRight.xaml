@@ -29,17 +29,17 @@
                 Grid.Column="0"
                 Text="Queue"
                 TapCommand="{Binding ShowQueueCommand}"
-                IsPressed="{Binding DisplayStandardQueue}"/>
+                IsSelected="{Binding DisplayStandardQueue}"/>
             <buttons:Queue_RecentlyPlayed
                 Grid.Column="1"
                 Text="Recently played"
                 TapCommand="{Binding ShowRecentlyPlayedCommand}"
-                IsPressed="{Binding DisplayRecentlyPlayed}"/>
+                IsSelected="{Binding DisplayRecentlyPlayed}"/>
             <buttons:Queue_RecentlyPlayed
                 Grid.Column="2"
                 Text="X"
                 TapCommand="{Binding CloseRightSectionCommand}"
-                IsPressed="False"/>
+                IsSelected="False"/>
         </Grid>
         
         

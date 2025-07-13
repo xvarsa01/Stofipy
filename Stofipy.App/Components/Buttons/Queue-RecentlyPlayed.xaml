@@ -2,23 +2,33 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components.Buttons"
-             x:Class="Stofipy.App.Components.Buttons.Queue_RecentlyPlayed">
+             x:Class="Stofipy.App.Components.Buttons.Queue_RecentlyPlayed"
+             x:Name="Root">
     
-    <Button
-        Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:Queue_RecentlyPlayed}}}"
-        Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:Queue_RecentlyPlayed}}}"
-        FontFamily="Circular"
-        FontSize="16"
-        Style="{StaticResource HoverableButtonStyle}">
-        <Button.Triggers>
-            <DataTrigger
-                TargetType="Button"
-                Binding="{Binding IsPressed, Source={RelativeSource AncestorType={x:Type local:Queue_RecentlyPlayed}}}"
-                Value="true">
-                <Setter Property="TextColor" Value="{StaticResource TextWhite}"/>
-            </DataTrigger>
-        </Button.Triggers>
-    </Button>
+    <Grid>
+        <Button
+            Text="{Binding Text, Source={x:Reference Root}}"
+            Command="{Binding TapCommand, Source={x:Reference Root}}"
+            FontFamily="Circular"
+            FontSize="16"
+            Style="{StaticResource HoverableButtonStyle}"
+            HeightRequest="50">
+            <Button.Triggers>
+                <DataTrigger
+                    TargetType="Button"
+                    Binding="{Binding IsSelected, Source={x:Reference Root}}"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource TextWhite}"/>
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+        
+        <BoxView
+            Margin="10,35,10,0"
+            HeightRequest="3"
+            HorizontalOptions="Fill"
+            Color="{StaticResource GreenLight}"
+            IsVisible="{Binding IsSelected, Source={x:Reference Root}}" />
+    </Grid>
     
 </ContentView>
