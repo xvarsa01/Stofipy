@@ -9,8 +9,7 @@
         xmlns:queue="clr-namespace:Stofipy.App.Components.Queue"
         x:Class="Stofipy.App.Views.SectionRight"
         x:Name="SectionRightViewRoot"
-        x:DataType="viewModels:FilesInQueueVM"
->
+        x:DataType="viewModels:FilesInQueueVM">
     
 
     <Grid
@@ -20,7 +19,7 @@
         BackgroundColor="{StaticResource PagesBg}">
 
         <Grid Grid.Row="0"
-            ColumnDefinitions="auto, auto,  *" Padding="-10, 0, 0, 0">
+            ColumnDefinitions="auto, auto, *, 50">
             <buttons:Queue_RecentlyPlayed
                 Grid.Column="0"
                 Text="Queue"
@@ -32,7 +31,8 @@
                 TapCommand="{Binding ShowRecentlyPlayedCommand}"
                 IsSelected="{Binding DisplayRecentlyPlayed}"/>
             <buttons:Queue_RecentlyPlayed
-                Grid.Column="2"
+                Grid.Column="3"
+                VerticalOptions="End"
                 Text="X"
                 TapCommand="{Binding CloseRightSectionCommand}"
                 IsSelected="False"/>
@@ -69,7 +69,7 @@
             IsVisible="{Binding DisplayStandardQueue}"
             Spacing="20">
             
-            <Label Text="Now playing" Style="{StaticResource TitleSmall}"/>
+            <Label Text="Now playing" Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0"/>
             <queue:HoverableComponentInQueue
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
@@ -81,7 +81,15 @@
                 DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
                 />
 
-            <Label Text="Next in queue: " Style="{StaticResource TitleSmall}"/>
+            <Grid ColumnDefinitions="auto, *"
+                  IsVisible="{Binding DisplayPriorityQueue}">
+                <Label Grid.Column="0" Text="Next in queue: " Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0" />
+                <Label Grid.Column="1" Text="Clear queue" Style="{StaticResource ClearQueue}" HorizontalOptions="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearQueueCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
             <VerticalStackLayout Margin="0, -10, 0, 0"
                 IsVisible="{Binding DisplayPriorityQueue}">
                 <CollectionView ItemsSource="{Binding PriorityQueue}">
@@ -152,7 +160,7 @@
                 
             </VerticalStackLayout>
             
-            <Label Text="Next from playlist: " Style="{StaticResource TitleSmall}"/>
+            <Label Text="Next from playlist: " Style="{StaticResource TitleSmall}"  Padding="10, 0, 0, 0"/>
             <VerticalStackLayout Margin="0, -10, 0, 0">
                 <CollectionView ItemsSource="{Binding BasicQueue}">
                     <CollectionView.ItemTemplate>

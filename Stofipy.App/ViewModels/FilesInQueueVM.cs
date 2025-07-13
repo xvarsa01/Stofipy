@@ -183,6 +183,21 @@ public partial class FilesInQueueVM(
         
         DisplayPriorityQueue = PriorityQueue.Count != 0;
     }
+
+    [RelayCommand]
+    public async Task ClearQueueAsync()
+    {
+        await facade.RemoveAllFromQueue(true);
+        
+        await base.LoadDataAsync();
+
+        NowPlaying = await facade.GetCurrentAsync();
+        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
+        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
+        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
+        
+        DisplayPriorityQueue = PriorityQueue.Count != 0;
+    }
     
     [RelayCommand]
     private Task SelectRowAsync(FilesInQueueModel? item)
