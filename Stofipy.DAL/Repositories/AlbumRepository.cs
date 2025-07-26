@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
+using Stofipy.DAL.Utilities;
 
 namespace Stofipy.DAL.Repositories;
 
@@ -28,10 +29,37 @@ public class AlbumRepository(StofipyDbContext dbContext) : RepositoryBase<AlbumE
             .ThenInclude(e => e.File)
             .SingleOrDefaultAsync(e => e.Id == id);
     }
-    public async Task<List<AlbumEntity>> SearchInAlbumsAsync(string searchTerm)
+    
+    public async Task<(List<AlbumEntity> SimilarAlbums, AlbumEntity? BestAlbum, int BestDifference)> SearchInAlbumsAsync(string searchTerm)
     {
-        return await _dbSet
-            .Where(e => e.AlbumName.ToLower().Contains(searchTerm.ToLower()))
+        var lowerSearchTerm = searchTerm.ToLower();
+        var prefix = searchTerm.Length >= 2 
+            ? searchTerm[..2].ToLower() 
+            : searchTerm.ToLower();
+        
+        var candidates = await _dbSet
+            .Where(e => EF.Functions.Like(e.AlbumName.ToLower(), $"{prefix}%")  // word at start
+                        || EF.Functions.Like(e.AlbumName.ToLower(), $"% {prefix}%"))  // word after space
+            // .OrderByDescending(e => e.PlayCount)
+            .Take(500)
+            .Include(e => e.Author)
             .ToListAsync();
+        
+        var ranked = candidates
+            .Select(e => new
+            {
+                Entity = e,
+                Distance = StringSimilarity<AlbumEntity>.LevenshteinDistance(e.AlbumName.ToLower(), lowerSearchTerm)
+            })
+            .OrderBy(x => x.Distance)
+            .ToList();
+
+        var similarAlbums = ranked
+            .Take(5)
+            .Select(x => x.Entity)
+            .ToList();
+
+        var best = ranked.FirstOrDefault();
+        return (similarAlbums, best?.Entity, best?.Distance ?? int.MaxValue);
     }
 }

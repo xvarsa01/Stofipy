@@ -106,6 +106,12 @@ public static class FileTestSeeds
     public static readonly FileEntity File09 = File01 with{Id = Guid.Parse("A9EF3C4D-B603-474A-A692-5C238D6D78B8"), FileName = "File09"};
     public static readonly FileEntity File10 = File01 with{Id = Guid.Parse("04061510-13DF-47A9-B13B-C7B8BB7A6682"), FileName = "File10"};
     public static readonly FileEntity File11 = File01 with{Id = Guid.Parse("9558BB05-FBF9-416D-A582-BD0A21EFAB80"), FileName = "File11"};
+    
+    public static readonly FileEntity FileSearch1 = File01 with{Id = Guid.Parse("A01DD154-D71D-4E70-9D5B-C02B98B39701"), FileName = "Search"};
+    public static readonly FileEntity FileSearch2 = File01 with{Id = Guid.Parse("296ABFD7-D310-4931-9CE2-8FB2C883FA7A"), FileName = "Search2"};
+    public static readonly FileEntity FileSearch3 = File01 with{Id = Guid.Parse("AA62BB8B-ABAB-499F-9279-7EF4B3FEAF10"), FileName = "Serrrch2"};
+    public static readonly FileEntity FileSearch4 = File01 with{Id = Guid.Parse("D5606985-E8B7-4FAA-96A2-F622B51FDD8A"), FileName = "serch"};
+    public static readonly FileEntity FileSearch5 = File01 with{Id = Guid.Parse("0BCCDB6B-3C00-4092-8384-C2D2BE1DD9D8"), FileName = "se r c h321"};
 
 
     static FileTestSeeds()
@@ -141,7 +147,13 @@ public static class FileTestSeeds
             File08 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
             File09 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
             File10 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
-            File11 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []}
+            File11 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            
+            FileSearch1 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileSearch2 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileSearch3 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileSearch4 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []},
+            FileSearch5 with{Author = null!, FilesInAlbums = [], FilesInPlaylists = []}
         );
         return dbx;
     }

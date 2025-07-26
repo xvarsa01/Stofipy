@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
+using Stofipy.DAL.Utilities;
 
 namespace Stofipy.DAL.Repositories;
 
@@ -16,10 +17,36 @@ public class PlaylistRepository(StofipyDbContext dbContext) : RepositoryBase<Pla
             .SingleOrDefaultAsync(entity => entity.Id == id);
     }
     
-    public async Task<List<PlaylistEntity>> SearchInPlaylistsAsync(string searchTerm)
+    public async Task<(List<PlaylistEntity> SimilarPlaylists, PlaylistEntity? BestPlaylist, int BestDifference)> SearchInPlaylistsAsync(string searchTerm)
     {
-        return await _dbSet
-            .Where(e => e.PlaylistName.ToLower().Contains(searchTerm.ToLower()))
+        var lowerSearchTerm = searchTerm.ToLower();
+        var prefix = searchTerm.Length >= 2 
+            ? searchTerm[..2].ToLower() 
+            : searchTerm.ToLower();
+        
+        var candidates = await _dbSet
+            .Where(e => EF.Functions.Like(e.PlaylistName.ToLower(), $"{prefix}%")  // word at start
+                        || EF.Functions.Like(e.PlaylistName.ToLower(), $"% {prefix}%"))  // word after space
+            // .OrderByDescending(e => e.PlayCount)
+            .Take(500)
             .ToListAsync();
+        
+        var ranked = candidates
+            .Select(e => new
+            {
+                Entity = e,
+                Distance = StringSimilarity<PlaylistEntity>.LevenshteinDistance(e.PlaylistName.ToLower(), lowerSearchTerm)
+            })
+            .OrderBy(x => x.Distance)
+            .ToList();
+
+        var similarPlaylists = ranked
+            .Take(5)
+            .Select(x => x.Entity)
+            .ToList();
+
+        var best = ranked.FirstOrDefault();
+        return (similarPlaylists, best?.Entity, best?.Distance ?? int.MaxValue);
     }
+
 }

@@ -55,7 +55,7 @@ public static class AuthorTestSeeds
     public static readonly AuthorEntity AuthorY = new()
     {
         Id = Guid.Parse("2997EC19-9B87-44A1-8690-D5C482407F7E"),
-        AuthorName = "Author Y",
+        AuthorName = "AuthorY",
     };
 
     static AuthorTestSeeds()

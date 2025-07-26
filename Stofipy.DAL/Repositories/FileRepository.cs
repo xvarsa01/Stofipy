@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
+using Stofipy.DAL.Utilities;
 
 namespace Stofipy.DAL.Repositories;
 
@@ -40,11 +41,36 @@ public class FileRepository(StofipyDbContext dbContext) : RepositoryBase<FileEnt
             .ToListAsync();
     }
 
-    public async Task<List<FileEntity>> SearchInFilesAsync(string searchTerm)
+    public async Task<(List<FileEntity> SimilarFiles, FileEntity? BestFile, int BestDifference)> SearchInFilesAsync(string searchTerm)
     {
-        return await _dbSet
-            .Where(e => e.FileName.ToLower().Contains(searchTerm.ToLower()))
+        var lowerSearchTerm = searchTerm.ToLower();
+        var prefix = searchTerm.Length >= 2 
+            ? searchTerm[..2].ToLower() 
+            : searchTerm.ToLower();
+        
+        var candidates = await _dbSet
+            .Where(e => EF.Functions.Like(e.FileName.ToLower(), $"{prefix}%")  // word at start
+                        || EF.Functions.Like(e.FileName.ToLower(), $"% {prefix}%"))  // word after space
+            .OrderByDescending(e => e.PlayCount)
+            .Take(500)
             .Include(e => e.Author)
             .ToListAsync();
+        
+        var ranked = candidates
+            .Select(e => new
+            {
+                Entity = e,
+                Distance = StringSimilarity<FileEntity>.LevenshteinDistance(e.FileName.ToLower(), lowerSearchTerm)
+            })
+            .OrderBy(x => x.Distance)
+            .ToList();
+
+        var similarFiles = ranked
+            .Take(5)
+            .Select(x => x.Entity)
+            .ToList();
+
+        var best = ranked.FirstOrDefault();
+        return (similarFiles, best?.Entity, best?.Distance ?? int.MaxValue);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stofipy.DAL.Entities;
+using Stofipy.DAL.Utilities;
 
 namespace Stofipy.DAL.Repositories;
 
@@ -16,10 +17,35 @@ public class AuthorRepository(StofipyDbContext dbContext) : RepositoryBase<Autho
             ;
     }
 
-    public async Task<List<AuthorEntity>> SearchInAuthorsAsync(string searchTerm)
+    public async Task<(List<AuthorEntity> SimilarAuthors, AuthorEntity? BestAuthor, int BestDifference)> SearchInAuthorsAsync(string searchTerm)
     {
-        return await _dbSet
-            .Where(e => e.AuthorName.ToLower().Contains(searchTerm.ToLower()))
+        var lowerSearchTerm = searchTerm.ToLower();
+        var prefix = searchTerm.Length >= 2 
+            ? searchTerm[..2].ToLower() 
+            : searchTerm.ToLower();
+        
+        var candidates = await _dbSet
+            .Where(e => EF.Functions.Like(e.AuthorName.ToLower(), $"{prefix}%")  // word at start
+                 || EF.Functions.Like(e.AuthorName.ToLower(), $"% {prefix}%"))  // word after space
+            // .OrderByDescending(e => e.PlayCount)
+            .Take(500)
             .ToListAsync();
+        
+        var ranked = candidates
+            .Select(e => new
+            {
+                Entity = e,
+                Distance = StringSimilarity<AuthorEntity>.LevenshteinDistance(e.AuthorName.ToLower(), lowerSearchTerm)
+            })
+            .OrderBy(x => x.Distance)
+            .ToList();
+
+        var similarAuthors = ranked
+            .Take(5)
+            .Select(x => x.Entity)
+            .ToList();
+
+        var best = ranked.FirstOrDefault();
+        return (similarAuthors, best?.Entity, best?.Distance ?? int.MaxValue);
     }
 }
