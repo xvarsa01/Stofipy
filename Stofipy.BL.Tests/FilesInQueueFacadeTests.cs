@@ -3,9 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Stofipy.BL.Facades;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Mappers;
-using Stofipy.BL.Models;
 using Stofipy.Common.Tests.Seeds;
-using Stofipy.DAL;
 using Stofipy.DAL.Repositories;
 using Xunit.Abstractions;
 
@@ -14,8 +12,7 @@ namespace Stofipy.BL.Tests;
 public class FilesInQueueFacadeTests : FacadeTestsBase
 {
     private readonly IFilesInQueueFacade _filesInQueueFacade;
-    private readonly StofipyDbContext _stofipyDbContext;
-    
+
     public FilesInQueueFacadeTests(ITestOutputHelper output) : base(output)
     {
         var services = new ServiceCollection();
@@ -28,6 +25,8 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         services.AddTransient<FilesInQueueRepository>();
         services.AddTransient<PlaylistRepository>();
         services.AddTransient<AlbumRepository>();
+        services.AddTransient<AuthorRepository>();
+        services.AddTransient<FileRepository>();
         services.AddTransient<FilesInAlbumRepository>();
         services.AddTransient<FilesInPlaylistRepository>();
         services.AddSingleton<FilesInQueueModelMapper>();
@@ -35,10 +34,14 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         services.AddSingleton<FilesInPlaylistModelMapper>();
         services.AddSingleton<FilesInAlbumModelMapper>();
         services.AddSingleton<AlbumModelMapper>();
+        services.AddSingleton<AuthorModelMapper>();
+        services.AddSingleton<FileModelMapper>();
         
         // Option 2: OR register a real one if you have all dependencies
         services.AddTransient<IPlaylistFacade, PlaylistFacade>();
         services.AddTransient<IAlbumFacade, AlbumFacade>();
+        services.AddTransient<IAuthorFacade, AuthorFacade>();
+        services.AddTransient<IFileFacade, FileFacade>();
         services.AddTransient<IFilesInAlbumFacade, FilesInAlbumFacade>();
         
         services.AddTransient<IFilesInPlaylistFacade, FilesInPlaylistFacade>();

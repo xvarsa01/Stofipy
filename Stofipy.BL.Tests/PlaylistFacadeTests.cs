@@ -3,7 +3,6 @@ using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
 using Stofipy.Common.Tests;
 using Stofipy.Common.Tests.Seeds;
-using Stofipy.DAL;
 using Stofipy.DAL.Repositories;
 using Xunit.Abstractions;
 
@@ -12,14 +11,12 @@ namespace Stofipy.BL.Tests;
 public class PlaylistFacadeTests : FacadeTestsBase
 {
     private readonly IPlaylistFacade _playlistFacade;
-    private readonly PlaylistRepository _playlistRepository;
-    private readonly StofipyDbContext _stofipyDbContext;
-    
+
     public PlaylistFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _stofipyDbContext = DbContextFactory.CreateDbContext();
-        _playlistRepository = new PlaylistRepository(_stofipyDbContext);
-        _playlistFacade = new PlaylistFacade(_playlistRepository, PlaylistModelMapper);
+        var stofipyDbContext = DbContextFactory.CreateDbContext();
+        var playlistRepository = new PlaylistRepository(stofipyDbContext);
+        _playlistFacade = new PlaylistFacade(playlistRepository, PlaylistModelMapper);
     }
 
     [Fact]
