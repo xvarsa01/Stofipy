@@ -307,14 +307,13 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             if (oldIndex < newIndex)
             {
-                await DecrementIndexes(oldIndex + 1, newIndex, oldPriority);
+                await DecrementIndexes(oldIndex + 1, newIndex-1, oldPriority);
+                newIndex--;
             }
             else
             {
                 await IncrementIndexes(newIndex, oldIndex -1, oldPriority);
             }
-            item.Index = newIndex;
-            await _repository.UpdateAsync(item);
         }
         else if (oldPriority && !newPriority)
         {
@@ -345,6 +344,8 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
 
     private async Task DecrementIndexes(int? startIndex, int? endIndex, bool priority)
     {
+        if (startIndex > endIndex) return;
+        
         startIndex ??= int.MinValue;
         endIndex ??= int.MaxValue;
         
