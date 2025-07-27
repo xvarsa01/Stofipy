@@ -11,6 +11,7 @@ public record PlaylistDetailModel() : ModelBase
     public string PublicStatus => IsPublic ? "Public Playlist" : "Private Playlist";
     public required int Length { get; set; }
     public string LengthFormatted => $"{Length / 60 / 60}hr{Length / 60}min";
+    public required int PlayCount { get; set; }
     
     public static PlaylistDetailModel Empty = new()
     {
@@ -18,6 +19,7 @@ public record PlaylistDetailModel() : ModelBase
         Description = string.Empty,
         Id = Guid.Empty,
         Length = 0,
+        PlayCount = 0,
         IsPublic = false
     };
 }

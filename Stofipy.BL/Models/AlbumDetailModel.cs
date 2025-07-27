@@ -10,7 +10,8 @@ public record AlbumDetailModel() : ModelBase
     public int? Year { get; set; }
     public required int Length { get; set; }
     public string LengthFormatted => $"{Length / 60 / 60}hr{Length / 60}min";
-    
+    public required int PlayCount { get; set; }
+
     public required Guid AuthorId { get; set; }
     public required string AuthorName { get; set; }
     public List<FilesInAlbumModel> FilesInAlbums { get; set; } = [];
@@ -20,6 +21,7 @@ public record AlbumDetailModel() : ModelBase
         AlbumName = string.Empty,
         Description = string.Empty,
         Length = 0,
+        PlayCount = 0,
         AuthorId = Guid.Empty,
         AuthorName = string.Empty,
         Id = Guid.NewGuid()

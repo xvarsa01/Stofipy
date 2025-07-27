@@ -10,6 +10,7 @@ public static class PlaylistTestSeeds
         Id = Guid.Parse("75B680D4-5580-4990-86C1-04B301C3F9D7"),
         PlaylistName = "Playlist with 4 files",
         Description = "",
+        PlayCount = 0,
     };
     
     public static readonly PlaylistEntity Playlist2 = new()
@@ -17,6 +18,7 @@ public static class PlaylistTestSeeds
         Id = Guid.Parse("D6E065CC-0572-457B-9500-FDE1C7DB4E98"),
         PlaylistName = "Playlist with 11 files",
         Description = "11 files",
+        PlayCount = 0,
     };
     
 

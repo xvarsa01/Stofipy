@@ -6,6 +6,7 @@ public record AuthorDetailModel() : ModelBase
 {
     public required string AuthorName { get; set; }
     public string? ProfilePicture { get; set; }
+    public required int PlayCount { get; set; }
     
     public ICollection<FileListModel> Files { get; set; } = [];
     public ICollection<AlbumListModel> Albums { get; set; } = [];
@@ -13,6 +14,7 @@ public record AuthorDetailModel() : ModelBase
     public static AuthorDetailModel Empty = new()
     {
         AuthorName = string.Empty,
-        Id = Guid.Empty
+        Id = Guid.Empty,
+        PlayCount = 0
     };
 }

@@ -18,6 +18,7 @@ public class PlaylistTests  (ITestOutputHelper output): DbContextTestsBase(outpu
             Id = Guid.Parse("910B9FB2-D88F-40E8-BFDD-87106D9DBFBD"),
             PlaylistName = "New Playlist",
             Description = "New Description",
+            PlayCount = 0,
         };
 
         //Act
@@ -54,7 +55,8 @@ public class PlaylistTests  (ITestOutputHelper output): DbContextTestsBase(outpu
             Id = Guid.Parse("769A8649-3DB8-4FE8-89CC-EA36F3DB7DB6"),
             PlaylistName = "New Playlist",
             Description = "New Description",
-            FilesInPlaylists = []
+            FilesInPlaylists = [],
+            PlayCount = 0,
         };
         var fileInPlaylist = new FilesInPlaylistEntity
         {

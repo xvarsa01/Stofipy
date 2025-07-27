@@ -29,6 +29,7 @@ public class AuthorFacadeTests : FacadeTestsBase
             Id = Guid.NewGuid(),
             AuthorName = "new author",
             ProfilePicture = null,
+            PlayCount = 0,
             Files = [],
             Albums = []
         };
@@ -67,10 +68,11 @@ public class AuthorFacadeTests : FacadeTestsBase
         //Arrange
         // var author = await _authorFacade.GetByIdAsync(AuthorTestSeeds.AuthorAbc.Id);
         // Assert.NotNull(author);
-        var author = new AuthorDetailModel()
+        var author = new AuthorDetailModel
         {
             Id = AuthorTestSeeds.AuthorAbc.Id,
             AuthorName = "changed name",
+            PlayCount = AuthorTestSeeds.AuthorAbc.Files?.Sum(file => file.PlayCount) ?? 0,
         };
         
         //Act
@@ -78,8 +80,10 @@ public class AuthorFacadeTests : FacadeTestsBase
         
         //Assert
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();
-        var authorFromDb = await dbxAssert.Authors.SingleAsync(i => i.Id == author.Id);
-        DeepAssert.Equal(author, AuthorModelMapper.MapToDetailModel(authorFromDb));
+        var authorFromDb = await dbxAssert.Authors
+            .Include(i => i.Files)
+            .SingleAsync(i => i.Id == author.Id);
+        DeepAssert.Equal(author, AuthorModelMapper.MapToDetailModel(authorFromDb) with{Files = []});
     }
 
     [Fact]

@@ -33,6 +33,7 @@ public class AuthorModelMapper(AlbumModelMapper albumModelMapper, FileModelMappe
             Id = entity.Id,
             AuthorName = entity.AuthorName,
             ProfilePicture = entity.ProfilePicture,
+            PlayCount = entity.Files?.Sum(file => file.PlayCount) ?? 0,
             Files = fileModelMapper.MapToListModel(entity.Files),
             Albums = albumModelMapper.MapToListModel(entity.Albums),
         };

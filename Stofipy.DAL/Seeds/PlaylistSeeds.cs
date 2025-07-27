@@ -11,7 +11,8 @@ public static class PlaylistSeeds
         PlaylistName = "My Favourites",
         Description = "",
         Picture = null,
-        FilesInPlaylists = []
+        FilesInPlaylists = [],
+        PlayCount = 0
     };
     public static PlaylistEntity TenerifeVacay = new()
     {
@@ -19,7 +20,8 @@ public static class PlaylistSeeds
         PlaylistName = "TenerifeVacay",
         Description = "",
         Picture = null,
-        FilesInPlaylists = []
+        FilesInPlaylists = [],
+        PlayCount = 0
     };
     public static PlaylistEntity EasyRun = new()
     {
@@ -27,7 +29,8 @@ public static class PlaylistSeeds
         PlaylistName = "easy run",
         Description = "",
         Picture = null,
-        FilesInPlaylists = []
+        FilesInPlaylists = [],
+        PlayCount = 0
     };
 
     public static PlaylistEntity MixForToday = new()
@@ -36,7 +39,8 @@ public static class PlaylistSeeds
         PlaylistName = "Mix na dnes",
         Description = "",
         Picture = null,
-        FilesInPlaylists = []
+        FilesInPlaylists = [],
+        PlayCount = 0
     };
 
     public static DbContext SeedPlaylists(this DbContext dbx)

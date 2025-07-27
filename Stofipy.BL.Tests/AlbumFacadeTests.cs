@@ -29,6 +29,7 @@ public class AlbumFacadeTests : FacadeTestsBase
             AlbumName = "AlbumName",
             Description = "Description",
             Length = 0,
+            PlayCount = 0,
             AuthorId = AuthorTestSeeds.AuthorForFileBasic.Id,
             AuthorName = AuthorTestSeeds.AuthorForFileBasic.AuthorName,
         };

@@ -40,6 +40,7 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             Description = entity.Description,
             Picture = entity.Picture,
             Length = entity.FilesInPlaylists?.Sum(file => file.File.Length) ?? 0,
+            PlayCount = entity.PlayCount,
             IsPublic = false,
         };
     }
@@ -52,6 +53,7 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             PlaylistName = model.PlaylistName,
             Description = model.Description,
             Picture = model.Picture,
+            PlayCount = model.PlayCount,
         };
     }
 }

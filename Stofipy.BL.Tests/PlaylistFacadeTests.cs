@@ -28,6 +28,7 @@ public class PlaylistFacadeTests : FacadeTestsBase
             PlaylistName = "PlaylistName",
             Description = "Description",
             Length = 0,
+            PlayCount = 0,
             IsPublic = false,
         };
 

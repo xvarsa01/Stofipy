@@ -38,6 +38,7 @@ public class AlbumModelMapper(FilesInAlbumModelMapper filesInAlbumModelMapper) :
             Picture = entity.Picture,
             Year = entity.Year,
             Length = entity.FilesInAlbums?.Sum(file => file.File.Length) ?? 0,
+            PlayCount = entity.FilesInAlbums?.Sum(file => file.File.PlayCount) ?? 0,
             AuthorId = entity.AuthorId,
             AuthorName = entity.Author.AuthorName,
             FilesInAlbums = filesInAlbumModelMapper.MapToListModel(entity.FilesInAlbums),
