@@ -175,7 +175,7 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
             .ThenInclude(e => e.Author)
             .ToListAsync();
         
-        var expectedIndexes = new[] {1, 2, 3, 4, 1, 2, 3, 4};
+        var expectedIndexes = new[] {0,   1, 2, 3, 4,   1, 2, 3};
         var actualIndexes = queueFromDb
             .OrderByDescending(e => e.PriorityQueue)
             .ThenBy(e => e.Index)
@@ -185,11 +185,12 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         Assert.Equal(expectedIndexes, actualIndexes);
         
         Assert.True(queueFromDb[0].PriorityQueue);
+        
         Assert.True(queueFromDb[1].PriorityQueue);
         Assert.True(queueFromDb[2].PriorityQueue);
         Assert.True(queueFromDb[3].PriorityQueue);
+        Assert.True(queueFromDb[4].PriorityQueue);
         
-        Assert.False(queueFromDb[4].PriorityQueue);
         Assert.False(queueFromDb[5].PriorityQueue);
         Assert.False(queueFromDb[6].PriorityQueue);
         Assert.False(queueFromDb[7].PriorityQueue);
@@ -212,12 +213,14 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
             .ToListAsync();
         
         Assert.Equal(playlist.FilesInPlaylists.Count + 4, filesFromDb.Count);
-        Assert.Equal(FileTestSeeds.File05.FileName, filesFromDb[0].File.FileName);
-        Assert.Equal(FileTestSeeds.File06.FileName, filesFromDb[1].File.FileName);
-        Assert.Equal(FileTestSeeds.File07.FileName, filesFromDb[2].File.FileName);
-        Assert.Equal(FileTestSeeds.File08.FileName, filesFromDb[3].File.FileName);
-        
-        Assert.Equal(FileTestSeeds.File01.FileName, filesFromDb[4].File.FileName);
+        // first one from added playlist is now playing
+        Assert.Equal(FileTestSeeds.File01.FileName, filesFromDb[0].File.FileName);
+        // old priority 
+        Assert.Equal(FileTestSeeds.File05.FileName, filesFromDb[1].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, filesFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File07.FileName, filesFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, filesFromDb[4].File.FileName);
+        // rest of the added playlist
         Assert.Equal(FileTestSeeds.File02.FileName, filesFromDb[5].File.FileName);
         Assert.Equal(FileTestSeeds.File03.FileName, filesFromDb[6].File.FileName);
         // ...
@@ -266,8 +269,8 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         
         Assert.Equal(FileTestSeeds.File05.FileName, newQueueFromDb[0].File.FileName);
         Assert.Equal(FileTestSeeds.File07.FileName, newQueueFromDb[1].File.FileName);
-        Assert.Equal(FileTestSeeds.File08.FileName, newQueueFromDb[2].File.FileName);
-        Assert.Equal(FileTestSeeds.File06.FileName, newQueueFromDb[3].File.FileName);
+        Assert.Equal(FileTestSeeds.File06.FileName, newQueueFromDb[2].File.FileName);
+        Assert.Equal(FileTestSeeds.File08.FileName, newQueueFromDb[3].File.FileName);
     }
 
     [Fact]
