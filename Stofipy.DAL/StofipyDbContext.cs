@@ -13,6 +13,7 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
     public DbSet<FilesInPlaylistEntity> FilesInPlaylists { get; set; }
     public DbSet<FilesInQueueEntity> FilesInQueue { get; set; }
     public DbSet<PlaylistEntity> Playlists { get; set; }
+    public DbSet<ProfileEntity> Profiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,6 +49,22 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
             .HasMany(e => e.FilesInPlaylists)
             .WithOne(e => e.File)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        
+        modelBuilder.Entity<ProfileEntity>()
+            .HasMany(e => e.CreatedPlaylists)
+            .WithOne(e => e.CreatedBy)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<ProfileEntity>()
+            .HasMany(e => e.Followings)
+            .WithOne(e => e.Follower)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<ProfileEntity>()
+            .HasMany(e => e.Followers)
+            .WithOne(e => e.Followed)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -65,6 +82,7 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
                         // .SeedTestFilesInAlbums()
                         // .SeedFilesInPlaylists()
                         .SeedFilesInQueue()
+                        .SeedProfiles()
                         ;
                     context.SaveChanges();
                 })

@@ -97,6 +97,9 @@ namespace Stofipy.DAL.Migrations
                     b.Property<string>("Picture")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("PlayCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("Size")
                         .HasColumnType("REAL");
 
@@ -188,12 +191,21 @@ namespace Stofipy.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("CreatedById")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Picture")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PlayCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PlaylistName")
                         .IsRequired()
@@ -201,7 +213,69 @@ namespace Stofipy.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedById");
+
                     b.ToTable("Playlists");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileFollowingAuthorEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("ProfileFollowingAuthorEntity");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileFollowingProfileEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowedId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("ProfileFollowingProfileEntity");
                 });
 
             modelBuilder.Entity("Stofipy.DAL.Entities.AlbumEntity", b =>
@@ -282,6 +356,55 @@ namespace Stofipy.DAL.Migrations
                     b.Navigation("File");
                 });
 
+            modelBuilder.Entity("Stofipy.DAL.Entities.PlaylistEntity", b =>
+                {
+                    b.HasOne("Stofipy.DAL.Entities.ProfileEntity", "CreatedBy")
+                        .WithMany("CreatedPlaylists")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileFollowingAuthorEntity", b =>
+                {
+                    b.HasOne("Stofipy.DAL.Entities.AuthorEntity", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stofipy.DAL.Entities.ProfileEntity", "Follower")
+                        .WithMany("FollowingAuthors")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileFollowingProfileEntity", b =>
+                {
+                    b.HasOne("Stofipy.DAL.Entities.ProfileEntity", "Followed")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stofipy.DAL.Entities.ProfileEntity", "Follower")
+                        .WithMany("Followings")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Followed");
+
+                    b.Navigation("Follower");
+                });
+
             modelBuilder.Entity("Stofipy.DAL.Entities.AlbumEntity", b =>
                 {
                     b.Navigation("FilesInAlbums");
@@ -304,6 +427,17 @@ namespace Stofipy.DAL.Migrations
             modelBuilder.Entity("Stofipy.DAL.Entities.PlaylistEntity", b =>
                 {
                     b.Navigation("FilesInPlaylists");
+                });
+
+            modelBuilder.Entity("Stofipy.DAL.Entities.ProfileEntity", b =>
+                {
+                    b.Navigation("CreatedPlaylists");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("FollowingAuthors");
+
+                    b.Navigation("Followings");
                 });
 #pragma warning restore 612, 618
         }

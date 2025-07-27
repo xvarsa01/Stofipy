@@ -13,6 +13,10 @@ public record PlaylistDetailModel() : ModelBase
     public string LengthFormatted => $"{Length / 60 / 60}hr{Length / 60}min";
     public required int PlayCount { get; set; }
     
+    public required string CreatedByName { get; set; }
+    public required Guid CreatedById { get; set; }
+
+    
     public static PlaylistDetailModel Empty = new()
     {
         PlaylistName = string.Empty,
@@ -20,6 +24,8 @@ public record PlaylistDetailModel() : ModelBase
         Id = Guid.Empty,
         Length = 0,
         PlayCount = 0,
-        IsPublic = false
+        IsPublic = false,
+        CreatedByName = string.Empty,
+        CreatedById = Guid.Empty,
     };
 }

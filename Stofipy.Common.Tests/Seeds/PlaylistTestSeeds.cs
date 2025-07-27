@@ -11,6 +11,9 @@ public static class PlaylistTestSeeds
         PlaylistName = "Playlist with 4 files",
         Description = "",
         PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileTestSeeds.User1,
+        CreatedById = ProfileTestSeeds.User1.Id,
     };
     
     public static readonly PlaylistEntity Playlist2 = new()
@@ -19,6 +22,9 @@ public static class PlaylistTestSeeds
         PlaylistName = "Playlist with 11 files",
         Description = "11 files",
         PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileTestSeeds.User1,
+        CreatedById = ProfileTestSeeds.User1.Id,
     };
     
 

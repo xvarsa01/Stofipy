@@ -21,6 +21,7 @@ public class DbSeeder(IDbContextFactory<StofipyDbContext> dbContextFactory, DALO
                 .SeedFilesInAlbums()
                 .SeedFilesInPlaylists()
                 .SeedFilesInQueue()
+                .SeedProfiles()
                 ;
             await dbContext.SaveChangesAsync(cancellationToken);
         }

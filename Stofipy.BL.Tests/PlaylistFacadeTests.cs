@@ -30,6 +30,8 @@ public class PlaylistFacadeTests : FacadeTestsBase
             Length = 0,
             PlayCount = 0,
             IsPublic = false,
+            CreatedByName = ProfileTestSeeds.User1.Name,
+            CreatedById = ProfileTestSeeds.User1.Id,
         };
 
         var _ = await _playlistFacade.CreateAsync(model);

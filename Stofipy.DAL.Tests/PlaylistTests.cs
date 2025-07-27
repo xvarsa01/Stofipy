@@ -19,6 +19,9 @@ public class PlaylistTests  (ITestOutputHelper output): DbContextTestsBase(outpu
             PlaylistName = "New Playlist",
             Description = "New Description",
             PlayCount = 0,
+            IsPublic = false,
+            CreatedBy = ProfileTestSeeds.User1,
+            CreatedById = ProfileTestSeeds.User1.Id,
         };
 
         //Act
@@ -57,6 +60,9 @@ public class PlaylistTests  (ITestOutputHelper output): DbContextTestsBase(outpu
             Description = "New Description",
             FilesInPlaylists = [],
             PlayCount = 0,
+            IsPublic = false,
+            CreatedBy = ProfileTestSeeds.User1,
+            CreatedById = ProfileTestSeeds.User1.Id,
         };
         var fileInPlaylist = new FilesInPlaylistEntity
         {

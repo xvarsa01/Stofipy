@@ -12,7 +12,10 @@ public static class PlaylistSeeds
         Description = "",
         Picture = null,
         FilesInPlaylists = [],
-        PlayCount = 0
+        PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileSeeds.User1,
+        CreatedById = ProfileSeeds.User1.Id
     };
     public static PlaylistEntity TenerifeVacay = new()
     {
@@ -21,7 +24,10 @@ public static class PlaylistSeeds
         Description = "",
         Picture = null,
         FilesInPlaylists = [],
-        PlayCount = 0
+        PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileSeeds.User1,
+        CreatedById = ProfileSeeds.User1.Id
     };
     public static PlaylistEntity EasyRun = new()
     {
@@ -30,7 +36,10 @@ public static class PlaylistSeeds
         Description = "",
         Picture = null,
         FilesInPlaylists = [],
-        PlayCount = 0
+        PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileSeeds.User1,
+        CreatedById = ProfileSeeds.User1.Id
     };
 
     public static PlaylistEntity MixForToday = new()
@@ -40,7 +49,10 @@ public static class PlaylistSeeds
         Description = "",
         Picture = null,
         FilesInPlaylists = [],
-        PlayCount = 0
+        PlayCount = 0,
+        IsPublic = false,
+        CreatedBy = ProfileSeeds.User1,
+        CreatedById = ProfileSeeds.User1.Id
     };
 
     public static DbContext SeedPlaylists(this DbContext dbx)

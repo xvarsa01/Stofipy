@@ -27,7 +27,7 @@ public class RepositoryBase<TEntity>(StofipyDbContext dbContext) : IRepository<T
     }
     public virtual async Task<TEntity?> GetByIdAsync(Guid id)
     {
-        return await _dbSet.SingleOrDefaultAsync(entity => entity.Id == id);
+            return await _dbSet.SingleOrDefaultAsync(entity => entity.Id == id);
     }
 
     public async Task DeleteAsync(Guid entityId)

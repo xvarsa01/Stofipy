@@ -4,7 +4,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.BL.Mappers;
 
-public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModelMapper) : ModelMapperBase<PlaylistEntity, PlaylistListModel, PlaylistDetailModel>
+public class PlaylistModelMapper : ModelMapperBase<PlaylistEntity, PlaylistListModel, PlaylistDetailModel>
 {
     public override PlaylistListModel MapToListModel(PlaylistEntity? entity)
     {
@@ -18,10 +18,10 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             Id = entity.Id,
             PlaylistName = entity.PlaylistName,
             Picture = entity.Picture,
-            Authors = entity.FilesInPlaylists?
+            Authors = entity.FilesInPlaylists
                 .Select(f => f.File.Author.AuthorName)
                 .Distinct()
-                .ToList() ?? []
+                .ToList()
         };
     }
     
@@ -39,9 +39,11 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             PlaylistName = entity.PlaylistName,
             Description = entity.Description,
             Picture = entity.Picture,
-            Length = entity.FilesInPlaylists?.Sum(file => file.File.Length) ?? 0,
+            Length = entity.FilesInPlaylists.Sum(file => file.File.Length),
             PlayCount = entity.PlayCount,
-            IsPublic = false,
+            IsPublic = entity.IsPublic,
+            CreatedByName = entity.CreatedBy.Name,
+            CreatedById = entity.CreatedBy.Id,
         };
     }
 
@@ -54,6 +56,9 @@ public class PlaylistModelMapper(FilesInPlaylistModelMapper filesInPlaylistModel
             Description = model.Description,
             Picture = model.Picture,
             PlayCount = model.PlayCount,
+            IsPublic = model.IsPublic,
+            CreatedBy = null!,
+            CreatedById = model.CreatedById,
         };
     }
 }

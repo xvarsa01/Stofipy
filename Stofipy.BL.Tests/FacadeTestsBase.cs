@@ -21,7 +21,7 @@ public class FacadeTestsBase : IAsyncLifetime
         FilesInQueueModelMapper = new FilesInQueueModelMapper();
         FileModelMapper = new FileModelMapper();
         AlbumModelMapper = new AlbumModelMapper(FilesInAlbumModelMapper);
-        PlaylistModelMapper = new PlaylistModelMapper(FilesInPlaylistModelMapper);
+        PlaylistModelMapper = new PlaylistModelMapper();
         AuthorModelMapper = new AuthorModelMapper(AlbumModelMapper, FileModelMapper);
 
         DbContextFactory = new DbContextSqLiteFactory(GetType().FullName!);
