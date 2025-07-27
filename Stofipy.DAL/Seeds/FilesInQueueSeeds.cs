@@ -3,7 +3,7 @@ using Stofipy.DAL.Entities;
 
 namespace Stofipy.DAL.Seeds;
 
-public static class FilesInQueueTestSeeds
+public static class FilesInQueueSeeds
 {
     public static readonly FilesInQueueEntity QueueItem0 = new()
     {
