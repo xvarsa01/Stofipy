@@ -7,24 +7,32 @@
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="using:Stofipy.App.Components"
+    xmlns:buttons="using:Stofipy.App.Components.Buttons"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
-    x:DataType="viewModels:ListOfPlaylistsVM"
+    x:DataType="viewModels:HomePageVM"
     x:Name="HomeViewRoot"
     >
     
     <!-- Main Middle -->
-    <Grid
-        RowDefinitions="auto, auto"
-        BackgroundColor="DarkGray">
-        <HorizontalStackLayout
-            Grid.Row="0">
-            <Button Text="All" />
-            <Button Text="Music" />
-            <Button Text="Podcasts" />
+    <ScrollView>
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="20"
+        BackgroundColor="{StaticResource PagesBg}">
+        
+        <HorizontalStackLayout>
+            <buttons:HomepageRounded Text="All"
+                                     TapCommand="{Binding SelectAllCommand}"
+                                     Selected="{Binding AllSelected}"/>
+            <buttons:HomepageRounded Text="Music"
+                                     TapCommand="{Binding SelectMusicCommand}"
+                                     Selected="{Binding MusicSelected}"/>
+            <buttons:HomepageRounded Text="Podcasts"
+                                     TapCommand="{Binding SelectPodcastsCommand}"
+                                     Selected="{Binding PodcastsSelected}"/>
         </HorizontalStackLayout>
 
-        <FlexLayout 
-            Grid.Row="1">
+        <FlexLayout>
             <CollectionView ItemsSource="{Binding Playlists}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout
@@ -35,16 +43,56 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlaylistListModel">
-                        <components:FileWithPictureAnd2Texts
+                        <components:FileWithPictureAnd1Text
+                            BackgroundColor="Blue"
                             Picture="{Binding Picture}"
-                            TopText="{Binding PlaylistName}"
-                            BottomText="Playlist"
+                            CenterText="{Binding PlaylistName}"
                             TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
                             CommandParameter="{Binding Id}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </FlexLayout>
-    </Grid>
+        
+        <components:HomePageTitleWithLink
+            TitleText="Your shows"
+            ShowAllCommand="{Binding GoToYourShowsCommand}"/>
+        
+        <CollectionView ItemsSource="{Binding Playlists}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Horizontal"/>
+            </CollectionView.ItemsLayout>
+                    
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PlaylistListModel">
+                    <components:FileBigWith2Texts
+                        Picture="{Binding Picture}"
+                        TopText="{Binding PlaylistName}"
+                        BottomText="{Binding PlaylistName}"
+                        TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                        CommandParameter="{Binding Id}"
+                        IsHovered="{Binding IsHovered}"
+                    />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        
+        <components:HomePageTitleWithLink
+            TitleText="Made for you"
+            ShowAllCommand="{Binding GoToMadeForYouCommand}"/>
+        
+        
+        <components:HomePageTitleWithLink
+            TitleText="Recently played"
+            ShowAllCommand="{Binding GoToRecentlyPlayedCommand}"/>
+        
+        
+        <components:HomePageTitleWithLink
+            TitleText="Popular radio"
+            ShowAllCommand="{Binding GoToPopularRadioCommand}"/>
+        
+    </VerticalStackLayout>
+    </ScrollView>
         
 </views:ContentViewBase>

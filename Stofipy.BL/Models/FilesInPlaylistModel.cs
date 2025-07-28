@@ -16,6 +16,7 @@ public record FilesInPlaylistModel() : ModelBase
 
     public bool IsHovered { get; set; }
     public bool IsSelected { get; set; }
+    public bool IsSelectedOrHovered =>IsSelected || IsHovered;
 
     public static FilesInPlaylistModel Empty = new()
     {

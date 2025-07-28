@@ -30,6 +30,7 @@ public static class AppInstaller
             .WithTransientLifetime());
 
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<ICurrentStateService, CurrentStateService>();
 
         return services;
     }

@@ -20,28 +20,27 @@
 
     <!-- Main Middle -->
     <ScrollView>
-    <Grid BackgroundColor="#121212">
+    <Grid BackgroundColor="{StaticResource PagesBg}">
     
         <!-- Background Layer (fixed height gradient) -->
         <Grid HeightRequest="600" VerticalOptions="Start">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0, 1">
                     <GradientStop Color="PaleGreen" Offset="0.0"/>
-                    <GradientStop Color="#121212" Offset="0.9"/>
+                    <GradientStop Color="{StaticResource PagesBg}" Offset="0.9"/>
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
 
         <VerticalStackLayout
-            Padding="0, 20"
-            Spacing="10"
-        >
+            Padding="0, 20, 0, 0"
+            Spacing="10">
 
             <!-- author details -->
             <Grid
                 ColumnDefinitions="auto, auto"
-                Padding="20,0"
-            >
+                Padding="20,0">
+                
                 <Border Grid.Column="0"
                         StrokeThickness="0"
                         StrokeShape="RoundRectangle 100">
@@ -49,6 +48,7 @@
                         Source="{Binding Author.ProfilePicture}"
                         Aspect="AspectFill"
                         HeightRequest="200"
+                        WidthRequest="200"
                     />
                 </Border>
 
@@ -69,7 +69,9 @@
                 </Grid>
             </Grid>
             
-            <Grid>
+            <!-- TODO Change minimal height request to dynamic-->
+            <Grid VerticalOptions="Fill"
+                  MinimumHeightRequest="700">
             <BoxView Opacity="0.25"
                      Color="Black" />
             <VerticalStackLayout
@@ -80,16 +82,10 @@
                 <HorizontalStackLayout
                     Spacing="20">
                     
-                    <Border StrokeThickness="0">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PlayArtisCommand}" />
-                        </Border.GestureRecognizers>
-                        <Image
-                           Aspect="AspectFill"
-                           WidthRequest="50" HeightRequest="50"
-                           Source="play_green.png"
-                        />
-                    </Border>
+                    <components:PlayPauseButtonGreen
+                        ButtonPressedCommand="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.PlayArtisCommand}"
+                        MusicIsPlaying="{Binding ThisArtistIsPlaying}"/>
+                    
                     <Border StrokeThickness="0">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleShuffleCommand}" />

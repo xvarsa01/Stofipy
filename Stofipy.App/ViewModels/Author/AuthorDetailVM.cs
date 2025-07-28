@@ -13,7 +13,8 @@ public partial class AuthorDetailVM(
     IAuthorFacade facade,
     IFileFacade fileFacade,
     IFilesInQueueFacade filesInQueueFacade,
-    IMessengerService messengerService) : ViewModelBase(messengerService)
+    ICurrentStateService currentState,
+    IMessengerService messengerService) : ViewModelWithCurrentState(currentState, messengerService)
 {
     private Guid Id { get; set; }
     public AuthorDetailModel? Author { get; set; }
@@ -22,6 +23,12 @@ public partial class AuthorDetailVM(
     public ObservableCollection<FileListModel> PopularFilesCurrentlyShowed { get; set; } = new();
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
+    
+    public bool ThisArtistIsPlaying
+    {
+        get => IsAuthorPlaying && NowPlaying?.AuthorName == Author!.AuthorName;
+        set => IsAuthorPlaying = value;
+    }
 
     [ObservableProperty]
     private string _seeMoreText = "See more";
@@ -88,10 +95,21 @@ public partial class AuthorDetailVM(
     }
 
     [RelayCommand]
-    private async Task PlayArtis(FileListModel item)
+    private async Task PlayArtis()
     {
-        await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
-        MessengerService.Send(new RefreshQueueMessage());
+        if (ThisArtistIsPlaying)
+        {
+            ThisArtistIsPlaying = false;
+            return;
+        }
+        
+        if (NowPlaying == null || NowPlaying.AuthorName != Author?.AuthorName)
+        {
+            await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
+            MessengerService.Send(new RefreshQueueMessage());
+        }
+        ThisArtistIsPlaying = true;
+        OnPropertyChanged(nameof(ThisArtistIsPlaying));
     }
     
     [RelayCommand]

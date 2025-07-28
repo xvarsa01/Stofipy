@@ -12,14 +12,19 @@ namespace Stofipy.App.ViewModels;
 
 public partial class FilesInQueueVM(
     IFilesInQueueFacade facade,
-    IMessengerService messengerService)
+    IMessengerService messengerService,
+    ICurrentStateService currentState)
     : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>
 {
     public ObservableCollection<FilesInQueueModel> PriorityQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> BasicQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> RecentlyPlayedQueue { get; set; } = null!;
 
-    public FilesInQueueModel? NowPlaying { get; set; }
+    public FilesInQueueModel? NowPlaying
+    {
+        get => currentState.NowPlaying;
+        set => currentState.NowPlaying = value;
+    }
     
     [ObservableProperty]
     private bool _displayStandardQueue = true;
@@ -28,6 +33,15 @@ public partial class FilesInQueueVM(
     
     [ObservableProperty]
     private bool _displayPriorityQueue = true;
+    
+    private FilesInQueueModel? _draggedFile = null;
+    [ObservableProperty]
+    private bool _isInputTransparent = true;
+    
+    [ObservableProperty]
+    private bool _draggedIntoLastNonPriority = false;
+    [ObservableProperty]
+    private bool _draggedIntoLastPriority = false;
     
     protected override async Task LoadDataAsync()
     {
@@ -61,6 +75,82 @@ public partial class FilesInQueueVM(
     {
         
     }
+    
+    [RelayCommand]
+    public void DragStarted(FilesInQueueModel draggedFile)
+    {
+        _draggedFile = draggedFile;
+        IsInputTransparent = false;
+    }
+
+    [RelayCommand]
+    public void DragReleased()
+    {
+        foreach (var file in BasicQueue)
+        {
+            file.IsDraggedInto = false;
+        }
+        DraggedIntoLastPriority = false;
+        DraggedIntoLastNonPriority = false;
+        _draggedFile = null;
+        IsInputTransparent = true;
+    }
+    
+    [RelayCommand]
+    public async Task DragEnded(FilesInQueueModel endFile)
+    {
+        await facade.ReorderQueue(_draggedFile!.Index, endFile.Index , _draggedFile.PriorityQueue, endFile.PriorityQueue);
+        await LoadDataAsync();
+    }
+    [RelayCommand]
+    public async Task DragEndedAtTheEndPriority()
+    {
+        await facade.ReorderQueue(_draggedFile!.Index, PriorityQueue.Count + 1 , _draggedFile.PriorityQueue, true);
+        await LoadDataAsync();
+    }
+    [RelayCommand]
+    public async Task DragEndedAtTheEndNonPriority()
+    {
+        await facade.ReorderQueue(_draggedFile!.Index, BasicQueue.Count + 1 , _draggedFile.PriorityQueue, false);
+        await LoadDataAsync();
+    }
+    
+    // just for the green highlight
+    [RelayCommand]
+    public void DragOver(FilesInQueueModel endFile)
+    {
+        if (_draggedFile == null) return;
+        endFile.IsDraggedInto = true;
+    }
+    [RelayCommand]
+    public void DragOverLeave(FilesInQueueModel endFile)
+    {
+        if (_draggedFile == null) return;
+        endFile.IsDraggedInto = false;
+    }
+    
+    [RelayCommand]
+    public void DragOverAtTheEndPriority()
+    {
+        DraggedIntoLastPriority = true;
+    }
+    [RelayCommand]
+    public void DragOverAtTheEndPriorityLeave()
+    {
+        DraggedIntoLastPriority = false;
+    }
+    
+    [RelayCommand]
+    public void DragOverAtTheEndNonPriority()
+    {
+        DraggedIntoLastNonPriority = true;
+    }
+    [RelayCommand]
+    public void DragOverAtTheEndNonPriorityLeave()
+    {
+        DraggedIntoLastNonPriority = false;
+    }
+    
     
     [RelayCommand]
     private async Task NextSong()

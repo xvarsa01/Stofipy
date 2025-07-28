@@ -1,7 +1,3 @@
-using Stofipy.App.ViewModels;
-using Stofipy.App.ViewModels.Author;
-using Stofipy.App.Views.MainPages;
-
 namespace Stofipy.App.Services;
 
 public class NavigationService : INavigationService
@@ -28,4 +24,24 @@ public class NavigationService : INavigationService
     {
         NavigationRequested?.Invoke(new NavigateToAlbumRequest(albumId));
     }
+
+    public void NavigateToYourShows()
+    {
+        NavigationRequested?.Invoke(new NavigateToYourShowsRequest());
+    }
+    
+    public void NavigateToMadeForYou()
+    {
+        NavigationRequested?.Invoke(new NavigateToMadeForYouRequest());
+    }
+
+    public void NavigateToRecentlyPlayed()
+    {
+        NavigationRequested?.Invoke(new NavigateToRecentlyPlayedRequest());
+    }
+    public void NavigateToPopularRadio()
+    {
+        NavigationRequested?.Invoke(new NavigateToPopularRadioRequest());
+    }
+
 }

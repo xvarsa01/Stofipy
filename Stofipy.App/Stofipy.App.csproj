@@ -105,6 +105,18 @@
 	  <MauiXaml Update="Views\MainPages\AlbumDetailPage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\BorderStyles.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\PlaylistComponentHomePage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\FileBigWith2Texts.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\LabelStyles.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -138,6 +150,14 @@
 	  </Compile>
 	  <Compile Update="Views\MainPages\AlbumDetailPage.xaml.cs">
 	    <DependentUpon>AlbumDetailPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\PlaylistComponentHomePage.xaml.cs">
+	    <DependentUpon>PlaylistComponentHomePage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\FileBigWith2Texts.xaml.cs">
+	    <DependentUpon>FileBigWith2Texts.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

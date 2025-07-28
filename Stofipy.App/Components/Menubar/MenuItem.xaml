@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Stofipy.App.Components.Menubar"
+             xmlns:converters="clr-namespace:Stofipy.App.Converters"
+             x:Class="Stofipy.App.Components.Menubar.MenuItem">
+    
+    <ContentView.Resources>
+        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
+    </ContentView.Resources>
+    
+    <Border HeightRequest="30" StrokeThickness="0" Padding="10, 0">
+        <Border.BackgroundColor>
+            <MultiBinding Converter="{StaticResource FileBgColorConverter}">
+                <Binding Path="IsHovered" Source="{RelativeSource AncestorType={x:Type local:MenuItem}}"/>
+            </MultiBinding>
+        </Border.BackgroundColor>
+
+        <Border.GestureRecognizers>
+            <PointerGestureRecognizer
+                PointerEntered="OnPointerEntered"
+                PointerExited="OnPointerExited"/>
+            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:MenuItem}}}"
+                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:MenuItem}}}" />
+        </Border.GestureRecognizers>
+
+        <Grid ColumnDefinitions="20, *" ColumnSpacing="10">
+            <Image Grid.Column="0" Source="{Binding IconName , Source={RelativeSource AncestorType={x:Type local:MenuItem}}}" />
+            <Label Grid.Column="1" Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:MenuItem}}}"
+                   TextColor="White" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+        </Grid>
+    </Border>
+</ContentView>

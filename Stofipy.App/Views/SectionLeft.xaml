@@ -17,7 +17,7 @@
     <VerticalStackLayout
         Padding="20"
         Spacing="10"
-        BackgroundColor="#121212"
+        BackgroundColor="{StaticResource PagesBg}"
         >
         <Grid ColumnDefinitions="auto, *">
             <Label
@@ -27,14 +27,15 @@
             <Button
                 Grid.Column="1"
                 Text="+ Create"
+                Style="{StaticResource HomepageRounded}"
                 HorizontalOptions="End">
             </Button>
         </Grid>
         <HorizontalStackLayout Spacing="10">
-            <Button Text="Playlists"/>
-            <Button Text="Podcasts"/>
-            <Button Text="Albums"/>
-            <Button Text="Interprets"/>
+            <Button Text="Playlists" Style="{StaticResource HomepageRounded}" />
+            <Button Text="Podcasts" Style="{StaticResource HomepageRounded}" />
+            <Button Text="Albums" Style="{StaticResource HomepageRounded}" />
+            <Button Text="Artists" Style="{StaticResource HomepageRounded}" />
         </HorizontalStackLayout>
         <Grid ColumnDefinitions="auto, *">
             <SearchBar
