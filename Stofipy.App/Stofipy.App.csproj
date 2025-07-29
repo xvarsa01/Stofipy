@@ -117,6 +117,12 @@
 	  <MauiXaml Update="Resources\Styles\LabelStyles.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\HasHoverableRow">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\Queue\QueueHighlitedDropArea.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -158,6 +164,13 @@
 	  </Compile>
 	  <Compile Update="Components\FileBigWith2Texts.xaml.cs">
 	    <DependentUpon>FileBigWith2Texts.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\Queue\QueueHighlitedDropArea.xaml.cs">
+	    <DependentUpon>QueueHighlitedDropArea.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\Extensions\HasHoverableRow.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
