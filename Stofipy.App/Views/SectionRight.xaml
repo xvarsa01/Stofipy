@@ -145,6 +145,7 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
+                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
                             Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
@@ -215,7 +216,8 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
-                                Margin="0,-30,0,0">
+                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                            Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
                                 DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityCommand}"
