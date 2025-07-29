@@ -5,16 +5,11 @@
         xmlns:views="clr-namespace:Stofipy.App.Views"
         xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
-        xmlns:components="clr-namespace:Stofipy.App.Components"
         xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
-        xmlns:converters="clr-namespace:Stofipy.App.Converters"
+        xmlns:queue="clr-namespace:Stofipy.App.Components.Queue"
         x:Class="Stofipy.App.Views.SectionRight"
         x:Name="SectionRightViewRoot"
-        x:DataType="viewModels:FilesInQueueVM"
->
-    <ContentView.Resources>
-        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
-    </ContentView.Resources>
+        x:DataType="viewModels:FilesInQueueVM">
     
 
     <Grid
@@ -24,22 +19,23 @@
         BackgroundColor="{StaticResource PagesBg}">
 
         <Grid Grid.Row="0"
-            ColumnDefinitions="auto, auto,  *" Padding="-10, 0, 0, 0">
+            ColumnDefinitions="auto, auto, *, 50">
             <buttons:Queue_RecentlyPlayed
                 Grid.Column="0"
                 Text="Queue"
                 TapCommand="{Binding ShowQueueCommand}"
-                IsPressed="{Binding DisplayStandardQueue}"/>
+                IsSelected="{Binding DisplayStandardQueue}"/>
             <buttons:Queue_RecentlyPlayed
                 Grid.Column="1"
                 Text="Recently played"
                 TapCommand="{Binding ShowRecentlyPlayedCommand}"
-                IsPressed="{Binding DisplayRecentlyPlayed}"/>
+                IsSelected="{Binding DisplayRecentlyPlayed}"/>
             <buttons:Queue_RecentlyPlayed
-                Grid.Column="2"
+                Grid.Column="3"
+                VerticalOptions="End"
                 Text="X"
                 TapCommand="{Binding CloseRightSectionCommand}"
-                IsPressed="False"/>
+                IsSelected="False"/>
         </Grid>
         
         
@@ -53,10 +49,16 @@
             <CollectionView ItemsSource="{Binding RecentlyPlayedQueue}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
-                        <components:FileWithPictureAnd2Texts 
+                        <queue:HoverableComponentInQueue
                             Picture="{Binding Picture}" 
                             TopText="{Binding FileName}" 
-                            BottomText="{Binding AuthorName}" />
+                            BottomText="{Binding AuthorName}"
+                            TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                            CommandParameter="{Binding .}"
+                            IsSelected="{Binding IsSelected}"
+                            PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                            DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                            />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>        
@@ -67,13 +69,27 @@
             IsVisible="{Binding DisplayStandardQueue}"
             Spacing="20">
             
-            <Label Text="Now playing" Style="{StaticResource TitleSmall}"/>
-            <components:FileWithPictureAnd2Texts 
+            <Label Text="Now playing" Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0"/>
+            <queue:HoverableComponentInQueue
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
-                BottomText="{Binding NowPlaying.AuthorName}" />
+                BottomText="{Binding NowPlaying.AuthorName}"
+                IsSelected="{Binding NowPlaying.IsSelected}"
+                TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}"
+                CommandParameter="{Binding NowPlaying}"
+                PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                />
 
-            <Label Text="Next in queue: " Style="{StaticResource TitleSmall}"/>
+            <Grid ColumnDefinitions="auto, *"
+                  IsVisible="{Binding DisplayPriorityQueue}">
+                <Label Grid.Column="0" Text="Next in queue: " Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0" />
+                <Label Grid.Column="1" Text="Clear queue" Style="{StaticResource ClearQueue}" HorizontalOptions="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearQueueCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
             <VerticalStackLayout Margin="0, -10, 0, 0"
                 IsVisible="{Binding DisplayPriorityQueue}">
                 <CollectionView ItemsSource="{Binding PriorityQueue}">
@@ -81,7 +97,7 @@
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <components:QueueHighlightedDropArea 
+                                <queue:QueueHighlightedDropArea 
                                     Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
@@ -94,10 +110,16 @@
                                             DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <components:FileWithPictureAnd2Texts 
+                                    <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
-                                        BottomText="{Binding AuthorName}" />
+                                        BottomText="{Binding AuthorName}"
+                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        IsSelected="{Binding IsSelected}"
+                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                    />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
@@ -123,6 +145,7 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
+                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
                             Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
@@ -133,19 +156,19 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <components:QueueHighlightedDropArea 
+                <queue:QueueHighlightedDropArea 
                     Highlighted="{Binding DraggedIntoLastPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
                 
             </VerticalStackLayout>
             
-            <Label Text="Next from playlist: " Style="{StaticResource TitleSmall}"/>
+            <Label Text="Next from playlist: " Style="{StaticResource TitleSmall}"  Padding="10, 0, 0, 0"/>
             <VerticalStackLayout Margin="0, -10, 0, 0">
                 <CollectionView ItemsSource="{Binding BasicQueue}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FilesInQueueModel">
                             <Grid>
                                 <!-- BACKGROUND: Green on drag -->
-                                <components:QueueHighlightedDropArea 
+                                <queue:QueueHighlightedDropArea 
                                     Highlighted="{Binding IsDraggedInto}"/>
 
                                 <!-- MAIN CONTENT: Draggable -->
@@ -158,10 +181,16 @@
                                             DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <components:FileWithPictureAnd2Texts 
+                                    <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
-                                        BottomText="{Binding AuthorName}" />
+                                        BottomText="{Binding AuthorName}"
+                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        IsSelected="{Binding IsSelected}"
+                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                        />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
@@ -187,7 +216,8 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
-                                Margin="0,-30,0,0">
+                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                            Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
                                 DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityCommand}"
@@ -197,7 +227,7 @@
                         </Border.GestureRecognizers>
                     </Border>
                 </Grid>
-                <components:QueueHighlightedDropArea 
+                <queue:QueueHighlightedDropArea 
                     Highlighted="{Binding DraggedIntoLastNonPriority}" ZIndex="-1" Margin="0,-10,0,0"/>
                 
             </VerticalStackLayout>

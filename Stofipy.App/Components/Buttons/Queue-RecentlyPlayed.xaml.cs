@@ -25,11 +25,11 @@ public partial class Queue_RecentlyPlayed : ContentView
         set => SetValue(TapCommandProperty, value);
     }
     
-    public static readonly BindableProperty IsPressedProperty =
-        BindableProperty.Create(nameof(IsPressed), typeof(bool), typeof(LikedSongs));
-    public bool IsPressed
+    public static readonly BindableProperty IsSelectedProperty =
+        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(LikedSongs));
+    public bool IsSelected
     {
-        get => (bool)GetValue(IsPressedProperty);
-        set => SetValue(IsPressedProperty, value);
+        get => (bool)GetValue(IsSelectedProperty);
+        set => SetValue(IsSelectedProperty, value);
     }
 }

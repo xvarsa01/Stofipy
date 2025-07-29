@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                             x:Class="Stofipy.App.Components.Queue.HoverableComponentInQueue"
+                             x:Name="Root">
+    
+    <Border StrokeThickness="0"
+            StrokeShape="RoundRectangle 10">
+                        
+        <Border.GestureRecognizers>
+            <PointerGestureRecognizer
+                PointerEntered="OnPointerEntered"
+                PointerExited="OnPointerExited"/>
+            <TapGestureRecognizer
+                Command="{Binding TapCommand, Source={x:Reference Root}}"
+                CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}"
+            />
+        </Border.GestureRecognizers>
+        
+        <Border.Triggers>
+            <DataTrigger
+                TargetType="Border"
+                Binding="{Binding IsSelected, Source={x:Reference Root}}"
+                Value="true">
+                <Setter Property="BackgroundColor" Value="#555555"/>
+                <Setter TargetName="ShowMoreOptions" Property="IsVisible" Value="true"/>
+                <Setter TargetName="OverlayOverPicture" Property="IsVisible" Value="true"/>
+                <Setter TargetName="PlayButtonOverPicture" Property="IsVisible" Value="true"/>
+            </DataTrigger>
+            <DataTrigger
+                TargetType="Border"
+                Binding="{Binding IsHovered, Source={x:Reference Root}}"
+                Value="true">
+                <Setter Property="BackgroundColor" Value="#333333"/>
+                <Setter TargetName="ShowMoreOptions" Property="IsVisible" Value="true"/>
+                <Setter TargetName="OverlayOverPicture" Property="IsVisible" Value="true"/>
+                <Setter TargetName="PlayButtonOverPicture" Property="IsVisible" Value="true"/>
+            </DataTrigger>
+        </Border.Triggers>
+
+        <Grid ColumnDefinitions="50, *, 50"
+              ColumnSpacing="10"
+              Padding="5">
+            <Border
+                Grid.Column="0" 
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 5">
+                <Grid>
+                    <Image 
+                        Source="{Binding Picture, Source={x:Reference Root}}"
+                        Aspect="AspectFill"
+                        HeightRequest="50"
+                        WidthRequest="50"/>
+
+                    <BoxView Grid.Row="0"
+                             x:Name="OverlayOverPicture"
+                             Opacity="0.5"
+                             Color="Black" 
+                             IsVisible="False"/>
+
+                    <Border x:Name="PlayButtonOverPicture"
+                            Style="{StaticResource TransparentBorderThickness0}" 
+                            IsVisible="False"
+                            VerticalOptions="Center">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PlayClickedCommand, Source={x:Reference Root}}"
+                                                  CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}" />
+                        </Border.GestureRecognizers>
+                        <Label Style="{StaticResource GeneralText}" Text="▶" 
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               FontSize="20"
+                               TextColor="{StaticResource TextWhite}"/>
+                    </Border>
+                </Grid>
+            </Border>
+            
+            <Grid
+                Grid.Column="1"
+                RowDefinitions="*, *">
+                <Label
+                    Grid.Row="0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Text="{Binding TopText, Source={x:Reference Root}}"
+                    TextColor="{StaticResource TextWhite}"
+                    FontFamily="Circular"
+                    FontAttributes="Bold"
+                    FontSize="16"/>
+                <Label
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Text="{Binding BottomText, Source={x:Reference Root}}"
+                    TextColor="{StaticResource TextDarkerWhite}"
+                    FontFamily="Circular"
+                    FontSize="14"/>
+            </Grid>
+            
+            <Border Grid.Column="2"
+                    x:Name="ShowMoreOptions"
+                    Style="{StaticResource TransparentBorderThickness0}"
+                    IsVisible="False"
+                    VerticalOptions="Center">
+        
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DotsClickedCommand, Source={x:Reference Root}}"
+                                          CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}" />
+                </Border.GestureRecognizers>
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="15"
+                    WidthRequest="15"
+                    Source="dots_3_white.png">
+                </Image>
+            </Border>
+        </Grid>
+
+    </Border>
+</ContentView>

@@ -2,8 +2,8 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components"
-             x:Class="Stofipy.App.Components.FileWithPictureAnd2Texts">
+             x:Class="Stofipy.App.Components.FileWithPictureAnd2Texts"
+             x:Name="Root">
     
     <Border
         StrokeShape="RoundRectangle 10"
@@ -12,11 +12,11 @@
         Padding="0">
                     
         <Border.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
-                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}" />
+            <TapGestureRecognizer Command="{Binding TapCommand, Source={x:Reference Root}}"
+                                  CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}" />
         </Border.GestureRecognizers>
         
-        <Grid ColumnDefinitions="50, auto"
+        <Grid ColumnDefinitions="50, *, 50"
               ColumnSpacing="10"
               Padding="5">
             <Border
@@ -24,7 +24,7 @@
                 StrokeThickness="0"
                 StrokeShape="RoundRectangle 5">
                 <Image 
-                    Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    Source="{Binding Picture, Source={x:Reference Root}}"
                     Aspect="AspectFill"
                     HeightRequest="50"
                     WidthRequest="50"/>
@@ -36,7 +36,7 @@
                     Grid.Row="0"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
-                    Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    Text="{Binding TopText, Source={x:Reference Root}}"
                     TextColor="{StaticResource TextWhite}"
                     FontFamily="Circular"
                     FontAttributes="Bold"
@@ -45,7 +45,7 @@
                     Grid.Row="1"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
-                    Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd2Texts}}}"
+                    Text="{Binding BottomText, Source={x:Reference Root}}"
                     TextColor="{StaticResource TextDarkerWhite}"
                     FontFamily="Circular"
                     FontSize="14"/>
