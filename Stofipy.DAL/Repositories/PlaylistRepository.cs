@@ -12,6 +12,7 @@ public class PlaylistRepository(StofipyDbContext dbContext) : RepositoryBase<Pla
     {
         // includes are necessary for total length 
         return await _dbSet
+            .Include(e => e.CreatedBy)
             .Include(e => e.FilesInPlaylists)
             .ThenInclude(e => e.File)
             .SingleOrDefaultAsync(entity => entity.Id == id);
