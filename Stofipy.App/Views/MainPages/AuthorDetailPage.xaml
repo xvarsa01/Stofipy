@@ -185,7 +185,7 @@
                 
                 
                 <!-- author's albums -->
-                <Label Text="Discography" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+                <Label Text="Discography (not yet clickable)" TextColor="White" FontSize="20" FontAttributes="Bold"/>
                 <CollectionView ItemsSource="{Binding Author.Albums}">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Horizontal"

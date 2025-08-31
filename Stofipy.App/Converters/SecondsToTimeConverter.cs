@@ -4,7 +4,7 @@ namespace Stofipy.App.Converters;
 
 public class SecondsToTimeConverter : IValueConverter
 {
-    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object? value, Type? targetType, object? parameter, CultureInfo culture)
     {
         if (value is int totalSeconds)
         {

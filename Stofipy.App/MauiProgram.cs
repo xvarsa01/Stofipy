@@ -20,6 +20,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkitMediaElement()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -79,6 +80,12 @@ public static class MauiProgram
         {
             DatabaseDirectory = Path.GetFullPath(relativePath)
         };
+        
+        Directory.CreateDirectory(dalOptions.StofipyAppDataDirectory);
+        Directory.CreateDirectory(dalOptions.MediaFilesDirectory);
+        Directory.CreateDirectory(dalOptions.ContentFilesDirectory);
+        Directory.CreateDirectory(dalOptions.ImageFilesDirectory);
+        
         configuration.GetSection("Stofipy:DAL").Bind(dalOptions);
         return dalOptions;
     }

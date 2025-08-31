@@ -6,9 +6,15 @@
     xmlns:components="clr-namespace:Stofipy.App.Components"
     xmlns:views="using:Stofipy.App.Views"
     xmlns:viewModels="using:Stofipy.App.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:converters="clr-namespace:Stofipy.App.Converters"
     x:Class="Stofipy.App.Views.SectionBottom"
     x:DataType="viewModels:FilesInQueueVM">
 
+    <ContentView.Resources>
+        <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" />
+    </ContentView.Resources>
+    
     <!-- Bottom bar with currently played file -->
     <Grid ColumnDefinitions="*, *, *"
           HeightRequest="100"
@@ -45,7 +51,8 @@
 
                     <Border StrokeThickness="0">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PreviousSongCommand}" />
+                            <PointerGestureRecognizer
+                                PointerReleased="OnPreviousSongButtonClicked" />
                         </Border.GestureRecognizers>
                         <Image 
                             Source="previous.png"
@@ -53,14 +60,32 @@
                             HeightRequest="20"
                         />
                     </Border>
-                    <Image 
-                        Source="pause.png"
-                        Aspect="AspectFill"
+                    <ImageButton
+                        Source="play.png"
                         HeightRequest="30"
-                    />
+                        Aspect="AspectFill"
+                        BackgroundColor="Transparent"
+                        Clicked="OnPlayPauseButtonClicked"
+                        BindingContext="{x:Reference MediaElement}">
+                        <ImageButton.Triggers>
+                            <DataTrigger TargetType="ImageButton"
+                                         Binding="{Binding CurrentState}"
+                                         Value="{x:Static toolkit:MediaElementState.Playing}">
+                                <Setter Property="Source"
+                                        Value="pause.png" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="ImageButton"
+                                         Binding="{Binding CurrentState}"
+                                         Value="{x:Static toolkit:MediaElementState.Buffering}">
+                                <Setter Property="IsEnabled"
+                                        Value="False" />
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
                     <Border StrokeThickness="0">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NextSongCommand}" />
+                            <PointerGestureRecognizer
+                                PointerReleased="OnNextSongButtonClicked" />
                         </Border.GestureRecognizers>
                         <Image 
                             Source="next.png"
@@ -80,15 +105,23 @@
                     Grid.Row="1"
                     ColumnDefinitions="50, *, 50">
 
-                    <Label Grid.Column="0" Text="1:23" TextColor="White" VerticalOptions="Center"/>
+                    <Label Grid.Column="0"
+                           x:Name="TimeSliderCurrentValue"
+                           TextColor="White"
+                           VerticalOptions="Center" />
+
                     <Slider Grid.Column="1"
-                        Maximum="100"
-                        Minimum="0"
-                        Value="0"
-                        HorizontalOptions="Fill"
-                        BackgroundColor="White"
-                        VerticalOptions="Center"/>
-                    <Label Grid.Column="2" Text="1:23" TextColor="White" VerticalOptions="Center"/>
+                            x:Name="TimeSlider"
+                            Minimum="0"
+                            DragCompleted="TimeSlider_DragCompleted"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Center"
+                            BackgroundColor="White" />
+
+                    <Label Grid.Column="2"
+                           x:Name="TimeSliderMaxValue"
+                           TextColor="White"
+                           VerticalOptions="Center" />
                 </Grid>
                 
             </Grid>
@@ -113,19 +146,25 @@
                 HeightRequest="20"
             />
             <Slider
-                Maximum="100"
-                Minimum="0"
-                Value="0"
+                x:Name="VolumeSlider"
+                Maximum="1.0"
+                Minimum="0.0"
+                Value="0.5"
+                DragCompleted="VolumeSlider_DragCompleted"
                 HorizontalOptions="Fill"
                 BackgroundColor="White"
                 VerticalOptions="Center"
                 WidthRequest="100"
             />
+            <Button Text="Mute" Clicked="OnMuteClicked" />
             <Image 
                 Source="full_screen_white.png"
                 Aspect="AspectFill"
                 HeightRequest="20"
             />
         </HorizontalStackLayout>
+        <toolkit:MediaElement x:Name="MediaElement"
+                      ShouldAutoPlay="True"
+                      ShouldShowPlaybackControls="False"/>
     </Grid>
 </views:ContentViewBase>

@@ -1,16 +1,144 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Converters;
+using Stofipy.App.Messages;
 using Stofipy.App.ViewModels;
+using Stofipy.BL.Models;
+using Stofipy.DAL;
 
 namespace Stofipy.App.Views;
 
-public partial class SectionBottom
+public partial class SectionBottom : IRecipient<PlayFileMessage>
 {
-    public SectionBottom(FilesInQueueVM viewModel) : base(viewModel)
+    private readonly FilesInQueueVM _viewModel;
+    private readonly IMessenger _messenger;
+    private readonly DALOptions _dalOptions;
+    private readonly SecondsToTimeConverter _secondsToTimeConverter;
+
+    public SectionBottom(FilesInQueueVM viewModel, IMessenger messenger, DALOptions dalOptions) : base(viewModel)
     {
+        _viewModel = viewModel;
+        _messenger = messenger;
+        _dalOptions = dalOptions;
+        messenger.Register(this);
         InitializeComponent();
+        MediaElement.PropertyChanged += MediaElement_PropertyChanged;
+        MediaElement.PositionChanged += MediaElement_OnPositionChanged;
+        MediaElement.MediaEnded += MediaElement_MediumEnded;
+        MediaElement.Volume = 0.5;
+        _secondsToTimeConverter = new SecondsToTimeConverter();
+    }
+
+    void MediaElement_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == MediaElement.DurationProperty.PropertyName)
+        {
+            TimeSlider.Maximum = MediaElement.Duration.TotalSeconds;
+            TimeSliderMaxValue.Text = _secondsToTimeConverter.Convert((int)MediaElement.Duration.TotalSeconds, null, null, CultureInfo.CurrentCulture).ToString() ?? string.Empty;
+        }
+    }
+    
+    void MediaElement_OnPositionChanged(object? sender, MediaPositionChangedEventArgs e)
+    {
+        TimeSlider.Value = e.Position.TotalSeconds;
+        TimeSliderCurrentValue.Text = _secondsToTimeConverter.Convert((int)e.Position.TotalSeconds, null, null, CultureInfo.CurrentCulture).ToString() ?? string.Empty;
+    }
+    
+    void MediaElement_MediumEnded(object? sender, EventArgs e)
+    {
+        _messenger.Send(new NextFileMessage());
+    }
+    
+    void OnPlayPauseButtonClicked(object sender, EventArgs args)
+    {
+        switch (MediaElement.CurrentState)
+        {
+            case MediaElementState.Stopped or MediaElementState.Paused:
+                MediaElement.Play();
+                break;
+            case MediaElementState.Playing:
+                MediaElement.Pause();
+                break;
+        }
+    }
+    
+    void OnPreviousSongButtonClicked(object sender, EventArgs args)
+    {
+        _messenger.Send(new PreviousFileMessage());
+    }
+    
+    void OnNextSongButtonClicked(object sender, EventArgs args)
+    {
+        _messenger.Send(new NextFileMessage());
+    }
+    
+    private async void TimeSlider_DragCompleted(object? sender, EventArgs e)
+    {
+        ArgumentNullException.ThrowIfNull(sender);
+
+        var newValue = ((Slider)sender).Value;
+        await MediaElement.SeekTo(TimeSpan.FromSeconds(newValue), CancellationToken.None);
+
+        MediaElement.Play();
+    }
+    private void VolumeSlider_DragCompleted(object? sender, EventArgs e)
+    {
+        ArgumentNullException.ThrowIfNull(sender);
+
+        var newValue = ((Slider)sender).Value;
+        MediaElement.Volume = newValue;
+    }
+    
+    void OnMuteClicked(object? sender, EventArgs e)
+    {
+        MediaElement.ShouldMute = !MediaElement.ShouldMute;
+    }
+    
+
+    private void PlayItem(FilesInQueueModel item)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            MediaElement.MetadataTitle = item.FileName;
+            MediaElement.MetadataArtist = item.AuthorName;
+            MediaElement.MetadataArtworkUrl = "";
+
+            var contentFolder = _dalOptions.ContentFilesDirectory;
+            var mp4File = Path.Combine(contentFolder, $"{item.FileId}.mp4");
+            var mp3File = Path.Combine(contentFolder, $"{item.FileId}.mp3");
+            var fallbackFile = Path.Combine(contentFolder, "123.mp3");
+
+            string? fileToPlay = null;
+
+            if (File.Exists(mp4File))
+                fileToPlay = mp4File;
+            else if (File.Exists(mp3File))
+                fileToPlay = mp3File;
+            else if (File.Exists(fallbackFile))
+                fileToPlay = fallbackFile;
+
+            try
+            {
+                MediaElement.Source = MediaSource.FromFile(fileToPlay);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        });
+    }
+
+    public void Receive(PlayFileMessage message)
+    {
+        PlayItem(message.File);
     }
 }

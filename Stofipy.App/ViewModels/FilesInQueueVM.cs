@@ -14,7 +14,7 @@ public partial class FilesInQueueVM(
     IFilesInQueueFacade facade,
     IMessengerService messengerService,
     ICurrentStateService currentState)
-    : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>
+    : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>, IRecipient<PreviousFileMessage>, IRecipient<NextFileMessage>
 {
     public ObservableCollection<FilesInQueueModel> PriorityQueue { get; set; } = null!;
     public ObservableCollection<FilesInQueueModel> BasicQueue { get; set; } = null!;
@@ -153,50 +153,33 @@ public partial class FilesInQueueVM(
         DraggedIntoLastNonPriority = false;
     }
     
-    
-    [RelayCommand]
     private async Task NextSong()
     {
         await facade.NextSong();
+        await LoadDataAsync();
         
-        await base.LoadDataAsync();
-
-        NowPlaying = await facade.GetCurrentAsync();
-        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
-        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
-        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
-        
-        DisplayPriorityQueue = PriorityQueue.Count != 0;
+        if (NowPlaying != null)
+        {
+            Messenger.Send(new PlayFileMessage(NowPlaying));
+        }
     }
     
-    [RelayCommand]
     private async Task PreviousSong()
     {
         await facade.PreviousSong();
-        
-        await base.LoadDataAsync();
+        await LoadDataAsync();
 
-        NowPlaying = await facade.GetCurrentAsync();
-        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
-        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
-        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
-        
-        DisplayPriorityQueue = PriorityQueue.Count != 0;
+        if (NowPlaying != null)
+        {
+            Messenger.Send(new PlayFileMessage(NowPlaying));
+        }
     }
 
     [RelayCommand]
     public async Task ClearQueueAsync()
     {
         await facade.RemoveAllFromQueue(true);
-        
-        await base.LoadDataAsync();
-
-        NowPlaying = await facade.GetCurrentAsync();
-        PriorityQueue = (await facade.GetAllPriorityFilesInQueueAsync()).ToObservableCollection();
-        BasicQueue = (await facade.GetAllNonPriorityFilesInQueueAsync()).ToObservableCollection();
-        RecentlyPlayedQueue = (await facade.GetRecentFilesInQueueAsync(20)).ToObservableCollection();
-        
-        DisplayPriorityQueue = PriorityQueue.Count != 0;
+        await LoadDataAsync();
     }
     
     [RelayCommand]
@@ -213,8 +196,9 @@ public partial class FilesInQueueVM(
     }
     
     [RelayCommand]
-    private Task PlayItemAsync(FilesInQueueModel item)
+    private Task PlayItemAsync(FilesInQueueModel file)
     {
+        Messenger.Send(new PlayFileMessage(file));
         return Task.CompletedTask;
     }
     
@@ -227,5 +211,15 @@ public partial class FilesInQueueVM(
     public async void Receive(RefreshQueueMessage message)
     {
         await LoadDataAsync();
+    }
+    
+    public async void Receive(PreviousFileMessage message)
+    {
+        await PreviousSong();
+    }
+    
+    public async void Receive(NextFileMessage message)
+    {
+        await NextSong();
     }
 }

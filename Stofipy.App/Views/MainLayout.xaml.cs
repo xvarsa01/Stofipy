@@ -1,9 +1,11 @@
-﻿using Stofipy.App.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Services;
 using Stofipy.App.ViewModels;
 using Stofipy.App.ViewModels.Album;
 using Stofipy.App.ViewModels.Author;
 using SectionTopVM = Stofipy.App.ViewModels.SectionTopVM;
 using Stofipy.App.Views.MainPages;
+using Stofipy.DAL;
 using NavigationRequest = Stofipy.App.Services.NavigationRequest;
 
 namespace Stofipy.App.Views;
@@ -18,14 +20,16 @@ public partial class MainLayout : ContentPage
         SectionTopVM sectionTopVM,
         SectionLeftVM sectionLeftVM,
         INavigationService navigationService,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IMessenger messenger,
+        DALOptions dalOptions)
     {
         _homePageVM = homePageVM;
         _serviceProvider = serviceProvider;
         InitializeComponent();
         
         LoadSectionTop(new SectionTop(sectionTopVM));
-        LoadSectionBottom(new SectionBottom(filesInQueueVM));
+        LoadSectionBottom(new SectionBottom(filesInQueueVM, messenger, dalOptions));
         LoadSectionLeft(new SectionLeft(sectionLeftVM));
         LoadSectionRight(new SectionRight(filesInQueueVM));
         
