@@ -32,6 +32,11 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+    
+    <Color x:Key="White80%Opacity">#CCFFFFFF</Color>
+    <Color x:Key="White60%Opacity">#99FFFFFF</Color>
+    <Color x:Key="White40%Opacity">#66FFFFFF</Color>
+    <Color x:Key="White20%Opacity">#33FFFFFF</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

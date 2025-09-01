@@ -70,9 +70,24 @@
                         />
                     <Label
                         HorizontalOptions="Start"
-                        Text="{Binding Playlist.LengthFormatted}"
-                        TextColor="White"
-                        FontSize="15"/>
+                        FontSize="15">
+                        <Label.FormattedText>
+                            <components:MtFormattedString>
+                                <Span Text="{Binding Playlist.CreatedByName}"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource TextWhite}"
+                                      />
+                                <Span Text=" • "
+                                      TextColor="{StaticResource White60%Opacity}"/>
+                                <Span Text="{Binding Files.Count}"
+                                      TextColor="{StaticResource White60%Opacity}"/>
+                                <Span Text=" items, "
+                                      TextColor="{StaticResource White60%Opacity}" />
+                                <Span Text="{Binding Playlist.LengthFormatted}"
+                                      TextColor="{StaticResource White60%Opacity}"/>
+                            </components:MtFormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </VerticalStackLayout>
                 
             </Grid>
