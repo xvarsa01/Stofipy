@@ -211,6 +211,10 @@ public partial class FilesInQueueVM(
     public async void Receive(RefreshQueueMessage message)
     {
         await LoadDataAsync();
+        if (NowPlaying != null)
+        {
+            Messenger.Send(new PlayFileMessage(NowPlaying));
+        }
     }
     
     public async void Receive(PreviousFileMessage message)

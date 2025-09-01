@@ -52,14 +52,14 @@ public partial class PlaylistDetailVM (
     [RelayCommand]
     private async Task PlayPlaylistAsync()
     {
-        
+        MessengerService.Send(new PlayPauseButtonClickedMessage());
         if (ThisPlaylistIsPlaying)
         {
             ThisPlaylistIsPlaying = false;
             return;
         }
         
-        if (NowPlaying == null || !IsPlaylistPlaying || CurrentlyPlayingPlaylistId != Playlist.Id)
+        if (NowPlaying == null || CurrentlyPlayingPlaylistId != Playlist.Id)
         {
             await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
             MessengerService.Send(new RefreshQueueMessage());

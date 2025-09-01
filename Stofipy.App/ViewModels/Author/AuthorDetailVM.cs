@@ -97,6 +97,7 @@ public partial class AuthorDetailVM(
     [RelayCommand]
     private async Task PlayArtis()
     {
+        MessengerService.Send(new PlayPauseButtonClickedMessage());
         if (ThisArtistIsPlaying)
         {
             ThisArtistIsPlaying = false;

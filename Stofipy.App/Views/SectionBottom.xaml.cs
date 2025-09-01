@@ -16,7 +16,7 @@ using Stofipy.DAL;
 
 namespace Stofipy.App.Views;
 
-public partial class SectionBottom : IRecipient<PlayFileMessage>
+public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<PlayPauseButtonClickedMessage>
 {
     private readonly FilesInQueueVM _viewModel;
     private readonly IMessenger _messenger;
@@ -28,7 +28,8 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>
         _viewModel = viewModel;
         _messenger = messenger;
         _dalOptions = dalOptions;
-        messenger.Register(this);
+        messenger.Register<PlayFileMessage>(this);
+        messenger.Register<PlayPauseButtonClickedMessage>(this);
         InitializeComponent();
         MediaElement.PropertyChanged += MediaElement_PropertyChanged;
         MediaElement.PositionChanged += MediaElement_OnPositionChanged;
@@ -57,7 +58,7 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>
         _messenger.Send(new NextFileMessage());
     }
     
-    void OnPlayPauseButtonClicked(object sender, EventArgs args)
+    void OnPlayPauseButtonClicked(object? sender, EventArgs? args)
     {
         switch (MediaElement.CurrentState)
         {
@@ -140,5 +141,9 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>
     public void Receive(PlayFileMessage message)
     {
         PlayItem(message.File);
+    }    
+    public void Receive(PlayPauseButtonClickedMessage message)
+    {
+        OnPlayPauseButtonClicked(null, null);
     }
 }
