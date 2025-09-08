@@ -112,11 +112,9 @@
 
                     <Slider Grid.Column="1"
                             x:Name="TimeSlider"
+                            Style="{StaticResource Slider}"
                             Minimum="0"
-                            DragCompleted="TimeSlider_DragCompleted"
-                            HorizontalOptions="Fill"
-                            VerticalOptions="Center"
-                            BackgroundColor="White" />
+                            DragCompleted="TimeSlider_DragCompleted" />
 
                     <Label Grid.Column="2"
                            x:Name="TimeSliderMaxValue"
@@ -145,18 +143,16 @@
                 Aspect="AspectFill"
                 HeightRequest="20"
             />
+            <Button x:Name="MuteButton" Text="Mute" Clicked="OnMuteClicked" />
             <Slider
                 x:Name="VolumeSlider"
-                Maximum="1.0"
+                Style="{StaticResource Slider}"
                 Minimum="0.0"
+                Maximum="1.0"
                 Value="0.5"
-                DragCompleted="VolumeSlider_DragCompleted"
-                HorizontalOptions="Fill"
-                BackgroundColor="White"
-                VerticalOptions="Center"
+                ValueChanged="VolumeSlider_ValueChanged"
                 WidthRequest="100"
             />
-            <Button Text="Mute" Clicked="OnMuteClicked" />
             <Image 
                 Source="full_screen_white.png"
                 Aspect="AspectFill"

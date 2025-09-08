@@ -124,6 +124,9 @@
 	  <MauiXaml Update="Components\Queue\QueueHighlitedDropArea.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\SliderStyles.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

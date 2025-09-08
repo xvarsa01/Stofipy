@@ -22,6 +22,7 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
     private readonly IMessenger _messenger;
     private readonly DALOptions _dalOptions;
     private readonly SecondsToTimeConverter _secondsToTimeConverter;
+    private double volumeSliderValueBeforeMuted;
 
     public SectionBottom(FilesInQueueVM viewModel, IMessenger messenger, DALOptions dalOptions) : base(viewModel)
     {
@@ -90,17 +91,51 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
 
         MediaElement.Play();
     }
-    private void VolumeSlider_DragCompleted(object? sender, EventArgs e)
+    private void VolumeSlider_ValueChanged(object? sender, EventArgs e)
     {
         ArgumentNullException.ThrowIfNull(sender);
 
         var newValue = ((Slider)sender).Value;
         MediaElement.Volume = newValue;
+
+        if (newValue == 0.0)
+        {
+            MediaElement.ShouldMute = true;
+            MuteButton.Text = "Muted";
+        }
+        else
+        {
+            MediaElement.ShouldMute = false;
+            MuteButton.Text = "Mute";
+            volumeSliderValueBeforeMuted = newValue;
+        }
     }
     
     void OnMuteClicked(object? sender, EventArgs e)
     {
-        MediaElement.ShouldMute = !MediaElement.ShouldMute;
+        if (MediaElement.ShouldMute)
+        {
+            Unmute();
+        }
+        else
+        {
+            Mute();
+        }
+    }
+
+    private void Unmute()
+    {
+        MediaElement.ShouldMute = false; 
+        MuteButton.Text = "Mute";
+        VolumeSlider.Value = volumeSliderValueBeforeMuted > 0 ? volumeSliderValueBeforeMuted : 0.5;
+    }
+    
+    private void Mute()
+    {
+        MediaElement.ShouldMute = true;
+        MuteButton.Text = "Muted";
+        volumeSliderValueBeforeMuted = VolumeSlider.Value;
+        VolumeSlider.Value = 0;
     }
     
 
@@ -146,4 +181,19 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
     {
         OnPlayPauseButtonClicked(null, null);
     }
+
+    // private void VolumeSliderAreaEntered(object? sender, PointerEventArgs e)
+    // {
+    //     if (Application.Current != null && Application.Current.Resources.TryGetValue("GreenLight", out var color))
+    //     {
+    //         VolumeSlider.MinimumTrackColor = (Color)color;
+    //     }
+    // }
+    // private void VolumeSliderAreaExited(object? sender, PointerEventArgs e)
+    // {
+    //     if (Application.Current != null && Application.Current.Resources.TryGetValue("White", out var color))
+    //     {
+    //         VolumeSlider.MinimumTrackColor = (Color)color;
+    //     }
+    // }
 }
