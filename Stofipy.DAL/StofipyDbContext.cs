@@ -14,6 +14,8 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
     public DbSet<FilesInQueueEntity> FilesInQueue { get; set; }
     public DbSet<PlaylistEntity> Playlists { get; set; }
     public DbSet<ProfileEntity> Profiles { get; set; }
+    public DbSet<ProfileFollowingProfileEntity> ProfilesFollowingProfileEntities { get; set; }
+    public DbSet<ProfileFollowingAuthorEntity> ProfilesFollowingAuthorEntities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
