@@ -12,6 +12,7 @@ public static class PlaylistTestSeeds
         Description = "",
         PlayCount = 0,
         IsPublic = false,
+        FilesInPlaylists = [],
         CreatedBy = ProfileTestSeeds.User1,
         CreatedById = ProfileTestSeeds.User1.Id,
     };
@@ -23,6 +24,7 @@ public static class PlaylistTestSeeds
         Description = "11 files",
         PlayCount = 0,
         IsPublic = false,
+        FilesInPlaylists = [],
         CreatedBy = ProfileTestSeeds.User1,
         CreatedById = ProfileTestSeeds.User1.Id,
     };
@@ -51,8 +53,8 @@ public static class PlaylistTestSeeds
     public static DbContext SeedTestPlaylists(this DbContext dbx)
     {
         dbx.Set<PlaylistEntity>().AddRange(
-            Playlist1 with{FilesInPlaylists = []},
-            Playlist2 with{FilesInPlaylists = []}
+            Playlist1 with{FilesInPlaylists = [], CreatedBy = null!},
+            Playlist2 with{FilesInPlaylists = [], CreatedBy = null!}
         );
         return dbx;
     }

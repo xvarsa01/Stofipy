@@ -33,6 +33,8 @@ public class DbContextTestsBase : IAsyncLifetime
             .SeedTestFiles()
             .SeedTestFilesInAlbums()
             .SeedTestFilesInPlaylists()
+            .SeedTestFilesInQueue()
+            .SeedTestProfiles()
             ;
         await dbx.SaveChangesAsync();
     }

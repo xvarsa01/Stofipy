@@ -51,6 +51,7 @@ public class FacadeTestsBase : IAsyncLifetime
             .SeedTestFilesInAlbums()
             .SeedTestFilesInPlaylists()
             .SeedTestFilesInQueue()
+            .SeedTestProfiles()
             ;
         await dbx.SaveChangesAsync();
     }
