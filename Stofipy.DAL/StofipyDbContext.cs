@@ -68,30 +68,4 @@ public class StofipyDbContext(DbContextOptions contextOptions, bool seedData = f
             .WithOne(e => e.Followed)
             .OnDelete(DeleteBehavior.Cascade);
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (seedData)
-        {
-            optionsBuilder
-                .UseSeeding((context, _) =>
-                {
-                    context
-                        .SeedAuthors()
-                        .SeedAlbums()
-                        // .SeedPlaylists()
-                        .SeedFiles()
-                        // .SeedTestFilesInAlbums()
-                        // .SeedFilesInPlaylists()
-                        .SeedFilesInQueue()
-                        .SeedProfiles()
-                        ;
-                    context.SaveChanges();
-                })
-                .UseAsyncSeeding(async (context, _, cancellationToken) =>
-                {
-                    await context.SaveChangesAsync(cancellationToken);
-                });
-        }
-    }
 }
