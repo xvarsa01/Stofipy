@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Mappers;
 using Stofipy.BL.Models;
@@ -18,8 +19,9 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
     private readonly IFilesInPlaylistFacade _filesInPlaylistFacade;
     private readonly IFilesInAlbumFacade _filesInAlbumFacade;
     private readonly IFileFacade _fileFacade;
+    private readonly ILogger<FilesInQueueFacade> _logger;
     public FilesInQueueFacade(FilesInQueueRepository repository, FilesInQueueModelMapper modelMapper,
-        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade, IAlbumFacade albumFacade, IFilesInAlbumFacade filesInAlbumFacade, IAuthorFacade authorFacade, IFileFacade fileFacade)
+        IPlaylistFacade playlistFacade, IFilesInPlaylistFacade filesInPlaylistFacade, IAlbumFacade albumFacade, IFilesInAlbumFacade filesInAlbumFacade, IAuthorFacade authorFacade, IFileFacade fileFacade, ILogger<FilesInQueueFacade> logger)
         : base(repository, modelMapper)
     {
         _modelMapper = modelMapper;
@@ -30,6 +32,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         _filesInAlbumFacade = filesInAlbumFacade;
         _authorFacade = authorFacade;
         _fileFacade = fileFacade;
+        _logger = logger;
     }
 
     public async Task<FilesInQueueModel?> GetCurrentAsync()
@@ -385,4 +388,28 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             await _repository.UpdateAsync(item);
         }
     }
+    
+    private async Task PrintQueue()
+    {
+        _logger.LogInformation("current:");
+        var recent = await GetRecentFilesInQueueAsync(50);
+        foreach (var file in recent)
+        {
+            _logger.LogInformation($"index: {file.Index}, {file.FileName}, {file.PriorityQueue}");
+        }
+        var current = await GetCurrentAsync();
+        _logger.LogInformation($"index: {current?.Index}, {current?.FileName}, {current?.PriorityQueue}");
+        var priority = await GetAllPriorityFilesInQueueAsync();
+        foreach (var file in priority)
+        {
+            _logger.LogInformation($"index: {file.Index}, {file.FileName}, {file.PriorityQueue}");
+        }
+        var nonPriority = await GetAllNonPriorityFilesInQueueAsync();
+        foreach (var file in nonPriority)
+        {
+            _logger.LogInformation($"index: {file.Index}, {file.FileName}, {file.PriorityQueue}");
+        }
+        _logger.LogInformation("");
+    }
+
 }

@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Stofipy.App.Helpers;
 using Stofipy.App.ViewModels;
 using Stofipy.App.Views;
 using Stofipy.BL;
@@ -33,6 +34,25 @@ public static class MauiProgram
 
 
 #if DEBUG
+        var logFilePath = Path.Combine(FileSystem.AppDataDirectory, "app.log");
+        if (File.Exists(logFilePath))
+        {
+            File.WriteAllText(logFilePath, string.Empty);
+        }
+        
+        builder.Logging.ClearProviders();
+        builder.Logging.AddProvider(new FileLoggerProvider(logFilePath));
+        builder.Logging.AddFilter((category, level) =>
+        {
+            // Keep only your app / business layer namespaces
+            if (category.StartsWith("Stofipy"))
+                return level >= LogLevel.Information;
+
+            // Suppress everything else
+            return false;
+        });
+
+// Optional: still log to VS Output for debugging
         builder.Logging.AddDebug();
 #endif
 
