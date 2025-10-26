@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Stofipy.BL.Facades;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Mappers;
+using Stofipy.BL.Tests.Helpers;
 using Stofipy.Common.Tests.Seeds;
 using Stofipy.DAL.Repositories;
 using Xunit.Abstractions;
@@ -49,6 +50,10 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         // Register your facade under test
         services.AddTransient<IFilesInQueueFacade, FilesInQueueFacade>();
 
+        
+        services.AddLogging();
+        services.AddSingleton<ITestOutputHelper, NullTestOutputHelper>();
+        
         // Build the DI container
         var provider = services.BuildServiceProvider();
 
@@ -142,7 +147,7 @@ public class FilesInQueueFacadeTests : FacadeTestsBase
         await CheckQueueBeforeReorder();
         
         //Act
-        await _filesInQueueFacade.RemoveAllFromQueue(true);
+        await _filesInQueueFacade.RemoveAllActiveFromQueue(true);
         
         //Assert
         await using var dbxAssert = await DbContextFactory.CreateDbContextAsync();

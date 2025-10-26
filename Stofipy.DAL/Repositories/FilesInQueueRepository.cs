@@ -17,7 +17,7 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
             .ThenBy(e => e.Index)
             .ToListAsync();
     }
-    public async Task<List<FilesInQueueEntity>> GetAllPriorityAsync()
+    public async Task<List<FilesInQueueEntity>> GetAllActivePriorityAsync()
     {
         var query = _dbSet
             .Where(e => e.PriorityQueue == true)
@@ -29,7 +29,7 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
             .ToListAsync();
     }
     
-    public async Task<List<FilesInQueueEntity>> GetAllNonPriorityAsync()
+    public async Task<List<FilesInQueueEntity>> GetAllActiveNonPriorityAsync()
     {
         var query = _dbSet
             .Where(e => e.PriorityQueue == false)
@@ -69,6 +69,19 @@ public class FilesInQueueRepository (StofipyDbContext dbContext): RepositoryBase
                 .Where(e => e.PriorityQueue == false)
                 .SingleOrDefaultAsync(e => e.Index == index);
         }
+    }
+    
+    public async Task<List<FilesInQueueEntity>> GetAllInRangeAsync(int lowIndex, int maxIndex, bool priority)
+    {
+        var query = _dbSet
+            .Where(e => e.PriorityQueue == priority)
+            .Where(e => e.Index >= lowIndex && e.Index <= maxIndex);
+
+        query = IncludeAuthorAndDefaultAlbums(query);
+
+        return await query
+            .OrderBy(e => e.Index)
+            .ToListAsync();
     }
 
     public int GetMaxPriorityIndex()

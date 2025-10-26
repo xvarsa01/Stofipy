@@ -178,7 +178,7 @@ public partial class FilesInQueueVM(
     [RelayCommand]
     public async Task ClearQueueAsync()
     {
-        await facade.RemoveAllFromQueue(true);
+        await facade.RemoveAllActiveFromQueue(true);
         await LoadDataAsync();
     }
     
@@ -196,10 +196,16 @@ public partial class FilesInQueueVM(
     }
     
     [RelayCommand]
-    private Task PlayItemAsync(FilesInQueueModel file)
+    private async Task PlayItemAsync(FilesInQueueModel file)
     {
+        if (file.Index == 0)
+        {
+            MessengerService.Send(new PlayPauseButtonClickedMessage());
+            return;
+        }
+        await facade.PlayItemAsync(file);
+        await LoadDataAsync();
         Messenger.Send(new PlayFileMessage(file));
-        return Task.CompletedTask;
     }
     
     [RelayCommand]

@@ -48,7 +48,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
 
     public async Task<List<FilesInQueueModel>> GetAllPriorityFilesInQueueAsync()
     {
-        List<FilesInQueueEntity> entities = await _repository.GetAllPriorityAsync();
+        List<FilesInQueueEntity> entities = await _repository.GetAllActivePriorityAsync();
         
         var models =  _modelMapper.MapToListModel(entities);
         return models;
@@ -56,7 +56,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
 
     public async Task<List<FilesInQueueModel>> GetAllNonPriorityFilesInQueueAsync()
     {
-        List<FilesInQueueEntity> entities = await _repository.GetAllNonPriorityAsync();
+        List<FilesInQueueEntity> entities = await _repository.GetAllActiveNonPriorityAsync();
         
         var models =  _modelMapper.MapToListModel(entities);
         return models;
@@ -97,7 +97,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
     }
 
-    private async Task PlayFileNow(Guid fileId, string fileName, string authorName)
+    private async Task PlayFileNow(Guid fileId)
     {
         if (await _repository.GetByIndexAsync(0, true) != null)
         {
@@ -185,7 +185,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         var files = await _filesInAlbumFacade.GetAllByAlbumIdAsync(album.Id);
         if(files.Count == 0) return;
 
-        await RemoveAllFromQueue(false);
+        await RemoveAllActiveFromQueue(false);
 
         if (randomShuffle)
         {
@@ -194,7 +194,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         var first = files.First();
         files.Remove(first);
         
-        await PlayFileNow(first.FileId, first.FileName, album.AuthorName);
+        await PlayFileNow(first.FileId);
         
         foreach (var item in files)
         {
@@ -213,13 +213,13 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         var files = await _fileFacade.GetMostPopularFiles(author.Id, 1, 20);
         if(files.Count == 0) return;
         
-        await RemoveAllFromQueue(false);
+        await RemoveAllActiveFromQueue(false);
         
         files = files.OrderBy(_ => Guid.NewGuid()).ToList();
         var first = files.First();
         files.Remove(first);
         
-        await PlayFileNow(first.Id, first.FileName, first.AuthorName);
+        await PlayFileNow(first.Id);
         
         foreach (var item in files)
         {
@@ -242,7 +242,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         var firstPage = await _filesInPlaylistFacade.GetAllAsync(playlistId, 1, pageSize);
         if(firstPage.Count == 0) return Task.CompletedTask;
 
-        await RemoveAllFromQueue(false);
+        await RemoveAllActiveFromQueue(false);
         
         if (randomShuffle)
         {
@@ -251,7 +251,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         var first = firstPage.First();
         firstPage.Remove(first);
         
-        await PlayFileNow(first.FileId, first.FileName, first.AuthorName);
+        await PlayFileNow(first.FileId);
         foreach (var item in firstPage)
         {
             await AddFileToNonPriorityQueue(item.FileId, item.FileName, item.AuthorName);
@@ -284,11 +284,11 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         return backgroundTask;
     }
 
-    public async Task RemoveAllFromQueue(bool priority)
+    public async Task RemoveAllActiveFromQueue(bool priority)
     {
         var queue = priority
-            ? await _repository.GetAllPriorityAsync()
-            : await _repository.GetAllNonPriorityAsync();
+            ? await _repository.GetAllActivePriorityAsync()
+            : await _repository.GetAllActiveNonPriorityAsync();
 
         foreach (var item in queue)
         {
@@ -296,6 +296,56 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
     }
     
+    public async Task RemoveAllActiveLowerThanIndexFromQueue(bool priority, int index)
+    {
+        var items = await _repository.GetAllInRangeAsync(0, index-1, priority);
+
+        foreach (var item in items)
+        {
+            await _repository.DeleteAsync(item.Id);
+        }
+        
+        // +1 makes it currently played. 
+        await DecrementIndexes(index, null, priority, items.Count+1);
+    }
+    
+    public async Task PlayItemAsync(FilesInQueueModel file)
+    {
+        await PrintQueue();
+
+        if (file.Index == 0)
+        {
+            throw new InvalidOperationException("Invariant violation: file.Index should never be 0 in PlayItemAsync.");
+        }
+        
+        // push currently playing to recently played
+        await DecrementIndexes(null, 0, true);
+        await DecrementIndexes(null, 0, false);
+
+        if (file.Index < 0)
+        {
+            await RemoveAllActiveFromQueue(false);
+            FilesInQueueEntity entity = new()
+            {
+                Id = Guid.NewGuid(),
+                Index = 0,
+                PriorityQueue = true,
+                File = null!,
+                FileId = file.FileId
+            };
+            await _repository.InsertAsync(entity);
+            return;
+        }
+        
+        var isPriority = file.PriorityQueue;
+        if (!isPriority)
+        {
+            await RemoveAllActiveFromQueue(priority: true);
+        }
+        await RemoveAllActiveLowerThanIndexFromQueue(file.PriorityQueue, file.Index);
+        await PrintQueue();
+    }
+
     public async Task ReorderQueue(int oldIndex, int newIndex, bool oldPriority, bool newPriority)
     {
         if (oldIndex == newIndex && oldPriority == newPriority) return;
@@ -345,7 +395,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         return _repository.GetMaxPriorityIndex();
     }
 
-    private async Task DecrementIndexes(int? startIndex, int? endIndex, bool priority)
+    private async Task DecrementIndexes(int? startIndex, int? endIndex, bool priority, int decrementBy = 1)
     {
         if (startIndex > endIndex) return;
         
@@ -363,12 +413,12 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             
         foreach (var item in itemsToUpdate.ToList())
         {
-            item.Index--;
+            item.Index -= decrementBy;
             await _repository.UpdateAsync(item);
         }
     }
     
-    private async Task IncrementIndexes(int? startIndex, int? endIndex, bool priority)
+    private async Task IncrementIndexes(int? startIndex, int? endIndex, bool priority, int incrementBy = 1)
     {
         startIndex ??= int.MinValue;
         endIndex ??= int.MaxValue;
@@ -384,7 +434,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             
         foreach (var item in itemsToUpdate.ToList())
         {
-            item.Index++;
+            item.Index += incrementBy;
             await _repository.UpdateAsync(item);
         }
     }
