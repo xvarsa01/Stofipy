@@ -337,8 +337,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
             return;
         }
         
-        var isPriority = file.PriorityQueue;
-        if (!isPriority)
+        if (!file.PriorityQueue)
         {
             await RemoveAllActiveFromQueue(priority: true);
         }

@@ -65,9 +65,11 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
         {
             case MediaElementState.Stopped or MediaElementState.Paused:
                 MediaElement.Play();
+                _messenger.Send(new MediaElementPlayMessage());
                 break;
             case MediaElementState.Playing:
                 MediaElement.Pause();
+                _messenger.Send(new MediaElementPauseMessage());
                 break;
         }
     }
@@ -141,6 +143,7 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
 
     private void PlayItem(FilesInQueueModel item)
     {
+        _messenger.Send(new MediaElementPlayMessage());
         MainThread.BeginInvokeOnMainThread(() =>
         {
             MediaElement.MetadataTitle = item.FileName;

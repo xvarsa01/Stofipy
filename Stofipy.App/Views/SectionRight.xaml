@@ -78,7 +78,8 @@
                 TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}"
                 CommandParameter="{Binding NowPlaying}"
                 PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
-                DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}"
+                IsNowPlayingComponent="True"
                 />
 
             <Grid ColumnDefinitions="auto, *"

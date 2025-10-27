@@ -2,9 +2,12 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                             xmlns:converters="using:Stofipy.App.Converters"
                              x:Class="Stofipy.App.Components.Queue.HoverableComponentInQueue"
                              x:Name="Root">
-    
+    <ContentView.Resources>
+        <converters:PlayOrPauseTextIconFromCurrentStateConverter x:Key="PlayOrPauseTextIconFromCurrentStateConverter" />
+    </ContentView.Resources>        
     <Border StrokeThickness="0"
             StrokeShape="RoundRectangle 10">
                         
@@ -67,11 +70,18 @@
                             <TapGestureRecognizer Command="{Binding PlayClickedCommand, Source={x:Reference Root}}"
                                                   CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}" />
                         </Border.GestureRecognizers>
-                        <Label Style="{StaticResource GeneralText}" Text="▶" 
+                        <Label Style="{StaticResource GeneralText}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
                                FontSize="20"
-                               TextColor="{StaticResource TextWhite}"/>
+                               TextColor="{StaticResource TextWhite}">
+                            <Label.Text>
+                                <MultiBinding Converter="{StaticResource PlayOrPauseTextIconFromCurrentStateConverter}">
+                                    <Binding Path="IsNowPlayingComponent" Source="{x:Reference Root}" />
+                                    <Binding Path="IsPlaying" Source="{x:Reference Root}" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
                     </Border>
                 </Grid>
             </Border>

@@ -1,13 +1,16 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Messages;
 
 namespace Stofipy.App.Components.Queue;
 
-public partial class HoverableComponentInQueue
+public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
 {
     public HoverableComponentInQueue()
     {
+        var messenger = App.Services.GetRequiredService<IMessenger>();
+        messenger.Register<MediaElementPlayMessage>(this);
+        messenger.Register<MediaElementPauseMessage>(this);
         InitializeComponent();
     }
     
@@ -42,6 +45,15 @@ public partial class HoverableComponentInQueue
         get => (ICommand)GetValue(DotsClickedCommandProperty);
         set => SetValue(DotsClickedCommandProperty, value);
     }
+    
+    public static readonly BindableProperty IsNowPlayingComponentProperty =
+        BindableProperty.Create(nameof(IsNowPlayingComponent), typeof(bool), typeof(HoverableComponentInQueue), false);
+    public bool IsNowPlayingComponent
+    {
+        get => (bool)GetValue(IsNowPlayingComponentProperty);
+        set => SetValue(IsNowPlayingComponentProperty, value);
+    }
+    
     
     public static readonly BindableProperty PictureProperty =
         BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(HoverableComponentInQueue));
@@ -93,5 +105,16 @@ public partial class HoverableComponentInQueue
     private void OnPointerExited(object sender, PointerEventArgs e)
     {
         IsHovered = false;
+    }
+
+    public bool IsPlaying { get; set; }
+    public void Receive(MediaElementPlayMessage message)
+    {
+        IsPlaying = true;
+    }
+
+    public void Receive(MediaElementPauseMessage message)
+    {
+        IsPlaying = false;
     }
 }

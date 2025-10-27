@@ -7,7 +7,7 @@ public class ViewModelWithCurrentState(ICurrentStateService currentState, IMesse
     : ViewModelBase(messengerService)
 {
     protected FilesInQueueModel? NowPlaying => currentState.NowPlaying;
-    protected bool IsSomethingPlaying => IsPlaylistPlaying || IsAuthorPlaying || IsAlbumPlaying || IsSomethingElsePlaying;
+    protected bool IsSomethingPlaying => currentState.IsSomethingPlaying;
 
     protected bool IsPlaylistPlaying
     {
