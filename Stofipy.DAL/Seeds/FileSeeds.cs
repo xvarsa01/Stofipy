@@ -487,4 +487,10 @@ public static class FileSeeds
         return dbx;
     }
 
+    private static string GetFullPathFromName(string name)
+    {
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "Stofipy", "Media", "Images", "Files", name);
+    }
 }
