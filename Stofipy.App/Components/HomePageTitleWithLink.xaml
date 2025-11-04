@@ -2,10 +2,11 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components"
-             x:Class="Stofipy.App.Components.HomePageTitleWithLink">
+             x:Class="Stofipy.App.Components.HomePageTitleWithLink"
+             x:Name="Root">
+    
     <Grid ColumnDefinitions="*, auto">
-        <Label Text="{Binding TitleText, Source={RelativeSource AncestorType={x:Type local:HomePageTitleWithLink}}}"
+        <Label Text="{Binding Source={x:Reference Root}, Path=TitleText}"
                Grid.Column="0"
                VerticalOptions="Start"
                Style="{StaticResource TitleMid}" />
@@ -15,7 +16,7 @@
                VerticalOptions="End"
                Style="{StaticResource ShowAllLink}">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ShowAllCommand, Source={RelativeSource AncestorType={x:Type local:HomePageTitleWithLink}}}" />
+                <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=ShowAllCommand}" />
             </Label.GestureRecognizers>
         </Label>
     </Grid>

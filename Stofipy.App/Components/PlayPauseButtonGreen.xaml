@@ -2,17 +2,17 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components"
-             x:Class="Stofipy.App.Components.PlayPauseButtonGreen">
+             x:Class="Stofipy.App.Components.PlayPauseButtonGreen"
+             x:Name="Root">
     
     <Border StrokeThickness="0">
         <Border.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding ButtonPressedCommand, Source={RelativeSource AncestorType={x:Type local:PlayPauseButtonGreen}}}" />
+            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=ButtonPressedCommand}" />
         </Border.GestureRecognizers>
         <Image
             Aspect="AspectFill"
             WidthRequest="50" HeightRequest="50"
-            Source="{Binding ImageIcon, Source={RelativeSource AncestorType={x:Type local:PlayPauseButtonGreen}}}"
+            Source="{Binding Source={x:Reference Root}, Path=ImageIcon}"
         />
     </Border>
 </ContentView>

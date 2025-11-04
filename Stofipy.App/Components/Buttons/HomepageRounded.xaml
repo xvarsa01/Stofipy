@@ -4,13 +4,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Stofipy.App.Components.Buttons"
              x:Class="Stofipy.App.Components.Buttons.HomepageRounded"
-             x:DataType="local:HomepageRounded">
+             x:DataType="local:HomepageRounded"
+             x:Name="Root">
     
-    <Button Text="{Binding Text, Source={RelativeSource AncestorType={x:Type local:HomepageRounded}}}"
-            Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:HomepageRounded}}}"
+    <Button Text="{Binding Text, Source={x:Reference Root}}"
+            Command="{Binding Source={x:Reference Root}, Path=TapCommand}"
             Style="{StaticResource HomepageRounded}" >
         <Button.Triggers>
-            <DataTrigger TargetType="Button" Binding="{Binding Selected, Source={RelativeSource AncestorType={x:Type local:HomepageRounded}}}" Value="true">
+            <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference Root}, Path=Selected}" Value="true">
                 <Setter Property="BackgroundColor" Value="White" />
                 <Setter Property="TextColor" Value="{StaticResource PagesBg}" />
             </DataTrigger>

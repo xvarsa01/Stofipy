@@ -2,16 +2,16 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components"
-             x:Class="Stofipy.App.Components.FileWithPictureAnd1Text">
+             x:Class="Stofipy.App.Components.FileWithPictureAnd1Text"
+             x:Name="Root">
     
     <Border
         Style="{StaticResource TransparentBorderThickness0}"
         Padding="0">
                     
         <Border.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
-                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}" />
+            <TapGestureRecognizer Command="{Binding Source={x:Reference Root},Path=TapCommand}"
+                                  CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
         </Border.GestureRecognizers>
         
         <Grid ColumnDefinitions="60, auto"
@@ -27,7 +27,7 @@
                 HorizontalOptions="Center"
                 BackgroundColor="Transparent">
                 <Image 
-                    Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                    Source="{Binding Source={x:Reference Root}, Path=Picture}"
                     Aspect="AspectFill"
                     HeightRequest="40"
                     WidthRequest="40"/>
@@ -36,7 +36,7 @@
                 Grid.Column="1"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
-                Text="{Binding CenterText, Source={RelativeSource AncestorType={x:Type local:FileWithPictureAnd1Text}}}"
+                Text="{Binding Source={x:Reference Root}, Path=CenterText}"
                 TextColor="White"
                 FontSize="15"/>
         </Grid>

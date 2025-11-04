@@ -2,8 +2,8 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Stofipy.App.Components"
-             x:Class="Stofipy.App.Components.LikedSongs">
+             x:Class="Stofipy.App.Components.LikedSongs"
+             x:Name="Root">
     
     <Border
         StrokeShape="RoundRectangle 10"
@@ -12,8 +12,8 @@
         Padding="0">
                     
         <Border.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type local:LikedSongs}}}"
-                                  CommandParameter="{Binding CommandParameter, Source={RelativeSource AncestorType={x:Type local:LikedSongs}}}" />
+            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=TapCommand}"
+                                  CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
         </Border.GestureRecognizers>
         
         <HorizontalStackLayout
@@ -24,7 +24,7 @@
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 100">
                         <Image 
-                            Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:LikedSongs}}}"
+                            Source="{Binding Source={x:Reference Root}, Path=Picture}"
                             Aspect="AspectFill"
                             HeightRequest="100"
                         />
@@ -43,14 +43,14 @@
                     Grid.Row="0"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
-                    Text="{Binding TopText, Source={RelativeSource AncestorType={x:Type local:LikedSongs}}}"
+                    Text="{Binding Source={x:Reference Root}, Path=TopText}"
                     TextColor="White"
                     FontSize="15"/>
                 <Label
                     Grid.Row="1"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
-                    Text="{Binding BottomText, Source={RelativeSource AncestorType={x:Type local:LikedSongs}}, StringFormat='{} By: {0}'}"
+                    Text="{Binding Source={x:Reference Root}, Path=BottomText, StringFormat='{} By: {0}'}"
                     TextColor="White"
                     FontSize="13"/>
             </Grid>
