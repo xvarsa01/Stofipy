@@ -33,67 +33,69 @@
                                          Selected="{Binding PodcastsSelected}"/>
             </HorizontalStackLayout>
 
-        <FlexLayout>
+            <FlexLayout>
+                <CollectionView ItemsSource="{Binding Playlists}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="5"
+                            HorizontalItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:PlaylistListModel">
+                            <components:FileWithPictureAnd1Text
+                                BackgroundColor="Blue"
+                                Picture="{Binding Picture}"
+                                CenterText="{Binding PlaylistName}"
+                                TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                                CommandParameter="{Binding Id}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </FlexLayout>
+            
+            <components:HomePageTitleWithLink
+                TitleText="Your shows"
+                ShowAllCommand="{Binding GoToYourShowsCommand}"/>
+            
             <CollectionView ItemsSource="{Binding Playlists}">
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout
-                        Orientation="Vertical"
-                        Span="2"
-                        VerticalItemSpacing="5"
-                        HorizontalItemSpacing="5"/>
+                    <GridItemsLayout Orientation="Horizontal"/>
                 </CollectionView.ItemsLayout>
+                        
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlaylistListModel">
-                        <components:FileWithPictureAnd1Text
-                            BackgroundColor="Blue"
+                        <components:FileBigWith2Texts
                             Picture="{Binding Picture}"
-                            CenterText="{Binding PlaylistName}"
-                            TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
-                            CommandParameter="{Binding Id}"/>
+                            TopText="{Binding PlaylistName}"
+                            BottomText="{Binding PlaylistName}"
+                            PlayCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.PlayItemCommand}"
+                            TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.OpenItemDetailCommand}"
+                            CommandParameter="{Binding Id}"
+                            IsHovered="{Binding IsHovered}"
+                        />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </FlexLayout>
-        
-        <components:HomePageTitleWithLink
-            TitleText="Your shows"
-            ShowAllCommand="{Binding GoToYourShowsCommand}"/>
-        
-        <CollectionView ItemsSource="{Binding Playlists}">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Horizontal"/>
-            </CollectionView.ItemsLayout>
-                    
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PlaylistListModel">
-                    <components:FileBigWith2Texts
-                        Picture="{Binding Picture}"
-                        TopText="{Binding PlaylistName}"
-                        BottomText="{Binding PlaylistName}"
-                        TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
-                        CommandParameter="{Binding Id}"
-                        IsHovered="{Binding IsHovered}"
-                    />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        
-        
-        <components:HomePageTitleWithLink
-            TitleText="Made for you"
-            ShowAllCommand="{Binding GoToMadeForYouCommand}"/>
-        
-        
-        <components:HomePageTitleWithLink
-            TitleText="Recently played"
-            ShowAllCommand="{Binding GoToRecentlyPlayedCommand}"/>
-        
-        
-        <components:HomePageTitleWithLink
-            TitleText="Popular radio"
-            ShowAllCommand="{Binding GoToPopularRadioCommand}"/>
-        
-    </VerticalStackLayout>
+            
+            
+            <components:HomePageTitleWithLink
+                TitleText="Made for you"
+                ShowAllCommand="{Binding GoToMadeForYouCommand}"/>
+            
+            
+            <components:HomePageTitleWithLink
+                TitleText="Recently played"
+                ShowAllCommand="{Binding GoToRecentlyPlayedCommand}"/>
+            
+            
+            <components:HomePageTitleWithLink
+                TitleText="Popular radio"
+                ShowAllCommand="{Binding GoToPopularRadioCommand}"/>
+            
+        </VerticalStackLayout>
+    </Grid>
     </ScrollView>
         
 </views:ContentViewBase>

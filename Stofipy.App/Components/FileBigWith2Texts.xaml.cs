@@ -32,8 +32,16 @@ public partial class FileBigWith2Texts : ContentView
         }
     }
     
+    public static readonly BindableProperty PlayCommandProperty =
+        BindableProperty.Create(nameof(PlayCommand), typeof(ICommand), typeof(FileBigWith2Texts));
+    public ICommand PlayCommand
+    {
+        get => (ICommand)GetValue(PlayCommandProperty);
+        set => SetValue(PlayCommandProperty, value);
+    }
+    
     public static readonly BindableProperty TapCommandProperty =
-        BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(FileWithPictureAnd1Text));
+        BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(FileBigWith2Texts));
     public ICommand TapCommand
     {
         get => (ICommand)GetValue(TapCommandProperty);
@@ -41,7 +49,7 @@ public partial class FileBigWith2Texts : ContentView
     }
 
     public static readonly BindableProperty CommandParameterProperty =
-        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(FileWithPictureAnd1Text));
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(FileBigWith2Texts));
 
     public object CommandParameter
     {
@@ -51,7 +59,7 @@ public partial class FileBigWith2Texts : ContentView
     
     
     public static readonly BindableProperty PictureProperty =
-        BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(FileWithPictureAnd1Text));
+        BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(FileBigWith2Texts));
 
     public ImageSource Picture
     {
@@ -60,7 +68,7 @@ public partial class FileBigWith2Texts : ContentView
     }
 
     public static readonly BindableProperty TopTextProperty =
-        BindableProperty.Create(nameof(TopText), typeof(string), typeof(FileWithPictureAnd2Texts));
+        BindableProperty.Create(nameof(TopText), typeof(string), typeof(FileBigWith2Texts));
 
     public string TopText
     {
@@ -69,7 +77,7 @@ public partial class FileBigWith2Texts : ContentView
     }
 
     public static readonly BindableProperty BottomTextProperty =
-        BindableProperty.Create(nameof(BottomText), typeof(string), typeof(FileWithPictureAnd2Texts));
+        BindableProperty.Create(nameof(BottomText), typeof(string), typeof(FileBigWith2Texts));
 
     public string BottomText
     {
@@ -78,7 +86,7 @@ public partial class FileBigWith2Texts : ContentView
     }
     
     public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(BottomText), typeof(bool), typeof(FileWithPictureAnd2Texts));
+        BindableProperty.Create(nameof(BottomText), typeof(bool), typeof(FileBigWith2Texts));
     public bool IsSelected
     {
         get => (bool)GetValue(IsSelectedProperty);
@@ -86,7 +94,7 @@ public partial class FileBigWith2Texts : ContentView
     }
     
     public static readonly BindableProperty IsHoveredProperty =
-        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(FileWithPictureAnd2Texts));
+        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(FileBigWith2Texts));
     public bool IsHovered
     {
         get => (bool)GetValue(IsHoveredProperty);

@@ -7,7 +7,8 @@
     
     <Border StrokeThickness="0">
         <Border.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=ButtonPressedCommand}" />
+            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=ButtonPressedCommand}"
+                                  CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}"/>
         </Border.GestureRecognizers>
         <Image
             Aspect="AspectFill"

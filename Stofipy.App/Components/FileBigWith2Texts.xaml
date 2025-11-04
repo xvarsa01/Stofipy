@@ -16,6 +16,22 @@
         Padding="10"
         StrokeShape="RoundRectangle 10"
     >
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter TargetName="PlayButton" Property="IsVisible" Value="False"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                        <Setter TargetName="PlayButton" Property="IsVisible" Value="True"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        
         <Border.BackgroundColor>
             <MultiBinding Converter="{StaticResource FileBgColorConverter}">
                 <Binding Source="{x:Reference Root}" Path="IsSelected"/>                
@@ -32,14 +48,22 @@
         </Border.GestureRecognizers>
         
         <Grid RowDefinitions="150, auto, auto">
-            <Border Grid.Row="0"
-                    Style="{StaticResource TransparentBorderThickness0}"
-                    StrokeShape="RoundRectangle 5"
-                    >
-                <Image Aspect="AspectFill"
-                       WidthRequest="150" HeightRequest="150"
-                       Source="{Binding Picture, Source={RelativeSource AncestorType={x:Type local:FileBigWith2Texts}}}"/>
-            </Border>
+            <Grid Grid.Row="0">
+                <Border Style="{StaticResource TransparentBorderThickness0}"
+                        StrokeShape="RoundRectangle 5">
+                    <Image Aspect="AspectFill"
+                           WidthRequest="150" HeightRequest="150"
+                           Source="{Binding Picture, Source={x:Reference Root}}"/>
+                </Border>
+                <components:PlayPauseButtonGreen x:Name="PlayButton"
+                                                 IsVisible="False"
+                                                 ButtonPressedCommand="{Binding Source={x:Reference Root}, Path=PlayCommand}"
+                                                 CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}"
+                                                 MusicIsPlaying="true"
+                                                 VerticalOptions="End"
+                                                 HorizontalOptions="End"
+                                                 Padding="10"/>
+            </Grid>
 
             <Label Grid.Row="1" TextColor="White" Margin="0, 10, 0, 0"
                    Text="{Binding Source={x:Reference Root}, Path=TopText}"/>

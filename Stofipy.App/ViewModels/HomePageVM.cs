@@ -49,7 +49,13 @@ public partial class HomePageVM(
     }
     
     [RelayCommand]
-    private Task GoToPlaylistDetailAsync(Guid id)
+    private Task PlayItemAsync(Guid id)
+    {
+        return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private Task OpenItemDetailAsync(Guid id)
     {
         navigationService.NavigateToPlaylist(id);
         return Task.CompletedTask;
