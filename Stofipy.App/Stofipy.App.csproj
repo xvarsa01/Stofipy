@@ -75,6 +75,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Scrutor" Version="6.0.1" />
+		<PackageReference Include="SkiaSharp" Version="3.119.2-preview.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -182,6 +183,10 @@
 	<ItemGroup>
 	  <None Remove="appsettings.json" />
 	  <EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 </Project>

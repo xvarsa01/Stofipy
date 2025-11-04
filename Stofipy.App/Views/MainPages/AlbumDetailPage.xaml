@@ -21,17 +21,7 @@
     <!-- Main Middle -->
     <ScrollView>
     <Grid BackgroundColor="{StaticResource PagesBg}">
-        
-        <!-- Background Layer (fixed height gradient) -->
-        <Grid HeightRequest="600" VerticalOptions="Start">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0, 1">
-                    <GradientStop Color="#0e70ac" Offset="0.0"/>
-                    <GradientStop Color="#062e46" Offset="0.3"/>
-                    <GradientStop Color="{StaticResource PagesBg}" Offset="0.9"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-        </Grid>
+        <components:BackgroundGradient Picture="{Binding Album.Picture}"/>
 
         <VerticalStackLayout
             Padding="0, 20, 0, 0"
