@@ -14,23 +14,24 @@
     >
     
     <!-- Main Middle -->
-    <ScrollView>
-    <VerticalStackLayout
-        Padding="30"
-        Spacing="20"
-        BackgroundColor="{StaticResource PagesBg}">
+    <ScrollView VerticalScrollBarVisibility="Never">
+    <Grid BackgroundColor="{StaticResource PagesBg}">
+        <components:BackgroundGradient Picture=""/>
         
-        <HorizontalStackLayout>
-            <buttons:HomepageRounded Text="All"
-                                     TapCommand="{Binding SelectAllCommand}"
-                                     Selected="{Binding AllSelected}"/>
-            <buttons:HomepageRounded Text="Music"
-                                     TapCommand="{Binding SelectMusicCommand}"
-                                     Selected="{Binding MusicSelected}"/>
-            <buttons:HomepageRounded Text="Podcasts"
-                                     TapCommand="{Binding SelectPodcastsCommand}"
-                                     Selected="{Binding PodcastsSelected}"/>
-        </HorizontalStackLayout>
+        <VerticalStackLayout
+            Padding="30, 10"
+            Spacing="20">
+            <HorizontalStackLayout>
+                <buttons:HomepageRounded Text="All"
+                                         TapCommand="{Binding SelectAllCommand}"
+                                         Selected="{Binding AllSelected}"/>
+                <buttons:HomepageRounded Text="Music"
+                                         TapCommand="{Binding SelectMusicCommand}"
+                                         Selected="{Binding MusicSelected}"/>
+                <buttons:HomepageRounded Text="Podcasts"
+                                         TapCommand="{Binding SelectPodcastsCommand}"
+                                         Selected="{Binding PodcastsSelected}"/>
+            </HorizontalStackLayout>
 
         <FlexLayout>
             <CollectionView ItemsSource="{Binding Playlists}">
