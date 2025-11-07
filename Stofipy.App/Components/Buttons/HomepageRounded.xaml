@@ -9,6 +9,7 @@
     
     <Button Text="{Binding Text, Source={x:Reference Root}}"
             Command="{Binding Source={x:Reference Root}, Path=TapCommand}"
+            CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}"
             Style="{StaticResource HomepageRounded}" >
         <Button.Triggers>
             <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference Root}, Path=Selected}" Value="true">

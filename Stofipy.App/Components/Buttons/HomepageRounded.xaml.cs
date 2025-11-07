@@ -30,6 +30,14 @@ public partial class HomepageRounded : ContentView
         set => SetValue(TapCommandProperty, value);
     }
     
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(HomepageRounded));
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+    
     public static readonly BindableProperty SelectedProperty =
         BindableProperty.Create(nameof(Selected), typeof(bool), typeof(HomepageRounded));
     public bool Selected

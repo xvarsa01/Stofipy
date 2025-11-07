@@ -8,10 +8,15 @@
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="using:Stofipy.App.Components"
     xmlns:buttons="using:Stofipy.App.Components.Buttons"
+    xmlns:local="clr-namespace:Stofipy.App.Enums"
+    xmlns:converters="clr-namespace:Stofipy.App.Converters"
     x:Class="Stofipy.App.Views.MainPages.HomePage"
     x:DataType="viewModels:HomePageVM"
     x:Name="HomeViewRoot"
     >
+    <views:ContentViewBase.Resources>
+        <converters:EnumEqualsConverter x:Key="EnumEqualsConverter" />
+    </views:ContentViewBase.Resources>
     
     <!-- Main Middle -->
     <ScrollView VerticalScrollBarVisibility="Never">
@@ -23,14 +28,23 @@
             Spacing="20">
             <HorizontalStackLayout>
                 <buttons:HomepageRounded Text="All"
-                                         TapCommand="{Binding SelectAllCommand}"
-                                         Selected="{Binding AllSelected}"/>
+                                         TapCommand="{Binding SelectFileTypeCommand}"
+                                         CommandParameter="{x:Static local:FileType.All}"
+                                         Selected="{Binding SelectedFileType,
+                                            Converter={StaticResource EnumEqualsConverter},
+                                            ConverterParameter={x:Static local:FileType.All}}" />
                 <buttons:HomepageRounded Text="Music"
-                                         TapCommand="{Binding SelectMusicCommand}"
-                                         Selected="{Binding MusicSelected}"/>
+                                         TapCommand="{Binding SelectFileTypeCommand}"
+                                         CommandParameter="{x:Static local:FileType.Music}"
+                                         Selected="{Binding SelectedFileType,
+                                            Converter={StaticResource EnumEqualsConverter},
+                                            ConverterParameter={x:Static local:FileType.Music}}" />
                 <buttons:HomepageRounded Text="Podcasts"
-                                         TapCommand="{Binding SelectPodcastsCommand}"
-                                         Selected="{Binding PodcastsSelected}"/>
+                                         TapCommand="{Binding SelectFileTypeCommand}"
+                                         CommandParameter="{x:Static local:FileType.Podcasts}"
+                                         Selected="{Binding SelectedFileType,
+                                            Converter={StaticResource EnumEqualsConverter},
+                                            ConverterParameter={x:Static local:FileType.Podcasts}}" />
             </HorizontalStackLayout>
 
             <FlexLayout>

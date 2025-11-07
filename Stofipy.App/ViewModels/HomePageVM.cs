@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Enums;
 using Stofipy.App.Services;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
@@ -14,9 +15,10 @@ public partial class HomePageVM(
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     public ObservableCollection<PlaylistListModel> Playlists { get; set; } = new();
-    public bool MusicSelected { get; set; }
-    public bool PodcastsSelected { get; set; }
-    public bool AllSelected { get; set; } = true;
+    public FileType SelectedFileType { get; set; } = FileType.All;
+    public bool MusicSelected => SelectedFileType == FileType.Music;
+    public bool PodcastsSelected => SelectedFileType == FileType.Podcasts;
+    public bool AllSelected => SelectedFileType == FileType.All;
     
     protected override async Task LoadDataAsync()
     {
@@ -25,27 +27,9 @@ public partial class HomePageVM(
     }
 
     [RelayCommand]
-    private void SelectAll()
+    private void SelectFileType(FileType fileType)
     {
-        MusicSelected = false;
-        PodcastsSelected = false;
-        AllSelected = true;
-    }
-    
-    [RelayCommand]
-    private void SelectMusic()
-    {
-        MusicSelected = true;
-        PodcastsSelected = false;
-        AllSelected = false;
-    }
-    
-    [RelayCommand]
-    private void SelectPodcasts()
-    {
-        MusicSelected = false;
-        PodcastsSelected = true;
-        AllSelected = false;
+        SelectedFileType = fileType;
     }
     
     [RelayCommand]
