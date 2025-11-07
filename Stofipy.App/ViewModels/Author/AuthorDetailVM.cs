@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Stofipy.App.Messages;
+using Stofipy.App.Enums;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
@@ -14,7 +14,7 @@ public partial class AuthorDetailVM(
     IFileFacade fileFacade,
     IFilesInQueueFacade filesInQueueFacade,
     ICurrentStateService currentState,
-    IMessengerService messengerService) : ViewModelWithCurrentState(currentState, messengerService)
+    IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
     public AuthorDetailModel? Author { get; set; }
@@ -24,11 +24,9 @@ public partial class AuthorDetailVM(
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
     
-    public bool ThisArtistIsPlaying
-    {
-        get => IsAuthorPlaying && NowPlaying?.AuthorName == Author!.AuthorName;
-        set => IsAuthorPlaying = value;
-    }
+    public bool ThisArtistIsPlaying => currentState.NowPlayingSource == PlayingSourceType.Author 
+                                       && currentState.CurrentlyPlayingAuthorId == Author!.Id
+                                       && currentState.IsPaused == false;
 
     [ObservableProperty]
     private string _seeMoreText = "See more";
@@ -97,19 +95,7 @@ public partial class AuthorDetailVM(
     [RelayCommand]
     private async Task PlayArtis()
     {
-        MessengerService.Send(new PlayPauseButtonClickedMessage());
-        if (ThisArtistIsPlaying)
-        {
-            ThisArtistIsPlaying = false;
-            return;
-        }
-        
-        if (NowPlaying == null || NowPlaying.AuthorName != Author?.AuthorName)
-        {
-            await filesInQueueFacade.AddAuthorToQueue(Author!.Id);
-            MessengerService.Send(new RefreshQueueMessage());
-        }
-        ThisArtistIsPlaying = true;
+        await currentState.PlayAuthor(Author!.Id);
         OnPropertyChanged(nameof(ThisArtistIsPlaying));
     }
     

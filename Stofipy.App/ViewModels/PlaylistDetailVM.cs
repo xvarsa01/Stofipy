@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Enums;
 using Stofipy.App.Messages;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
@@ -14,7 +15,7 @@ public partial class PlaylistDetailVM (
     IFilesInQueueFacade filesInQueueFacade,
     ICurrentStateService currentState,
     IMessengerService messengerService)
-    : ViewModelWithCurrentState(currentState, messengerService)
+    : ViewModelBase(messengerService)
 {
     private Guid Id { get; set; }
     public PlaylistDetailModel Playlist { get; set; } = null!;
@@ -22,20 +23,9 @@ public partial class PlaylistDetailVM (
     private FilesInPlaylistModel? SelectedFile {get; set; }
     public ObservableCollection<FilesInPlaylistModel> Files { get; set; } = [];
     
-    public bool ThisPlaylistIsPlaying
-    {
-        get => IsPlaylistPlaying && CurrentlyPlayingPlaylistId == Playlist.Id;
-        set
-        {
-            if (value){
-                IsPlaylistPlaying = true; CurrentlyPlayingPlaylistId = Playlist.Id;
-            }
-            else
-            {
-                IsPlaylistPlaying = false;
-            }
-        }
-    }
+    public bool ThisPlaylistIsPlaying => currentState.NowPlayingSource == PlayingSourceType.Playlist 
+                                         && currentState.CurrentlyPlayingPlaylistId == Playlist.Id
+                                         && !currentState.IsPaused;
 
     public async Task LoadByIdAsync(Guid id)
     {
@@ -52,19 +42,7 @@ public partial class PlaylistDetailVM (
     [RelayCommand]
     private async Task PlayPlaylistAsync()
     {
-        MessengerService.Send(new PlayPauseButtonClickedMessage());
-        if (ThisPlaylistIsPlaying)
-        {
-            ThisPlaylistIsPlaying = false;
-            return;
-        }
-        
-        if (NowPlaying == null || CurrentlyPlayingPlaylistId != Playlist.Id)
-        {
-            await filesInQueueFacade.AddPlaylistToQueue(Playlist.Id, false);
-            MessengerService.Send(new RefreshQueueMessage());
-        }
-        ThisPlaylistIsPlaying = true;
+        await currentState.PlayPlaylist(Id);
         OnPropertyChanged(nameof(ThisPlaylistIsPlaying));
     }
     

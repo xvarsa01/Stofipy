@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Enums;
 using Stofipy.App.Messages;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
@@ -12,6 +13,7 @@ public partial class AlbumDetailVM (
     IAlbumFacade albumFacade,
     IFilesInAlbumFacade filesInAlbumFacade,
     IFilesInQueueFacade filesInQueueFacade,
+    ICurrentStateService currentState,
     IMessengerService messengerService)
     : ViewModelBase(messengerService)
 {
@@ -20,7 +22,9 @@ public partial class AlbumDetailVM (
     
     private FilesInAlbumModel? SelectedFile {get; set; }
     public ObservableCollection<FilesInAlbumModel> Files { get; set; } = [];
-    
+    public bool ThisAlbumIsPlaying => currentState.NowPlayingSource == PlayingSourceType.Album 
+                                         && currentState.CurrentlyPlayingAlbumId == Album.Id
+                                         && !currentState.IsPaused;
     public async Task LoadByIdAsync(Guid id)
     {
         Id = id;
@@ -36,8 +40,8 @@ public partial class AlbumDetailVM (
     [RelayCommand]
     private async Task PlayAlbumAsync()
     {
-        await filesInQueueFacade.AddAlbumToQueue(Album.Id, false);
-        MessengerService.Send(new RefreshQueueMessage());
+        await currentState.PlayAlbum(Id);
+        OnPropertyChanged(nameof(ThisAlbumIsPlaying));
     }
     
     [RelayCommand]

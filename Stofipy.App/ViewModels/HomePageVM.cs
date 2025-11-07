@@ -12,14 +12,12 @@ namespace Stofipy.App.ViewModels;
 public partial class HomePageVM(
     IPlaylistFacade facade,
     INavigationService navigationService,
+    ICurrentStateService currentState,
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
-    public ObservableCollection<PlaylistListModel> Playlists { get; set; } = new();
+    public ObservableCollection<PlaylistListModel> Playlists { get; set; } = [];
     public FileType SelectedFileType { get; set; } = FileType.All;
-    public bool MusicSelected => SelectedFileType == FileType.Music;
-    public bool PodcastsSelected => SelectedFileType == FileType.Podcasts;
-    public bool AllSelected => SelectedFileType == FileType.All;
-    
+
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
@@ -33,9 +31,11 @@ public partial class HomePageVM(
     }
     
     [RelayCommand]
-    private Task PlayItemAsync(Guid id)
+    private async Task PlayItemAsync(Guid id)
     {
-        return Task.CompletedTask;
+        await currentState.PlayPlaylist(id);
+        // await currentState.PlayAuthor(id);
+        // await currentState.PlayAlbum(id);
     }
     
     [RelayCommand]
