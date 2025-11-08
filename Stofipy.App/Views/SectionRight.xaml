@@ -8,7 +8,7 @@
         xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
         xmlns:queue="clr-namespace:Stofipy.App.Components.Queue"
         x:Class="Stofipy.App.Views.SectionRight"
-        x:Name="SectionRightViewRoot"
+        x:Name="Root"
         x:DataType="viewModels:FilesInQueueVM">
     
 
@@ -53,11 +53,12 @@
                             Picture="{Binding Picture}" 
                             TopText="{Binding FileName}" 
                             BottomText="{Binding AuthorName}"
-                            TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                            TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}" 
                             CommandParameter="{Binding .}"
+                            BottomTextTapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAuthorDetailCommand}"
                             IsSelected="{Binding IsSelected}"
-                            PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
-                            DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                            PlayClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayItemCommand}" 
+                            DotsClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DotsClickedCommand}" 
                             />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -75,10 +76,11 @@
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}"
                 IsSelected="{Binding NowPlaying.IsSelected}"
-                TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}"
+                TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}"
                 CommandParameter="{Binding NowPlaying}"
-                PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
-                DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}"
+                BottomTextTapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAuthorDetailCommand}"
+                PlayClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayItemCommand}" 
+                DotsClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DotsClickedCommand}"
                 IsNowPlayingComponent="True"
                 />
 
@@ -106,35 +108,36 @@
                                         Margin="0,5,0,0">
                                     <Border.GestureRecognizers>
                                         <DragGestureRecognizer
-                                            DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
+                                            DragStartingCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragStartedCommand}"
                                             DragStartingCommandParameter="{Binding .}"
-                                            DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
+                                            DropCompletedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
                                     <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"
-                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}" 
                                         CommandParameter="{Binding .}"
+                                        BottomTextTapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAuthorDetailCommand}"
                                         IsSelected="{Binding IsSelected}"
-                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
-                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                        PlayClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DotsClickedCommand}" 
                                     />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
                                         Margin="0,-30,0,0"
-                                        InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                                        InputTransparent="{Binding Source={x:Reference Root}, Path=BindingContext.IsInputTransparent}"
                                         HeightRequest="72">
                                     <Border.GestureRecognizers>
                                         <DropGestureRecognizer
-                                            DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
+                                            DragOverCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverCommand}"
                                             DragOverCommandParameter="{Binding .}"
-                                            DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverLeaveCommand}"
+                                            DragLeaveCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverLeaveCommand}"
                                             DragLeaveCommandParameter="{Binding .}"
-                                            DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
+                                            DropCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragEndedCommand}"
                                             DropCommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
                                 </Border>
@@ -146,13 +149,13 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
-                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                            InputTransparent="{Binding Source={x:Reference Root}, Path=BindingContext.IsInputTransparent}"
                             Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
-                                DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndPriorityCommand}"
-                                DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndPriorityLeaveCommand}"
-                                DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedAtTheEndPriorityCommand}"
+                                DragOverCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverAtTheEndPriorityCommand}"
+                                DragLeaveCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverAtTheEndPriorityLeaveCommand}"
+                                DropCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragEndedAtTheEndPriorityCommand}"
                             />
                         </Border.GestureRecognizers>
                     </Border>
@@ -177,35 +180,36 @@
                                         Margin="0,5,0,0">
                                     <Border.GestureRecognizers>
                                         <DragGestureRecognizer
-                                            DragStartingCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragStartedCommand}"
+                                            DragStartingCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragStartedCommand}"
                                             DragStartingCommandParameter="{Binding .}"
-                                            DropCompletedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragReleasedCommand}" />
+                                            DropCompletedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
                                     <queue:HoverableComponentInQueue
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"
-                                        TapCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.SelectRowCommand}" 
+                                        TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}" 
                                         CommandParameter="{Binding .}"
+                                        BottomTextTapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAuthorDetailCommand}"
                                         IsSelected="{Binding IsSelected}"
-                                        PlayClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.PlayItemCommand}" 
-                                        DotsClickedCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DotsClickedCommand}" 
+                                        PlayClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayItemCommand}" 
+                                        DotsClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DotsClickedCommand}" 
                                         />
                                 </Border>
 
                                 <!-- DROP TARGET: Transparent hit area, allows drag-through -->
                                 <Border Style="{StaticResource TransparentBorderThickness0}"
                                         Margin="0,-30,0,0"
-                                        InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                                        InputTransparent="{Binding Source={x:Reference Root}, Path=BindingContext.IsInputTransparent}"
                                         HeightRequest="72">
                                     <Border.GestureRecognizers>
                                         <DropGestureRecognizer
-                                            DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverCommand}"
+                                            DragOverCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverCommand}"
                                             DragOverCommandParameter="{Binding .}"
-                                            DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverLeaveCommand}"
+                                            DragLeaveCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverLeaveCommand}"
                                             DragLeaveCommandParameter="{Binding .}"
-                                            DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedCommand}"
+                                            DropCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragEndedCommand}"
                                             DropCommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
                                 </Border>
@@ -217,13 +221,13 @@
                 <!-- last box if item needs to be placed at the last place in queue -->
                 <Grid HeightRequest="10" ZIndex="1">
                     <Border BackgroundColor="Transparent" StrokeThickness="0"
-                            InputTransparent="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.IsInputTransparent}"
+                            InputTransparent="{Binding Source={x:Reference Root}, Path=BindingContext.IsInputTransparent}"
                             Margin="0,-30,0,0">
                         <Border.GestureRecognizers>
                             <DropGestureRecognizer
-                                DragOverCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityCommand}"
-                                DragLeaveCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragOverAtTheEndNonPriorityLeaveCommand}"
-                                DropCommand="{Binding Source={x:Reference SectionRightViewRoot}, Path=BindingContext.DragEndedAtTheEndNonPriorityCommand}"
+                                DragOverCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverAtTheEndNonPriorityCommand}"
+                                DragLeaveCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragOverAtTheEndNonPriorityLeaveCommand}"
+                                DropCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragEndedAtTheEndNonPriorityCommand}"
                             />
                         </Border.GestureRecognizers>
                     </Border>

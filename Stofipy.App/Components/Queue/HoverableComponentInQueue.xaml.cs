@@ -30,6 +30,13 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
         set => SetValue(CommandParameterProperty, value);
     }
     
+    public static readonly BindableProperty BottomTextTapCommandProperty =
+        BindableProperty.Create(nameof(BottomTextTapCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
+    public ICommand BottomTextTapCommand
+    {
+        get => (ICommand)GetValue(BottomTextTapCommandProperty);
+        set => SetValue(BottomTextTapCommandProperty, value);
+    }
     public static readonly BindableProperty PlayClickedCommandProperty =
         BindableProperty.Create(nameof(PlayClickedCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
     public ICommand PlayClickedCommand

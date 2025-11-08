@@ -98,14 +98,17 @@
                     FontFamily="Circular"
                     FontAttributes="Bold"
                     FontSize="16"/>
-                <Label
-                    Grid.Row="1"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Text="{Binding BottomText, Source={x:Reference Root}}"
-                    TextColor="{StaticResource TextDarkerWhite}"
-                    FontFamily="Circular"
-                    FontSize="14"/>
+                <Label Grid.Row="1"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start"
+                       Text="{Binding BottomText, Source={x:Reference Root}}"
+                       TextColor="{StaticResource TextDarkerWhite}"
+                       Style="{StaticResource OpenAuthorDetailLink}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=BottomTextTapCommand}"
+                                              CommandParameter="{Binding CommandParameter, Source={x:Reference Root}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
             
             <Border Grid.Column="2"

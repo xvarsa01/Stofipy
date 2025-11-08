@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Stofipy.App.Messages;
+using Stofipy.App.Services;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
@@ -12,7 +13,9 @@ namespace Stofipy.App.ViewModels;
 
 public partial class FilesInQueueVM(
     IFilesInQueueFacade facade,
+    IFileFacade fileFacade,
     IMessengerService messengerService,
+    INavigationService navigationService,
     ICurrentStateService currentState)
     : ViewModelBase(messengerService), IRecipient<RefreshQueueMessage>, IRecipient<PreviousFileMessage>, IRecipient<NextFileMessage>
 {
@@ -206,6 +209,13 @@ public partial class FilesInQueueVM(
         await facade.PlayItemAsync(file);
         await LoadDataAsync();
         Messenger.Send(new PlayFileMessage(file));
+    }
+    
+    [RelayCommand]
+    private async Task GoToAuthorDetailAsync(FilesInQueueModel fileInQueue)
+    {
+        var file = await fileFacade.GetByIdAsync(fileInQueue.FileId);
+        if (file != null) navigationService.NavigateToAuthor(file.AuthorId);
     }
     
     [RelayCommand]
