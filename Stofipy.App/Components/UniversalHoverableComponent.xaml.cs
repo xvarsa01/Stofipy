@@ -2,11 +2,11 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Stofipy.App.Messages;
 
-namespace Stofipy.App.Components.Queue;
+namespace Stofipy.App.Components;
 
-public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
+public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
 {
-    public HoverableComponentInQueue()
+    public UniversalHoverableComponent()
     {
         var messenger = App.Services.GetRequiredService<IMessenger>();
         messenger.Register<MediaElementPlayMessage>(this);
@@ -15,7 +15,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
     
     public static readonly BindableProperty TapCommandProperty =
-        BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(UniversalHoverableComponent));
     public ICommand TapCommand
     {
         get => (ICommand)GetValue(TapCommandProperty);
@@ -23,7 +23,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
 
     public static readonly BindableProperty CommandParameterProperty =
-        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(UniversalHoverableComponent));
     public object CommandParameter
     {
         get => GetValue(CommandParameterProperty);
@@ -31,14 +31,14 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
     
     public static readonly BindableProperty BottomTextTapCommandProperty =
-        BindableProperty.Create(nameof(BottomTextTapCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(BottomTextTapCommand), typeof(ICommand), typeof(UniversalHoverableComponent));
     public ICommand BottomTextTapCommand
     {
         get => (ICommand)GetValue(BottomTextTapCommandProperty);
         set => SetValue(BottomTextTapCommandProperty, value);
     }
     public static readonly BindableProperty PlayClickedCommandProperty =
-        BindableProperty.Create(nameof(PlayClickedCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(PlayClickedCommand), typeof(ICommand), typeof(UniversalHoverableComponent));
     public ICommand PlayClickedCommand
     {
         get => (ICommand)GetValue(PlayClickedCommandProperty);
@@ -46,7 +46,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
     
     public static readonly BindableProperty DotsClickedCommandProperty =
-        BindableProperty.Create(nameof(DotsClickedCommand), typeof(ICommand), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(DotsClickedCommand), typeof(ICommand), typeof(UniversalHoverableComponent));
     public ICommand DotsClickedCommand
     {
         get => (ICommand)GetValue(DotsClickedCommandProperty);
@@ -54,7 +54,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
     
     public static readonly BindableProperty IsNowPlayingComponentProperty =
-        BindableProperty.Create(nameof(IsNowPlayingComponent), typeof(bool), typeof(HoverableComponentInQueue), false);
+        BindableProperty.Create(nameof(IsNowPlayingComponent), typeof(bool), typeof(UniversalHoverableComponent), false);
     public bool IsNowPlayingComponent
     {
         get => (bool)GetValue(IsNowPlayingComponentProperty);
@@ -63,7 +63,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     
     
     public static readonly BindableProperty PictureProperty =
-        BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(Picture), typeof(ImageSource), typeof(UniversalHoverableComponent));
     public ImageSource Picture
     {
         get => (ImageSource)GetValue(PictureProperty);
@@ -71,7 +71,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
 
     public static readonly BindableProperty TopTextProperty =
-        BindableProperty.Create(nameof(TopText), typeof(string), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(TopText), typeof(string), typeof(UniversalHoverableComponent));
     public string TopText
     {
         get => (string)GetValue(TopTextProperty);
@@ -79,7 +79,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
 
     public static readonly BindableProperty BottomTextProperty =
-        BindableProperty.Create(nameof(BottomText), typeof(string), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(BottomText), typeof(string), typeof(UniversalHoverableComponent));
     public string BottomText
     {
         get => (string)GetValue(BottomTextProperty);
@@ -88,7 +88,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     
     
     public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(UniversalHoverableComponent));
     public bool IsSelected
     {
         get => (bool)GetValue(IsSelectedProperty);
@@ -96,7 +96,7 @@ public partial class HoverableComponentInQueue : IRecipient<MediaElementPlayMess
     }
     
     public static readonly BindableProperty IsHoveredProperty =
-        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(HoverableComponentInQueue));
+        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(UniversalHoverableComponent));
     public bool IsHovered
     {
         get => (bool)GetValue(IsHoveredProperty);

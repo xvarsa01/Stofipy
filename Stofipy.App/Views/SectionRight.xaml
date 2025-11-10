@@ -7,6 +7,7 @@
         xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
         xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
         xmlns:queue="clr-namespace:Stofipy.App.Components.Queue"
+        xmlns:components="clr-namespace:Stofipy.App.Components"
         x:Class="Stofipy.App.Views.SectionRight"
         x:Name="Root"
         x:DataType="viewModels:FilesInQueueVM">
@@ -49,7 +50,7 @@
             <CollectionView ItemsSource="{Binding RecentlyPlayedQueue}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
-                        <queue:HoverableComponentInQueue
+                        <components:UniversalHoverableComponent
                             Picture="{Binding Picture}" 
                             TopText="{Binding FileName}" 
                             BottomText="{Binding AuthorName}"
@@ -71,7 +72,7 @@
             Spacing="20">
             
             <Label Text="Now playing" Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0"/>
-            <queue:HoverableComponentInQueue
+            <components:UniversalHoverableComponent
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}"
@@ -113,7 +114,7 @@
                                             DropCompletedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <queue:HoverableComponentInQueue
+                                    <components:UniversalHoverableComponent
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"
@@ -185,7 +186,7 @@
                                             DropCompletedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.DragReleasedCommand}" />
                                     </Border.GestureRecognizers>
 
-                                    <queue:HoverableComponentInQueue
+                                    <components:UniversalHoverableComponent
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"

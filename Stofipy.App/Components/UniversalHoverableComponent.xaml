@@ -3,7 +3,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                              xmlns:converters="using:Stofipy.App.Converters"
-                             x:Class="Stofipy.App.Components.Queue.HoverableComponentInQueue"
+                             x:Class="Stofipy.App.Components.UniversalHoverableComponent"
                              x:Name="Root">
     <ContentView.Resources>
         <converters:PlayOrPauseTextIconFromCurrentStateConverter x:Key="PlayOrPauseTextIconFromCurrentStateConverter" />

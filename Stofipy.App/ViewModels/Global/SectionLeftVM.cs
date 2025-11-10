@@ -13,6 +13,7 @@ public partial class SectionLeftVM(
     IAuthorFacade authorFacade,
     IAlbumFacade albumFacade,
     INavigationService navigationService,
+    ICurrentStateService currentState,
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
     public ObservableCollection<PlaylistListModel> Playlists { get; set; } = [];
@@ -46,5 +47,23 @@ public partial class SectionLeftVM(
     {
         navigationService.NavigateToAlbum(id);
         return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private async Task PlayAuthorAsync(Guid id)
+    {
+        await currentState.PlayAuthor(id);
+    }
+    
+    [RelayCommand]
+    private async Task PlayPlaylistAsync(Guid id)
+    {
+        await currentState.PlayPlaylist(id);
+    }
+    
+    [RelayCommand]
+    private async Task PlayAlbumAsync(Guid id)
+    {
+        await currentState.PlayAuthor(id);
     }
 }
