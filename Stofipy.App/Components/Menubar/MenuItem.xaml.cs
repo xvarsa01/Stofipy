@@ -4,6 +4,8 @@ namespace Stofipy.App.Components.Menubar;
 
 public partial class MenuItem : ContentView
 {
+    private bool _isPointerOver;
+
     public MenuItem()
     {
         InitializeComponent();
@@ -41,21 +43,28 @@ public partial class MenuItem : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
     
-    public static readonly BindableProperty IsHoveredProperty =
-        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(FileWithPictureAnd2Texts));
-    public bool IsHovered
-    {
-        get => (bool)GetValue(IsHoveredProperty);
-        set => SetValue(IsHoveredProperty, value);
-    }
-    
     private void OnPointerEntered(object sender, PointerEventArgs e)
     {
-        IsHovered = true;
+        _isPointerOver = true;
+        UpdateVisualState();
     }
 
     private void OnPointerExited(object sender, PointerEventArgs e)
     {
-        IsHovered = false;
+        _isPointerOver = false;
+        UpdateVisualState();
+    }
+    
+    private void UpdateVisualState()
+    {
+        if (_isPointerOver)
+            ApplyVisualStyles(Color.FromArgb("#333333"));
+        else
+            ApplyVisualStyles(Color.FromArgb("#00000000"));
+    }
+    
+    private void ApplyVisualStyles(Color bgColor)
+    {
+        MainBorder.BackgroundColor = bgColor;
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Windows.Input;
-using Stofipy.BL.Models;
 
 namespace Stofipy.App.Components;
 
 public partial class FileBigWith2Texts : ContentView
 {
+    private bool _isPointerOver;
+    
     public FileBigWith2Texts()
     {
         InitializeComponent();
@@ -85,32 +86,29 @@ public partial class FileBigWith2Texts : ContentView
         set => SetValue(BottomTextProperty, value);
     }
     
-    public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(BottomText), typeof(bool), typeof(FileBigWith2Texts));
-    public bool IsSelected
+    void OnPointerEntered(object sender, PointerEventArgs e)
     {
-        get => (bool)GetValue(IsSelectedProperty);
-        set => SetValue(IsSelectedProperty, value);
-    }
-    
-    public static readonly BindableProperty IsHoveredProperty =
-        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(FileBigWith2Texts));
-    public bool IsHovered
-    {
-        get => (bool)GetValue(IsHoveredProperty);
-        set => SetValue(IsHoveredProperty, value);
-    }
-    
-    
-    private void OnPointerEntered(object sender, PointerEventArgs e)
-    {
-        if (sender is Border border && border.BindingContext is PlaylistListModel model)
-            model.IsHovered = true;
+        _isPointerOver = true;
+        UpdateVisualState();
     }
 
-    private void OnPointerExited(object sender, PointerEventArgs e)
+    void OnPointerExited(object sender, PointerEventArgs e)
     {
-        if (sender is Border border && border.BindingContext is PlaylistListModel model)
-            model.IsHovered = false;
+        _isPointerOver = false;
+        UpdateVisualState();
+    }
+
+    private void UpdateVisualState()
+    {
+        if (_isPointerOver)
+            ApplyVisualStyles(Color.FromArgb("#333333"),true);
+        else
+            ApplyVisualStyles(Color.FromArgb("#00000000"));
+    }
+
+    private void ApplyVisualStyles(Color bgColor, bool areChildrenVisible = false)
+    {
+        MainBorder.BackgroundColor = bgColor;
+        PlayButton.IsVisible = areChildrenVisible;
     }
 }

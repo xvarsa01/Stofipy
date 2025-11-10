@@ -2,43 +2,14 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Stofipy.App.Converters"
              xmlns:components="using:Stofipy.App.Components"
              x:Class="Stofipy.App.Components.FileBigWith2Texts"
              x:Name="Root">
     
-    <ContentView.Resources>
-        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
-    </ContentView.Resources>
-
-    <Border
-        StrokeThickness="0"
-        Padding="10"
-        StrokeShape="RoundRectangle 10"
-    >
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal">
-                    <VisualState.Setters>
-                        <Setter TargetName="PlayButton" Property="IsVisible" Value="False"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="PointerOver">
-                    <VisualState.Setters>
-                        <Setter TargetName="PlayButton" Property="IsVisible" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+    <Border x:Name="MainBorder"
+            Style="{StaticResource RoundedComponent}"
+            Padding="10">
         
-        
-        <Border.BackgroundColor>
-            <MultiBinding Converter="{StaticResource FileBgColorConverter}">
-                <Binding Source="{x:Reference Root}" Path="IsSelected"/>                
-                <Binding Source="{x:Reference Root}" Path="IsHovered"/>
-            </MultiBinding>
-        </Border.BackgroundColor>
-
         <Border.GestureRecognizers>
             <PointerGestureRecognizer
                 PointerEntered="OnPointerEntered"

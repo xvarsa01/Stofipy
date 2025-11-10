@@ -6,6 +6,8 @@ namespace Stofipy.App.Components;
 
 public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
 {
+    private bool _isPointerOver;
+    
     public UniversalHoverableComponent()
     {
         var messenger = App.Services.GetRequiredService<IMessenger>();
@@ -88,32 +90,48 @@ public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMe
     
     
     public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(UniversalHoverableComponent));
+        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(UniversalHoverableComponent), propertyChanged: OnIsSelectedChanged);
     public bool IsSelected
     {
         get => (bool)GetValue(IsSelectedProperty);
         set => SetValue(IsSelectedProperty, value);
     }
     
-    public static readonly BindableProperty IsHoveredProperty =
-        BindableProperty.Create(nameof(IsHovered), typeof(bool), typeof(UniversalHoverableComponent));
-    public bool IsHovered
+    private static void OnIsSelectedChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        get => (bool)GetValue(IsHoveredProperty);
-        set => SetValue(IsHoveredProperty, value);
+        if (bindable is UniversalHoverableComponent control)
+            control.UpdateVisualState();
     }
-
     
-    private void OnPointerEntered(object sender, PointerEventArgs e)
+    void OnPointerEntered(object sender, PointerEventArgs e)
     {
-        IsHovered = true;
+        _isPointerOver = true;
+        UpdateVisualState();
     }
 
-    private void OnPointerExited(object sender, PointerEventArgs e)
+    void OnPointerExited(object sender, PointerEventArgs e)
     {
-        IsHovered = false;
+        _isPointerOver = false;
+        UpdateVisualState();
     }
 
+    private void UpdateVisualState()
+    {
+        if (IsSelected)
+            ApplyVisualStyles(Color.FromArgb("#555555"), true);
+        else if (_isPointerOver)
+            ApplyVisualStyles(Color.FromArgb("#333333"),true);
+        else
+            ApplyVisualStyles(Color.FromArgb("#00000000"));
+    }
+
+    private void ApplyVisualStyles(Color bgColor, bool areChildrenVisible = false)
+    {
+        MainBorder.BackgroundColor = bgColor;
+        ShowMoreOptions.IsVisible = areChildrenVisible;
+        OverlayOverPicture.IsVisible = areChildrenVisible;
+        PlayButtonOverPicture.IsVisible = areChildrenVisible;
+    }
     public bool IsPlaying { get; set; }
     public void Receive(MediaElementPlayMessage message)
     {
