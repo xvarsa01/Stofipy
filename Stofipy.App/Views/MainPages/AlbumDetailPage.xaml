@@ -146,21 +146,9 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 
-                <Grid ColumnDefinitions="*, auto">
-                    <Label Text="{Binding Album.AuthorName, StringFormat='{} More by {0}'}"
-                           Grid.Column="0"
-                           VerticalOptions="Start"
-                           Style="{StaticResource TitleMid}" />
-
-                    <Label Text="See discography"
-                           Grid.Column="1"
-                           VerticalOptions="End"
-                           Style="{StaticResource ShowAllLink}">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding }" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </Grid>
+                <components:SectionTitleWithShowAll
+                    TitleText="{Binding Album.AuthorName, StringFormat='{} More by {0}'}"
+                    RightText="See discography"/>
                 
             </VerticalStackLayout>
             </Grid>
