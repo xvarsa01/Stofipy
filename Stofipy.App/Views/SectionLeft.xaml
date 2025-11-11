@@ -7,6 +7,8 @@
     xmlns:viewModels="clr-namespace:Stofipy.App.ViewModels"
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:models="clr-namespace:Stofipy.BL.Models;assembly=Stofipy.BL"
+    xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
+    xmlns:enums="clr-namespace:Stofipy.App.Enums"
     x:Class="Stofipy.App.Views.SectionLeft"
     x:DataType="viewModels:SectionLeftVM"
     x:Name="SectionLeftViewRoot"
@@ -24,18 +26,24 @@
                 Grid.Column="0"
                 Text="Your library">
             </Label>
-            <Button
-                Grid.Column="1"
-                Text="+ Create"
-                Style="{StaticResource HomepageRounded}"
-                HorizontalOptions="End">
-            </Button>
+            <buttons:SpChip Grid.Column="1"
+                            HorizontalOptions="End"
+                            Text="+ Create"
+                            Command="{Binding CreateCommand}"/>
         </Grid>
-        <HorizontalStackLayout Spacing="10">
-            <Button Text="Playlists" Style="{StaticResource HomepageRounded}" />
-            <Button Text="Podcasts" Style="{StaticResource HomepageRounded}" />
-            <Button Text="Albums" Style="{StaticResource HomepageRounded}" />
-            <Button Text="Artists" Style="{StaticResource HomepageRounded}" />
+        <HorizontalStackLayout Spacing="0">
+            <buttons:SpChip Text="Playlists"
+                            Command="{Binding SelectedSourceType}"
+                            CommandParameter="{x:Static enums:PlayingSourceType.Playlist}"/>
+            <buttons:SpChip Text="Podcasts"
+                            Command="{Binding SelectedSourceType}"
+                            CommandParameter="{x:Static enums:PlayingSourceType.Podcast}"/>
+            <buttons:SpChip Text="Albums"
+                            Command="{Binding SelectedSourceType}"
+                            CommandParameter="{x:Static enums:PlayingSourceType.Album}"/>
+            <buttons:SpChip Text="Artists"
+                            Command="{Binding SelectedSourceType}"
+                            CommandParameter="{x:Static enums:PlayingSourceType.Author}"/>
         </HorizontalStackLayout>
         <Grid ColumnDefinitions="auto, *">
             <SearchBar

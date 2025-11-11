@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Stofipy.App.Enums;
 using Stofipy.App.Services;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
@@ -19,12 +20,26 @@ public partial class SectionLeftVM(
     public ObservableCollection<AuthorListModel> Authors { get; set; } = [];
     public ObservableCollection<AlbumListModel> Albums { get; set; } = [];
     
+    public PlayingSourceType SelectedSourceType { get; set; } = PlayingSourceType.Unknown;
+    
+    
     protected override async Task LoadDataAsync()
     {
         await base.LoadDataAsync();
         Playlists = (await playlistFacade.GetAllAsync(1, 10)).ToObservableCollection();
         Authors = (await authorFacade.GetAllAsync(1, 10)).ToObservableCollection();
         Albums = (await albumFacade.GetAllAsync(1, 10)).ToObservableCollection();
+    }
+
+    [RelayCommand]
+    private void Create()
+    {
+    }
+    
+    [RelayCommand]
+    private void SelectSourceType(PlayingSourceType sourceType)
+    {
+        SelectedSourceType = sourceType;
     }
     
     [RelayCommand]

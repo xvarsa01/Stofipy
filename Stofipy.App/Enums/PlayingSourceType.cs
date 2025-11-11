@@ -6,4 +6,5 @@ public enum PlayingSourceType
     Playlist,
     Author,
     Album,
+    Podcast
 }
