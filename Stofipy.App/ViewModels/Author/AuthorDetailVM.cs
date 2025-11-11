@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Stofipy.App.Enums;
+using Stofipy.App.Services;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
@@ -13,6 +14,7 @@ public partial class AuthorDetailVM(
     IAuthorFacade facade,
     IFileFacade fileFacade,
     IFilesInQueueFacade filesInQueueFacade,
+    INavigationService navigationService,
     ICurrentStateService currentState,
     IMessengerService messengerService) : ViewModelBase(messengerService)
 {
@@ -100,7 +102,19 @@ public partial class AuthorDetailVM(
     }
     
     [RelayCommand]
-    private Task ToggleFollow(FileListModel item)
+    private async Task PlayAlbumAsync(Guid id)
+    {
+        await currentState.PlayAlbum(id);
+    }
+    
+    [RelayCommand]
+    private void GoToAlbumDetail(Guid id)
+    {
+        navigationService.NavigateToAlbum(id);
+    }
+    
+    [RelayCommand]
+    private void ToggleFollow(FileListModel item)
     {
         if (_following)
         {
@@ -112,6 +126,5 @@ public partial class AuthorDetailVM(
             _following = true;
             FollowText = "Following";
         }
-        return Task.CompletedTask;
     }
 }

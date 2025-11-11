@@ -31,7 +31,7 @@
                             Text="+ Create"
                             Command="{Binding CreateCommand}"/>
         </Grid>
-        <HorizontalStackLayout Spacing="0">
+        <HorizontalStackLayout>
             <buttons:SpChip Text="Playlists"
                             Command="{Binding SelectedSourceType}"
                             CommandParameter="{x:Static enums:PlayingSourceType.Playlist}"/>

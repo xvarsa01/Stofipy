@@ -9,7 +9,7 @@
     xmlns:components="clr-namespace:Stofipy.App.Components"
     xmlns:converters="clr-namespace:Stofipy.App.Converters"
     x:Class="Stofipy.App.Views.MainPages.AuthorDetailPage"
-    x:Name="AuthorDetailPageViewRoot"
+    x:Name="Root"
     x:DataType="viewModels:AuthorDetailVM"
     >
     <ContentView.Resources>
@@ -74,7 +74,7 @@
                     Spacing="20">
                     
                     <components:PlayPauseButtonGreen
-                        ButtonPressedCommand="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.PlayArtisCommand}"
+                        ButtonPressedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayArtisCommand}"
                         MusicIsPlaying="{Binding ThisArtistIsPlaying}"/>
                     
                     <Border StrokeThickness="0">
@@ -123,7 +123,7 @@
                                         PointerEntered="OnPointerEntered"
                                         PointerExited="OnPointerExited"/>
                                     <TapGestureRecognizer
-                                        Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.SelectRowCommand}"
+                                        Command="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}"
                                         CommandParameter="{Binding .}"
                                     />
                                 </Border.GestureRecognizers>
@@ -136,7 +136,7 @@
                                         <Label.Text>
                                             <MultiBinding Converter="{StaticResource MultiIndexOfConverter}">
                                                 <Binding Path="." />
-                                                <Binding Source="{x:Reference AuthorDetailPageViewRoot}" Path="BindingContext.PopularFilesCurrentlyShowed" />
+                                                <Binding Source="{x:Reference Root}" Path="BindingContext.PopularFilesCurrentlyShowed" />
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
@@ -161,7 +161,7 @@
                        FontSize="15">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer
-                            Command="{Binding Source={x:Reference AuthorDetailPageViewRoot}, Path=BindingContext.ShowMorePopularFilesCommand}" />
+                            Command="{Binding Source={x:Reference Root}, Path=BindingContext.ShowMorePopularFilesCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
                 
@@ -176,33 +176,22 @@
                 
                 
                 <!-- author's albums -->
-                <Label Text="Discography (not yet clickable)" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+                <Label Text="Discography" TextColor="White" FontSize="20" FontAttributes="Bold"/>
                 <CollectionView ItemsSource="{Binding Author.Albums}">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Horizontal"
-                                         HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                        <GridItemsLayout Orientation="Horizontal" />
                     </CollectionView.ItemsLayout>
                     
                     <CollectionView.ItemTemplate>
-                        
                         <DataTemplate x:DataType="models:AlbumListModel">
-                            <Border
-                                Padding="20,0"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 10"
-                            >
-                                <Grid RowDefinitions="100, auto, auto">
-                                    <Image Grid.Row="0"
-                                           Aspect="AspectFill"
-                                           WidthRequest="100" HeightRequest="100"
-                                           Source="{Binding Picture}" />
-
-                                    <Label Grid.Row="1" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding AlbumName}" />
-                                    <Label Grid.Row="2" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding Year, StringFormat='{}{0} Album'}" />
-                                </Grid>
-                            </Border>
+                            <components:FileBigWith2Texts
+                                Picture="{Binding Picture}"
+                                TopText="{Binding AlbumName}"
+                                BottomText="{Binding Year, StringFormat='{}{0} · Album'}"
+                                PlayCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayAlbumCommand}"
+                                TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAlbumDetailCommand}"
+                                CommandParameter="{Binding Id}"
+                            />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
