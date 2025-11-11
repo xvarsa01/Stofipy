@@ -8,6 +8,8 @@
     xmlns:views="clr-namespace:Stofipy.App.Views"
     xmlns:components="clr-namespace:Stofipy.App.Components"
     xmlns:converters="clr-namespace:Stofipy.App.Converters"
+    xmlns:buttons="clr-namespace:Stofipy.App.Components.Buttons"
+    xmlns:enums="clr-namespace:Stofipy.App.Enums"
     x:Class="Stofipy.App.Views.MainPages.AuthorDetailPage"
     x:Name="Root"
     x:DataType="viewModels:AuthorDetailVM"
@@ -16,6 +18,7 @@
         <converters:SecondsToTimeConverter x:Key="SecondsToTimeConverter" />
         <converters:MultiIndexOfConverter x:Key="MultiIndexOfConverter" />
         <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
+        <converters:EnumEqualsConverter x:Key="EnumEqualsConverter" />
     </ContentView.Resources>
 
     <!-- Main Middle -->
@@ -177,6 +180,32 @@
                 
                 <!-- author's albums -->
                 <Label Text="Discography" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+                <HorizontalStackLayout>
+                    <buttons:SpChip Text="Popular releases"
+                                    Command="{Binding SelectDiscographyTypeCommand}"
+                                    CommandParameter="{x:Static enums:DiscographySourceType.Popular}"
+                                    IsSelected="{Binding SelectedDiscographyType,
+                                    Converter={StaticResource EnumEqualsConverter},
+                                    ConverterParameter={x:Static enums:DiscographySourceType.Popular}}" />
+                    <buttons:SpChip Text="Albums"
+                                    Command="{Binding SelectDiscographyTypeCommand}"
+                                    CommandParameter="{x:Static enums:DiscographySourceType.Albums}"
+                                    IsSelected="{Binding SelectedDiscographyType,
+                                    Converter={StaticResource EnumEqualsConverter},
+                                    ConverterParameter={x:Static enums:DiscographySourceType.Albums}}" />
+                    <buttons:SpChip Text="Singles and EPs"
+                                    Command="{Binding SelectDiscographyTypeCommand}"
+                                    CommandParameter="{x:Static enums:DiscographySourceType.Singles}"
+                                    IsSelected="{Binding SelectedDiscographyType,
+                                    Converter={StaticResource EnumEqualsConverter},
+                                    ConverterParameter={x:Static enums:DiscographySourceType.Singles}}" />
+                    <buttons:SpChip Text="Artists"
+                                    Command="{Binding SelectDiscographyTypeCommand}"
+                                    CommandParameter="{x:Static enums:DiscographySourceType.Compilations}"
+                                    IsSelected="{Binding SelectedDiscographyType,
+                                    Converter={StaticResource EnumEqualsConverter},
+                                    ConverterParameter={x:Static enums:DiscographySourceType.Compilations}}" />
+                </HorizontalStackLayout>
                 <CollectionView ItemsSource="{Binding Author.Albums}">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Horizontal" />

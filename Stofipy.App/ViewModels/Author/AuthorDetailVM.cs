@@ -26,6 +26,8 @@ public partial class AuthorDetailVM(
     private List<FileListModel> PopularFiles5 { get; set; } = new();
     private List<FileListModel> PopularFiles10 { get; set; } = new();
     
+    public DiscographySourceType SelectedDiscographyType { get; set; } = DiscographySourceType.Popular;
+    
     public bool ThisArtistIsPlaying => currentState.NowPlayingSource == PlayingSourceType.Author 
                                        && currentState.CurrentlyPlayingAuthorId == Author!.Id
                                        && currentState.IsPaused == false;
@@ -99,6 +101,12 @@ public partial class AuthorDetailVM(
     {
         await currentState.PlayAuthor(Author!.Id);
         OnPropertyChanged(nameof(ThisArtistIsPlaying));
+    }
+    
+    [RelayCommand]
+    private void SelectDiscographyType(DiscographySourceType fileType)
+    {
+        SelectedDiscographyType = fileType;
     }
     
     [RelayCommand]
