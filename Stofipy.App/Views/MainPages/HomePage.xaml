@@ -69,8 +69,9 @@
                 </CollectionView>
             </FlexLayout>
             
-            <components:HomePageTitleWithLink
+            <components:SectionTitleWithShowAll
                 TitleText="Your shows"
+                RightText="Show all"
                 ShowAllCommand="{Binding GoToYourShowsCommand}"/>
             
             <CollectionView ItemsSource="{Binding Playlists}">
@@ -94,18 +95,21 @@
             </CollectionView>
             
             
-            <components:HomePageTitleWithLink
+            <components:SectionTitleWithShowAll
                 TitleText="Made for you"
+                RightText="Show all"
                 ShowAllCommand="{Binding GoToMadeForYouCommand}"/>
             
             
-            <components:HomePageTitleWithLink
+            <components:SectionTitleWithShowAll
                 TitleText="Recently played"
+                RightText="Show all"
                 ShowAllCommand="{Binding GoToRecentlyPlayedCommand}"/>
             
             
-            <components:HomePageTitleWithLink
+            <components:SectionTitleWithShowAll
                 TitleText="Popular radio"
+                RightText="Show all"
                 ShowAllCommand="{Binding GoToPopularRadioCommand}"/>
             
         </VerticalStackLayout>

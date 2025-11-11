@@ -7,24 +7,32 @@ using System.Windows.Input;
 
 namespace Stofipy.App.Components;
 
-public partial class HomePageTitleWithLink : ContentView
+public partial class SectionTitleWithShowAll
 {
-    public HomePageTitleWithLink()
+    public SectionTitleWithShowAll()
     {
         InitializeComponent();
     }
     
     public static readonly BindableProperty TitleTextProperty =
-        BindableProperty.Create(nameof(TitleText), typeof(string), typeof(HomePageTitleWithLink));
-
+        BindableProperty.Create(nameof(TitleText), typeof(string), typeof(SectionTitleWithShowAll));
     public string TitleText
     {
         get => (string)GetValue(TitleTextProperty);
         set => SetValue(TitleTextProperty, value);
     }
     
+    public static readonly BindableProperty RightTextProperty =
+        BindableProperty.Create(nameof(RightText), typeof(string), typeof(SectionTitleWithShowAll));
+    public string RightText
+    {
+        get => (string)GetValue(RightTextProperty);
+        set => SetValue(RightTextProperty, value);
+    }
+    
+    
     public static readonly BindableProperty ShowAllCommandProperty =
-        BindableProperty.Create(nameof(ShowAllCommand), typeof(ICommand), typeof(HomePageTitleWithLink));
+        BindableProperty.Create(nameof(ShowAllCommand), typeof(ICommand), typeof(SectionTitleWithShowAll));
 
     public ICommand ShowAllCommand
     {

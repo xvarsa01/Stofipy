@@ -20,7 +20,6 @@
 
     <Style TargetType="Label" x:Key="Link">
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource Gray300}" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -42,9 +41,15 @@
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     
+    <Style TargetType="Label" x:Key="SectionTitleLink" BasedOn="{StaticResource Link}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+    
     <Style TargetType="Label" x:Key="ShowAllLink" BasedOn="{StaticResource Link}">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Gray300}" />
     </Style>
     
     <Style TargetType="Label" x:Key="OpenAuthorDetailLink" BasedOn="{StaticResource Link}">
