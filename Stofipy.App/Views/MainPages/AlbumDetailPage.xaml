@@ -9,7 +9,7 @@
     xmlns:components="clr-namespace:Stofipy.App.Components"
     xmlns:converters="clr-namespace:Stofipy.App.Converters"
     x:Class="Stofipy.App.Views.MainPages.AlbumDetailPage"
-    x:Name="AlbumDetailViewRoot"
+    x:Name="Root"
     x:DataType="viewModels:AlbumDetailVM"
     >
     
@@ -119,7 +119,7 @@
                                         PointerEntered="OnPointerEntered"
                                         PointerExited="OnPointerExited"/>
                                     <TapGestureRecognizer 
-                                        Command="{Binding Source={x:Reference AlbumDetailViewRoot}, Path=BindingContext.SelectRowCommand}"
+                                        Command="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}"
                                         CommandParameter="{Binding .}"
                                         />
                                 </Border.GestureRecognizers>
@@ -132,7 +132,7 @@
                                     <components:FileWithPictureAnd2Texts 
                                         Picture="{Binding }" 
                                         TopText="{Binding FileName}" 
-                                        BottomText="{Binding Source={x:Reference AlbumDetailViewRoot}, Path=BindingContext.Album.AuthorName}"
+                                        BottomText="{Binding Source={x:Reference Root}, Path=BindingContext.Album.AuthorName}"
                                         IsInteractive="False"
                                         Grid.Column="1"/>
                                 
@@ -150,6 +150,24 @@
                     TitleText="{Binding Album.AuthorName, StringFormat='{} More by {0}'}"
                     RightText="See discography"/>
                 
+                <CollectionView ItemsSource="{Binding MoreAlbumsFromAuthor}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:AlbumListModel">
+                            <components:FileBigWith2Texts
+                                Picture="{Binding Picture}"
+                                TopText="{Binding AlbumName}"
+                                BottomText="{Binding Year, StringFormat='{}{0} · Album'}"
+                                PlayCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayOtherAlbumFromAuthorCommand}"
+                                TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToOtherAlbumFromAuthorCommand}"
+                                CommandParameter="{Binding Id}"
+                            />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </VerticalStackLayout>
             </Grid>
             

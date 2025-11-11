@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using Stofipy.App.Enums;
 using Stofipy.App.Messages;
+using Stofipy.App.Services;
 using Stofipy.App.Services.Interfaces;
 using Stofipy.BL.Facades.Interfaces;
 using Stofipy.BL.Models;
@@ -11,8 +12,10 @@ namespace Stofipy.App.ViewModels.Album;
 
 public partial class AlbumDetailVM (
     IAlbumFacade albumFacade,
+    IAuthorFacade authorFacade,
     IFilesInAlbumFacade filesInAlbumFacade,
     IFilesInQueueFacade filesInQueueFacade,
+    INavigationService navigationService,
     ICurrentStateService currentState,
     IMessengerService messengerService)
     : ViewModelBase(messengerService)
@@ -22,6 +25,8 @@ public partial class AlbumDetailVM (
     
     private FilesInAlbumModel? SelectedFile {get; set; }
     public ObservableCollection<FilesInAlbumModel> Files { get; set; } = [];
+    public ObservableCollection<AlbumListModel> MoreAlbumsFromAuthor { get; set; } = [];
+    
     public bool ThisAlbumIsPlaying => currentState.NowPlayingSource == PlayingSourceType.Album 
                                          && currentState.CurrentlyPlayingAlbumId == Album.Id
                                          && !currentState.IsPaused;
@@ -35,6 +40,8 @@ public partial class AlbumDetailVM (
     {
         await base.LoadDataAsync();
         Album = await albumFacade.GetByIdAsync(Id) ?? AlbumDetailModel.Empty;
+        var author = await authorFacade.GetByIdAsync(Album.AuthorId);
+        MoreAlbumsFromAuthor = author?.Albums.Where(x => x.Id != Id).Take(5).ToObservableCollection() ?? [];
         Files = (await filesInAlbumFacade.GetAllByAlbumIdAsync(Id)).ToObservableCollection();
     }
     [RelayCommand]
@@ -48,6 +55,18 @@ public partial class AlbumDetailVM (
     private Task PlayItemAsync(FilesInAlbumModel item)
     {
         return Task.CompletedTask;
+    }
+    
+    [RelayCommand]
+    private async Task PlayOtherAlbumFromAuthor(Guid id)
+    {
+        await currentState.PlayAlbum(id);
+    }
+    
+    [RelayCommand]
+    private void GoToOtherAlbumFromAuthor(Guid id)
+    {
+        navigationService.NavigateToAlbum(id);
     }
     
     [RelayCommand]
