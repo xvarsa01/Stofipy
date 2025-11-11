@@ -10,7 +10,7 @@ public partial class Queue_RecentlyPlayed : ContentView
     }
     
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(HomepageRounded));
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(SpChip));
     public string Text
     {
         get => (string)GetValue(TextProperty);

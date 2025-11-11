@@ -12,4 +12,13 @@
         <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
         <Setter Property="VerticalOptions" Value="Fill"/>
     </Style>
+    
+    <Style TargetType="Border" x:Key="SpChip" BasedOn="{StaticResource TransparentBorderThickness0}">
+        <Setter Property="StrokeShape" Value="RoundRectangle 15"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBgSemiTransparent}" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="12, 0" />
+        <Setter Property="MinimumHeightRequest" Value="30" />
+    </Style>
+    
 </ResourceDictionary>

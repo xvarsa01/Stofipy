@@ -27,24 +27,24 @@
             Padding="30, 10"
             Spacing="20">
             <HorizontalStackLayout>
-                <buttons:HomepageRounded Text="All"
-                                         TapCommand="{Binding SelectFileTypeCommand}"
+                <buttons:SpChip Text="All"
+                                         Command="{Binding SelectFileTypeCommand}"
                                          CommandParameter="{x:Static local:FileType.All}"
-                                         Selected="{Binding SelectedFileType,
-                                            Converter={StaticResource EnumEqualsConverter},
-                                            ConverterParameter={x:Static local:FileType.All}}" />
-                <buttons:HomepageRounded Text="Music"
-                                         TapCommand="{Binding SelectFileTypeCommand}"
+                                         IsSelected="{Binding SelectedFileType,
+                                         Converter={StaticResource EnumEqualsConverter},
+                                         ConverterParameter={x:Static local:FileType.All}}" />
+                <buttons:SpChip Text="Music"
+                                         Command="{Binding SelectFileTypeCommand}"
                                          CommandParameter="{x:Static local:FileType.Music}"
-                                         Selected="{Binding SelectedFileType,
-                                            Converter={StaticResource EnumEqualsConverter},
-                                            ConverterParameter={x:Static local:FileType.Music}}" />
-                <buttons:HomepageRounded Text="Podcasts"
-                                         TapCommand="{Binding SelectFileTypeCommand}"
+                                         IsSelected="{Binding SelectedFileType,
+                                         Converter={StaticResource EnumEqualsConverter},
+                                         ConverterParameter={x:Static local:FileType.Music}}" />
+                <buttons:SpChip Text="Podcasts"
+                                         Command="{Binding SelectFileTypeCommand}"
                                          CommandParameter="{x:Static local:FileType.Podcasts}"
-                                         Selected="{Binding SelectedFileType,
-                                            Converter={StaticResource EnumEqualsConverter},
-                                            ConverterParameter={x:Static local:FileType.Podcasts}}" />
+                                         IsSelected="{Binding SelectedFileType,
+                                         Converter={StaticResource EnumEqualsConverter},
+                                         ConverterParameter={x:Static local:FileType.Podcasts}}" />
             </HorizontalStackLayout>
 
             <FlexLayout>

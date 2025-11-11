@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Stofipy.App.Components.Buttons"
+             x:Class="Stofipy.App.Components.Buttons.SpChip"
+             x:DataType="local:SpChip"
+             x:Name="Root">
+    
+    <Border x:Name="ChipBorder"
+            BindingContext="{Binding ., Source={x:Reference Root}}"
+            Style="{StaticResource SpChip}"
+            x:DataType="local:SpChip">
+        
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={x:Reference Root}, Path=Command}"
+                CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}"
+            />
+        </Border.GestureRecognizers>
+
+        <Label x:Name="ChipText"
+               Style="{StaticResource SpChipLabel}"
+               Text="{Binding Text}"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"/>
+    </Border>
+</ContentView>
