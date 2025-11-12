@@ -131,6 +131,12 @@
 	  <MauiXaml Update="Components\UniversalHoverableComponent.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Components\RowOfAlbumComponent.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\RowOfAlbumComponent.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -183,6 +189,10 @@
 	  </Compile>
 	  <Compile Update="Components\UniversalHoverableComponent.xaml.cs">
 	    <DependentUpon>HoverableComponent.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Components\RowOfAlbumComponent.xaml.cs">
+	    <DependentUpon>RowOfAlbumComponent.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

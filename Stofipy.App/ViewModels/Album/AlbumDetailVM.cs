@@ -13,6 +13,7 @@ namespace Stofipy.App.ViewModels.Album;
 public partial class AlbumDetailVM (
     IAlbumFacade albumFacade,
     IAuthorFacade authorFacade,
+    IFileFacade fileFacade,
     IFilesInAlbumFacade filesInAlbumFacade,
     IFilesInQueueFacade filesInQueueFacade,
     INavigationService navigationService,
@@ -58,6 +59,13 @@ public partial class AlbumDetailVM (
     }
     
     [RelayCommand]
+    private async Task GoToAuthor(FilesInAlbumModel filesInAlbum)
+    {
+        var file = await fileFacade.GetByIdAsync(filesInAlbum.FileId);
+        if (file != null) navigationService.NavigateToAuthor(file.AuthorId);
+    }
+    
+    [RelayCommand]
     private async Task PlayOtherAlbumFromAuthor(Guid id)
     {
         await currentState.PlayAlbum(id);
@@ -70,13 +78,12 @@ public partial class AlbumDetailVM (
     }
     
     [RelayCommand]
-    private Task SelectRowAsync(FilesInAlbumModel item)
+    private void SelectRow(FilesInAlbumModel item)
     {
         if (SelectedFile != null)
             SelectedFile.IsSelected = false;
     
         SelectedFile = item;
         item.IsSelected = true;
-        return Task.CompletedTask;
     }
 }

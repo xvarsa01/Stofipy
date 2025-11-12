@@ -79,9 +79,9 @@
                     ColumnDefinitions="auto, auto, auto, *, auto"
                     ColumnSpacing="10">
                 
-                    <Button Grid.Column="0"
-                            Text="Play"
-                            Command="{Binding PlayAlbumCommand}"/>
+                    <components:PlayPauseButtonGreen
+                        ButtonPressedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayAlbumCommand}"
+                        MusicIsPlaying="{Binding ThisAlbumIsPlaying}"/>
                     <Button Grid.Column="1" Text="Shuffle" />
                     <Button Grid.Column="2" Text="Download" />
                     <SearchBar Grid.Column="3" Text="Search"/>
@@ -102,46 +102,18 @@
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FilesInAlbumModel">
-                            <Border 
-                                    Padding="20,5"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    >
-                                <Border.BackgroundColor>
-                                    <MultiBinding Converter="{StaticResource FileBgColorConverter}">
-                                        <Binding Path="IsSelected"/>
-                                        <Binding Path="IsHovered"/>
-                                    </MultiBinding>
-                                </Border.BackgroundColor>
-                            
-                                <Border.GestureRecognizers>
-                                    <PointerGestureRecognizer
-                                        PointerEntered="OnPointerEntered"
-                                        PointerExited="OnPointerExited"/>
-                                    <TapGestureRecognizer 
-                                        Command="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}"
-                                        CommandParameter="{Binding .}"
-                                        />
-                                </Border.GestureRecognizers>
-
-                                <Grid
-                                    ColumnDefinitions="30, *, *, auto">
-                                    <Label Grid.Column="0" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding Index}"></Label>
-                                
-                                    <components:FileWithPictureAnd2Texts 
-                                        Picture="{Binding }" 
-                                        TopText="{Binding FileName}" 
-                                        BottomText="{Binding Source={x:Reference Root}, Path=BindingContext.Album.AuthorName}"
-                                        IsInteractive="False"
-                                        Grid.Column="1"/>
-                                
-                                    <Label Grid.Column="2" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding PlayCount}"></Label>
-                                    <Label Grid.Column="3" VerticalOptions="Center" TextColor="White"
-                                           Text="{Binding LengthFormatted}"></Label>
-                                </Grid>
-                            </Border>
+                            <components:RowOfAlbumComponent IndexText="{Binding Index}"
+                                                            TopText="{Binding FileName}"
+                                                            BottomText="{Binding Source={x:Reference Root}, Path=BindingContext.Album.AuthorName}"
+                                                            PlayCountText="{Binding PlayCount}"
+                                                            DurationText="{Binding LengthFormatted}"
+                                                            
+                                                            TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.SelectRowCommand}" 
+                                                            CommandParameter="{Binding .}"
+                                                            BottomTextTapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.GoToAuthorCommand}"
+                                                            IsSelected="{Binding IsSelected}"
+                                                            PlayClickedCommand="{Binding Source={x:Reference Root}, Path=BindingContext.PlayItemCommand}" 
+                                                            />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
