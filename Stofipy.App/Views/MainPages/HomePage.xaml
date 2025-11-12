@@ -88,7 +88,6 @@
                             PlayCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.PlayItemCommand}"
                             TapCommand="{Binding Source={x:Reference HomeViewRoot}, Path=BindingContext.OpenItemDetailCommand}"
                             CommandParameter="{Binding Id}"
-                            IsHovered="{Binding IsHovered}"
                         />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

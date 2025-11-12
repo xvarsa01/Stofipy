@@ -6,8 +6,6 @@ public record PlaylistListModel() : ModelBase
 {
     public required string PlaylistName { get; set; }
     public string? Picture { get; set; }
-    public bool IsHovered { get; set; }
-    public bool IsSelected { get; set; }
 
     public List<string> Authors { get; set; } = [];
     

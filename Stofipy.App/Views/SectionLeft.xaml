@@ -60,11 +60,12 @@
         <CollectionView ItemsSource="{Binding Playlists}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:PlaylistListModel">
-                    <components:FileWithPictureAnd2Texts
+                    <components:UniversalHoverableComponent
                         Picture="{Binding Picture}"
                         TopText="{Binding PlaylistName}"
                         BottomText="Playlist"
                         TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToPlaylistDetailCommand}"
+                        PlayClickedCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.PlayPlaylistCommand}"
                         CommandParameter="{Binding Id}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -72,11 +73,12 @@
         <CollectionView ItemsSource="{Binding Authors}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:AuthorListModel">
-                    <components:FileWithPictureAnd2Texts
+                    <components:UniversalHoverableComponent
                         Picture="{Binding ProfilePicture}"
                         TopText="{Binding AuthorName}"
                         BottomText="Author"
                         TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToAuthorDetailCommand}"
+                        PlayClickedCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.PlayAuthorCommand}"
                         CommandParameter="{Binding Id}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -84,11 +86,12 @@
         <CollectionView ItemsSource="{Binding Albums}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:AlbumListModel">
-                    <components:FileWithPictureAnd2Texts
+                    <components:UniversalHoverableComponent
                         Picture="{Binding Picture}"
                         TopText="{Binding AlbumName}"
                         BottomText="{Binding AuthorName, StringFormat='{} Album {0}'}"
                         TapCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.GoToAlbumDetailCommand}"
+                        PlayClickedCommand="{Binding Source={x:Reference SectionLeftViewRoot}, Path=BindingContext.PlayAlbumCommand}"
                         CommandParameter="{Binding Id}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

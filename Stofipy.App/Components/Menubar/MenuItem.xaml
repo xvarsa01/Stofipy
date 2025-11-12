@@ -2,20 +2,13 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Stofipy.App.Converters"
              x:Class="Stofipy.App.Components.Menubar.MenuItem"
              x:Name="Root">
     
-    <ContentView.Resources>
-        <converters:FileBackgroundColorConverter x:Key="FileBgColorConverter" />
-    </ContentView.Resources>
-    
-    <Border HeightRequest="30" StrokeThickness="0" Padding="10, 0">
-        <Border.BackgroundColor>
-            <MultiBinding Converter="{StaticResource FileBgColorConverter}">
-                <Binding  Source="{x:Reference Root}" Path="IsHovered"/>
-            </MultiBinding>
-        </Border.BackgroundColor>
+    <Border x:Name = "MainBorder"
+            HeightRequest="30"
+            StrokeThickness="0" 
+            Padding="10, 0">
 
         <Border.GestureRecognizers>
             <PointerGestureRecognizer
