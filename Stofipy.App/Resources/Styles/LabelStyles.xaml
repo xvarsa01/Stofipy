@@ -44,6 +44,7 @@
     <Style TargetType="Label" x:Key="SectionTitleLink" BasedOn="{StaticResource Link}">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextWhite}"/>
     </Style>
     
     <Style TargetType="Label" x:Key="ShowAllLink" BasedOn="{StaticResource Link}">

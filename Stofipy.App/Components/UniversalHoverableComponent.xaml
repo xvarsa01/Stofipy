@@ -75,9 +75,7 @@
                     HorizontalOptions="Start"
                     Text="{Binding TopText, Source={x:Reference Root}}"
                     TextColor="{StaticResource TextWhite}"
-                    FontFamily="Circular"
-                    FontAttributes="Bold"
-                    FontSize="16"/>
+                    Style="{StaticResource TitleSmall}"/>
                 <Label Grid.Row="1"
                        VerticalOptions="Center"
                        HorizontalOptions="Start"
