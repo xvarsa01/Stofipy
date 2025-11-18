@@ -76,7 +76,7 @@
             <Label Text="Now playing" Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0"/>
             <components:UniversalHoverableComponent
                 ComponentType="File"
-                ComponentId="{Binding FileId}"
+                ComponentId="{Binding NowPlaying.FileId}"
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}"
