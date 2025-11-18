@@ -184,19 +184,4 @@ public partial class SectionBottom : IRecipient<PlayFileMessage>, IRecipient<Pla
     {
         OnPlayPauseButtonClicked(null, null);
     }
-
-    // private void VolumeSliderAreaEntered(object? sender, PointerEventArgs e)
-    // {
-    //     if (Application.Current != null && Application.Current.Resources.TryGetValue("GreenLight", out var color))
-    //     {
-    //         VolumeSlider.MinimumTrackColor = (Color)color;
-    //     }
-    // }
-    // private void VolumeSliderAreaExited(object? sender, PointerEventArgs e)
-    // {
-    //     if (Application.Current != null && Application.Current.Resources.TryGetValue("White", out var color))
-    //     {
-    //         VolumeSlider.MinimumTrackColor = (Color)color;
-    //     }
-    // }
 }

@@ -27,7 +27,7 @@
             Margin="10,35,10,0"
             HeightRequest="3"
             HorizontalOptions="Fill"
-            Color="{StaticResource GreenLight}"
+            Color="{StaticResource Brand1ColorLight}"
             IsVisible="{Binding IsSelected, Source={x:Reference Root}}" />
     </Grid>
     

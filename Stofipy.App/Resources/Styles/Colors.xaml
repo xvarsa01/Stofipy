@@ -58,6 +58,6 @@
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
     
     <Color x:Key="ButtonBgSemiTransparent">#60AAAAAA</Color>
-    <Color x:Key="GreenLight">#1ed760</Color>
+    <Color x:Key="Brand1ColorLight">#1ed760</Color>
     
 </ResourceDictionary>

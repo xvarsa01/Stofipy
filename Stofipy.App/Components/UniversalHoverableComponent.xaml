@@ -7,6 +7,7 @@
                              x:Name="Root">
     <ContentView.Resources>
         <converters:PlayOrPauseTextIconFromCurrentStateConverter x:Key="PlayOrPauseTextIconFromCurrentStateConverter" />
+        <converters:IsPlayingToColorConverter x:Key="IsPlayingToColorConverter" />
     </ContentView.Resources>
     
     <Border x:Name="MainBorder"
@@ -74,7 +75,7 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
                     Text="{Binding TopText, Source={x:Reference Root}}"
-                    TextColor="{StaticResource TextWhite}"
+                    TextColor="{Binding Source={x:Reference Root}, Path=IsNowPlayingComponent, Converter={StaticResource IsPlayingToColorConverter}}"
                     Style="{StaticResource TitleSmall}"/>
                 <Label Grid.Row="1"
                        VerticalOptions="Center"

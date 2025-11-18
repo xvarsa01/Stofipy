@@ -3,7 +3,7 @@
     <Style TargetType="Slider" x:Key="Slider">
         <Setter Property="MinimumTrackColor" Value="{StaticResource White}"/>
         <Setter Property="MaximumTrackColor" Value="{StaticResource Gray500}"/>
-        <Setter Property="ThumbColor" Value="{StaticResource GreenLight}"/>
+        <Setter Property="ThumbColor" Value="{StaticResource Brand1ColorLight}"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -12,7 +12,7 @@
                     <VisualState x:Name="Normal"/>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="MinimumTrackColor" Value="{StaticResource GreenLight}"/>
+                            <Setter Property="MinimumTrackColor" Value="{StaticResource Brand1ColorLight}"/>
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
