@@ -163,7 +163,7 @@ public partial class FilesInQueueVM(
         
         if (NowPlaying != null)
         {
-            Messenger.Send(new PlayFileMessage(NowPlaying));
+            Messenger.Send(new RefreshQueueMessage(NowPlaying.FileId));
         }
     }
     
@@ -174,7 +174,7 @@ public partial class FilesInQueueVM(
 
         if (NowPlaying != null)
         {
-            Messenger.Send(new PlayFileMessage(NowPlaying));
+            Messenger.Send(new RefreshQueueMessage(NowPlaying.FileId));
         }
     }
 
@@ -207,8 +207,7 @@ public partial class FilesInQueueVM(
             return;
         }
         await facade.PlayItemAsync(file);
-        await LoadDataAsync();
-        Messenger.Send(new PlayFileMessage(file));
+        Messenger.Send(new RefreshQueueMessage(file.Id));
     }
     
     [RelayCommand]

@@ -4,7 +4,7 @@ using Stofipy.App.Messages;
 
 namespace Stofipy.App.Components;
 
-public partial class RowOfAlbumComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
+public partial class RowOfAlbumComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>, IRecipient<RefreshQueueMessage>
 {
     private bool _isPointerOver;
     
@@ -13,7 +13,16 @@ public partial class RowOfAlbumComponent : IRecipient<MediaElementPlayMessage>, 
         var messenger = App.Services.GetRequiredService<IMessenger>();
         messenger.Register<MediaElementPlayMessage>(this);
         messenger.Register<MediaElementPauseMessage>(this);
+        messenger.Register<RefreshQueueMessage>(this);
         InitializeComponent();
+    }
+    
+    public static readonly BindableProperty ComponentIdProperty =
+        BindableProperty.Create(nameof(ComponentId), typeof(Guid), typeof(UniversalHoverableComponent));
+    public Guid ComponentId
+    {
+        get => (Guid)GetValue(ComponentIdProperty);
+        set => SetValue(ComponentIdProperty, value);
     }
     
     public static readonly BindableProperty IndexTextProperty =
@@ -157,6 +166,8 @@ public partial class RowOfAlbumComponent : IRecipient<MediaElementPlayMessage>, 
     {
         MainBorder.BackgroundColor = bgColor;
         ShowMoreOptions.IsVisible = areChildrenVisible;
+        PlayPauseIconOveIndexLabel.IsVisible = areChildrenVisible;
+        IndexLabel.IsVisible = !areChildrenVisible;
     }
     public bool IsPlaying { get; set; }
     public void Receive(MediaElementPlayMessage message)
@@ -167,5 +178,10 @@ public partial class RowOfAlbumComponent : IRecipient<MediaElementPlayMessage>, 
     public void Receive(MediaElementPauseMessage message)
     {
         IsPlaying = false;
+    }
+    
+    public void Receive(RefreshQueueMessage message)
+    {
+        IsNowPlayingComponent = message.FileId == ComponentId;
     }
 }

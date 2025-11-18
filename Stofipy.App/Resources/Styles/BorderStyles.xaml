@@ -11,6 +11,10 @@
         <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
     </Style>
     
+    <Style TargetType="Border" x:Key="LessRoundedComponent" BasedOn="{StaticResource TransparentBorderThickness0}">
+        <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
+    </Style>
+    
     <Style TargetType="Border" x:Key="PageBorder" BasedOn="{StaticResource RoundedComponent}">
         <Setter Property="VerticalOptions" Value="Fill"/>
     </Style>
