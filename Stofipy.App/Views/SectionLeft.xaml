@@ -61,6 +61,8 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:PlaylistListModel">
                     <components:UniversalHoverableComponent
+                        ComponentType="Playlist"
+                        ComponentId="{Binding Id}"
                         Picture="{Binding Picture}"
                         TopText="{Binding PlaylistName}"
                         BottomText="Playlist"
@@ -74,6 +76,8 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:AuthorListModel">
                     <components:UniversalHoverableComponent
+                        ComponentType="Author"
+                        ComponentId="{Binding Id}"
                         Picture="{Binding ProfilePicture}"
                         TopText="{Binding AuthorName}"
                         BottomText="Author"
@@ -87,6 +91,8 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:AlbumListModel">
                     <components:UniversalHoverableComponent
+                        ComponentType="Album"
+                        ComponentId="{Binding Id}"
                         Picture="{Binding Picture}"
                         TopText="{Binding AlbumName}"
                         BottomText="{Binding AuthorName, StringFormat='{} Album {0}'}"

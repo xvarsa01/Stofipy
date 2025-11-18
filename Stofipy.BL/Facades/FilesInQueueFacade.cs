@@ -174,7 +174,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
     }
 
-    public async Task AddAlbumToQueue(Guid albumId, bool randomShuffle)
+    public async Task<Guid?> AddAlbumToQueue(Guid albumId, bool randomShuffle)
     {
         AlbumDetailModel? album = await _albumFacade.GetByIdAsync(albumId);
         if (album == null)
@@ -183,7 +183,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
         
         var files = await _filesInAlbumFacade.GetAllByAlbumIdAsync(album.Id);
-        if(files.Count == 0) return;
+        if(files.Count == 0) return null;
 
         await RemoveAllActiveFromQueue(false);
 
@@ -200,9 +200,10 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             await AddFileToNonPriorityQueue(item.FileId, item.FileName, album.AuthorName);
         }
+        return first.FileId;
     }
     
-    public async Task AddAuthorToQueue(Guid authorId)
+    public async Task<Guid?> AddAuthorToQueue(Guid authorId)
     {
         AuthorDetailModel? author = await _authorFacade.GetByIdAsync(authorId);
         if (author == null)
@@ -211,7 +212,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         }
 
         var files = await _fileFacade.GetMostPopularFiles(author.Id, 1, 20);
-        if(files.Count == 0) return;
+        if(files.Count == 0) return null;
         
         await RemoveAllActiveFromQueue(false);
         
@@ -225,9 +226,10 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
         {
             await AddFileToNonPriorityQueue(item.Id, item.FileName, author.AuthorName);
         }
+        return first.Id;
     }
     
-    public async Task<Task> AddPlaylistToQueue(Guid playlistId, bool randomShuffle)
+    public async Task<Guid?> AddPlaylistToQueue(Guid playlistId, bool randomShuffle)
     {
         PlaylistDetailModel? playlist = await _playlistFacade.GetByIdAsync(playlistId);
         if (playlist == null)
@@ -240,7 +242,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
 
         // Step 1: Get the first page immediately
         var firstPage = await _filesInPlaylistFacade.GetAllAsync(playlistId, 1, pageSize);
-        if(firstPage.Count == 0) return Task.CompletedTask;
+        if(firstPage.Count == 0) return null;
 
         await RemoveAllActiveFromQueue(false);
         
@@ -281,7 +283,7 @@ public class FilesInQueueFacade : FacadeBase<FilesInQueueRepository, FilesInQueu
                 await AddFileToNonPriorityQueue(item.FileId, item.FileName, item.AuthorName);
             }
         });
-        return backgroundTask;
+        return first.FileId;
     }
 
     public async Task RemoveAllActiveFromQueue(bool priority)

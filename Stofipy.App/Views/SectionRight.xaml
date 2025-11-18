@@ -51,6 +51,8 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FilesInQueueModel">
                         <components:UniversalHoverableComponent
+                            ComponentType="File"
+                            ComponentId="{Binding FileId}"
                             Picture="{Binding Picture}" 
                             TopText="{Binding FileName}" 
                             BottomText="{Binding AuthorName}"
@@ -73,6 +75,8 @@
             
             <Label Text="Now playing" Style="{StaticResource TitleSmall}" Padding="10, 0, 0, 0"/>
             <components:UniversalHoverableComponent
+                ComponentType="File"
+                ComponentId="{Binding FileId}"
                 Picture="{Binding NowPlaying.Picture}" 
                 TopText="{Binding NowPlaying.FileName}" 
                 BottomText="{Binding NowPlaying.AuthorName}"
@@ -115,6 +119,8 @@
                                     </Border.GestureRecognizers>
 
                                     <components:UniversalHoverableComponent
+                                        ComponentType="File"
+                                        ComponentId="{Binding FileId}"
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"
@@ -187,6 +193,8 @@
                                     </Border.GestureRecognizers>
 
                                     <components:UniversalHoverableComponent
+                                        ComponentType="File"
+                                        ComponentId="{Binding FileId}"
                                         Picture="{Binding Picture}" 
                                         TopText="{Binding FileName}" 
                                         BottomText="{Binding AuthorName}"

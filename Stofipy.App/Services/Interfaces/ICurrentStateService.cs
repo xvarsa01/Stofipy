@@ -10,6 +10,7 @@ public interface ICurrentStateService : INotifyPropertyChanged
     PlayingSourceType NowPlayingSource { get; set; }
     bool IsPaused { get; set; }
     bool IsSomethingPlaying { get; }
+    Guid CurrentlyPlayingItemId { get; set; }
     Guid CurrentlyPlayingPlaylistId { get; set; }
     Guid CurrentlyPlayingAuthorId { get; set; }
     Guid CurrentlyPlayingAlbumId { get; set; }

@@ -18,6 +18,7 @@ public partial class CurrentStateService(
     public PlayingSourceType NowPlayingSource { get; set; }
     public bool IsPaused { get; set; }
     public bool IsSomethingPlaying => NowPlayingSource != PlayingSourceType.Unknown;
+    public Guid CurrentlyPlayingItemId { get; set; }
     public Guid CurrentlyPlayingPlaylistId { get; set; }
     public Guid CurrentlyPlayingAuthorId { get; set; }
     public Guid CurrentlyPlayingAlbumId { get; set; }
@@ -30,12 +31,18 @@ public partial class CurrentStateService(
             IsPaused = !IsPaused;
             return;
         }
-        await filesInQueueFacade.AddPlaylistToQueue(playlistId, false);
-        messengerService.Send(new RefreshQueueMessage());
-
-        IsPaused = false;
-        NowPlayingSource = PlayingSourceType.Playlist;
+        var currentlyPlayingItemId = await filesInQueueFacade.AddPlaylistToQueue(playlistId, false);
+        if (currentlyPlayingItemId is null)
+        {
+            return;
+        }
+        
+        CurrentlyPlayingItemId = currentlyPlayingItemId.Value;
         CurrentlyPlayingPlaylistId = playlistId;
+        NowPlayingSource = PlayingSourceType.Playlist;
+        IsPaused = false;
+        
+        messengerService.Send(new RefreshQueueMessage(CurrentlyPlayingItemId, PlaylistId: CurrentlyPlayingPlaylistId));
     }
     
     public async Task PlayAuthor(Guid authorId)
@@ -46,12 +53,18 @@ public partial class CurrentStateService(
             IsPaused = !IsPaused;
             return;
         }
-        await filesInQueueFacade.AddAuthorToQueue(authorId);
-        messengerService.Send(new RefreshQueueMessage());
-
-        IsPaused = false;
-        NowPlayingSource = PlayingSourceType.Author;
+        var currentlyPlayingItemId = await filesInQueueFacade.AddAuthorToQueue(authorId);
+        if (currentlyPlayingItemId is null)
+        {
+            return;
+        }
+        
+        CurrentlyPlayingItemId = currentlyPlayingItemId.Value;
         CurrentlyPlayingAuthorId = authorId;
+        NowPlayingSource = PlayingSourceType.Author;
+        IsPaused = false;
+        
+        messengerService.Send(new RefreshQueueMessage(CurrentlyPlayingItemId, AuthorId: CurrentlyPlayingAuthorId));
     }
 
     public async Task PlayAlbum(Guid albumId)
@@ -62,11 +75,17 @@ public partial class CurrentStateService(
             IsPaused = !IsPaused;
             return;
         }
-        await filesInQueueFacade.AddAlbumToQueue(albumId, false);;
-        messengerService.Send(new RefreshQueueMessage());
+        var currentlyPlayingItemId  = await filesInQueueFacade.AddAlbumToQueue(albumId, false);
+        if (currentlyPlayingItemId is null)
+        {
+            return;
+        }
 
-        IsPaused = false;
-        NowPlayingSource = PlayingSourceType.Album;
+        CurrentlyPlayingItemId = currentlyPlayingItemId.Value;
         CurrentlyPlayingAlbumId = albumId;
+        NowPlayingSource = PlayingSourceType.Album;
+        IsPaused = false;
+        
+        messengerService.Send(new RefreshQueueMessage(CurrentlyPlayingItemId, AlbumId: CurrentlyPlayingAlbumId));
     }
 }

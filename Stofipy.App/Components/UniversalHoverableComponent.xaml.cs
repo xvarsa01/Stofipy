@@ -1,10 +1,11 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Stofipy.App.Enums;
 using Stofipy.App.Messages;
 
 namespace Stofipy.App.Components;
 
-public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>
+public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMessage>, IRecipient<MediaElementPauseMessage>, IRecipient<RefreshQueueMessage>
 {
     private bool _isPointerOver;
     
@@ -13,7 +14,24 @@ public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMe
         var messenger = App.Services.GetRequiredService<IMessenger>();
         messenger.Register<MediaElementPlayMessage>(this);
         messenger.Register<MediaElementPauseMessage>(this);
+        messenger.Register<RefreshQueueMessage>(this);
         InitializeComponent();
+    }
+    
+    public static readonly BindableProperty ComponentTypeProperty =
+        BindableProperty.Create(nameof(ComponentType), typeof(UniversalComponentType), typeof(UniversalHoverableComponent));
+    public UniversalComponentType ComponentType
+    {
+        get => (UniversalComponentType)GetValue(ComponentTypeProperty);
+        set => SetValue(ComponentTypeProperty, value);
+    }
+    
+    public static readonly BindableProperty ComponentIdProperty =
+        BindableProperty.Create(nameof(ComponentId), typeof(Guid), typeof(UniversalHoverableComponent));
+    public Guid ComponentId
+    {
+        get => (Guid)GetValue(ComponentIdProperty);
+        set => SetValue(ComponentIdProperty, value);
     }
     
     public static readonly BindableProperty TapCommandProperty =
@@ -141,5 +159,17 @@ public partial class UniversalHoverableComponent : IRecipient<MediaElementPlayMe
     public void Receive(MediaElementPauseMessage message)
     {
         IsPlaying = false;
+    }
+    
+    public void Receive(RefreshQueueMessage message)
+    {
+        IsNowPlayingComponent = ComponentType switch
+        {
+            UniversalComponentType.File     => message.FileId   == ComponentId,
+            UniversalComponentType.Album    => message.AlbumId  == ComponentId,
+            UniversalComponentType.Author   => message.AuthorId == ComponentId,
+            UniversalComponentType.Playlist => message.PlaylistId == ComponentId,
+            _ => false
+        };
     }
 }
