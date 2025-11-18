@@ -79,6 +79,6 @@ public partial class SectionLeftVM(
     [RelayCommand]
     private async Task PlayAlbumAsync(Guid id)
     {
-        await currentState.PlayAuthor(id);
+        await currentState.PlayAlbum(id);
     }
 }
